@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="Open"
                 android:id="@+id/openButton"
+                android:background="@drawable/round_button"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"

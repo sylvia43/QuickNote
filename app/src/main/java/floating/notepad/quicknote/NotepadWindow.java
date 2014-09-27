@@ -83,11 +83,7 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public int getFlags(int id) {
-        return StandOutFlags.FLAG_BODY_MOVE_ENABLE |
-                StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE |
-                StandOutFlags.FLAG_WINDOW_BRING_TO_FRONT_ON_TAP |
-                StandOutFlags.FLAG_WINDOW_BRING_TO_FRONT_ON_TOUCH |
-                StandOutFlags.FLAG_WINDOW_PINCH_RESIZE_ENABLE;
+        return StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
     }
 
     @Override
