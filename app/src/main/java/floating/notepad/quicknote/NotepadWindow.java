@@ -8,7 +8,10 @@ import android.os.Build;
 import android.os.Parcel;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -29,7 +32,7 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     @Override
-    public void createAndAttachView(int id, FrameLayout frame) {
+    public void createAndAttachView(final int id, final FrameLayout frame) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
         EditText et = (EditText) frame.findViewById(R.id.editText);
@@ -47,12 +50,35 @@ public class NotepadWindow extends StandOutWindow {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        Button dock = (Button) frame.findViewById(R.id.dockButton);
+        dock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frame.findViewById(R.id.editText).setVisibility(View.GONE);
+                frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
+                frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
+                updateViewLayout(id, new StandOutLayoutParams(id, 200, 200, StandOutLayoutParams.BOTTOM,
+                        StandOutLayoutParams.LEFT));
+            }
+        });
+
+        Button undock = (Button) frame.findViewById(R.id.openButton);
+        undock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
+                frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
+                frame.findViewById(R.id.openButton).setVisibility(View.GONE);
+                updateViewLayout(id, getParams(id, null));
+            }
+        });
     }
 
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
-        return new StandOutLayoutParams(id, 500, 500, StandOutLayoutParams.CENTER,
-                StandOutLayoutParams.CENTER);
+        return new StandOutLayoutParams(id, 500, 500, StandOutLayoutParams.BOTTOM,
+                StandOutLayoutParams.LEFT);
     }
 
     @Override
