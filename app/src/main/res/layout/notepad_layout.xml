@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical"
-            android:background="@drawable/round_header"
+            android:background="@color/titlebar"
             android:orientation="horizontal" >
 
             <Button

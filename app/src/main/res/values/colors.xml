@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#EEDFA600</color>
+    <color name="titlebar">#26170F</color>
+    <color name="lines">#D47F20</color>
+    <color name="background">#D5FF8000</color>
+    <color name="border">#D47F20</color>
 </resources>
