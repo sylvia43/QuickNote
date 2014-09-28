@@ -50,7 +50,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/titlebar" >
 
-            <EditText
+            <floating.notepad.quicknote.MyEditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -66,8 +66,14 @@
                 android:textCursorDrawable="@null"
                 android:textSize="16sp"
                 android:lines="12"
-                android:scrollbars="vertical" >
-            </EditText>
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarSize="0dip"
+                android:scrollbarStyle="outsideInset"
+                android:fastScrollAlwaysVisible="true"
+                android:fastScrollEnabled="false" >
+            </floating.notepad.quicknote.MyEditText>
 
         </FrameLayout>
     </RelativeLayout>
