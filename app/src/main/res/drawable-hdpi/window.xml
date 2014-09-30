@@ -6,11 +6,6 @@
         android:color="@color/background">
     </solid>
 
-    <stroke
-        android:width="3dp"
-        android:color="@color/border" >
-    </stroke>
-
     <corners
         android:radius="10dp" >
     </corners>

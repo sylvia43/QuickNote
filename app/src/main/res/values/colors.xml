@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="titlebar">#26170F</color>
-    <color name="title_button">#a226170f</color>
-    <color name="lines">#D47F20</color>
-    <color name="background">#D5FF8000</color>
-    <color name="border">#D47F20</color>
+    <color name="lines">#a066b6d4</color>
+    <color name="background">#FFFFE0</color>
 </resources>

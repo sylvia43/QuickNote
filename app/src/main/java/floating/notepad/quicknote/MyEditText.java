@@ -2,7 +2,6 @@ package floating.notepad.quicknote;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -12,14 +11,11 @@ public class MyEditText extends EditText {
 
     private static Paint linePaint;
 
-    static {
-        linePaint = new Paint();
-        linePaint.setColor(Color.BLACK);
-        linePaint.setStyle(Paint.Style.STROKE);
-    }
-
     public MyEditText(Context context, AttributeSet attributes) {
         super(context, attributes);
+        linePaint = new Paint();
+        linePaint.setColor(getResources().getColor(R.color.lines));
+        linePaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override

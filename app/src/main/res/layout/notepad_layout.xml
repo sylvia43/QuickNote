@@ -9,7 +9,7 @@
         android:id="@+id/window"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/round_corner" >
+        android:background="@drawable/window" >
 
         <RelativeLayout
             android:id="@+id/titlebar"
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="Dock"
                 android:id="@+id/dockButton"
-                android:background="@drawable/round_button"
+                android:background="@drawable/invisible_button"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="Open"
                 android:id="@+id/openButton"
-                android:background="@drawable/round_button"
+                android:background="@drawable/invisible_button"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
@@ -48,7 +48,7 @@
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/titlebar" >
+            android:layout_below="@+id/titlebar">
 
             <floating.notepad.quicknote.MyEditText
                 android:id="@+id/editText"
@@ -72,7 +72,8 @@
                 android:scrollbarSize="0dip"
                 android:scrollbarStyle="outsideInset"
                 android:fastScrollAlwaysVisible="true"
-                android:fastScrollEnabled="false" >
+                android:fastScrollEnabled="false"
+                android:layout_gravity="center">
             </floating.notepad.quicknote.MyEditText>
 
         </FrameLayout>
