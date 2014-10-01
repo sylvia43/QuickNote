@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import wei.mark.standout.StandOutWindow;
-import wei.mark.standout.constants.StandOutFlags;
-import wei.mark.standout.ui.Window;
+import standout.StandOutWindow;
+import standout.constants.StandOutFlags;
+import standout.ui.Window;
 
 public class NotepadWindow extends StandOutWindow {
 

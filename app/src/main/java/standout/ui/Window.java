@@ -1,13 +1,5 @@
-package wei.mark.standout.ui;
+package standout.ui;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import wei.mark.standout.R;
-import wei.mark.standout.StandOutWindow;
-import wei.mark.standout.StandOutWindow.StandOutLayoutParams;
-import wei.mark.standout.Utils;
-import wei.mark.standout.constants.StandOutFlags;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -22,6 +14,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+import floating.notepad.quicknote.R;
+import standout.StandOutWindow;
+import standout.Utils;
+import standout.constants.StandOutFlags;
+import standout.StandOutWindow.StandOutLayoutParams;
 
 /**
  * Special view that represents a floating window.
@@ -56,11 +57,11 @@ public class Window extends FrameLayout {
 	public boolean focused;
 
 	/**
-	 * Original params from {@link StandOutWindow#getParams(int, Window)}.
+	 * Original params from {@link standout.StandOutWindow#getParams(int, standout.ui.Window)}.
 	 */
 	public StandOutLayoutParams originalParams;
 	/**
-	 * Original flags from {@link StandOutWindow#getFlags(int)}.
+	 * Original flags from {@link standout.StandOutWindow#getFlags(int)}.
 	 */
 	public int flags;
 
@@ -157,12 +158,12 @@ public class Window extends FrameLayout {
 
 		// implement StandOut specific workarounds
 		if (!Utils.isSet(flags,
-				StandOutFlags.FLAG_FIX_COMPATIBILITY_ALL_DISABLE)) {
+                StandOutFlags.FLAG_FIX_COMPATIBILITY_ALL_DISABLE)) {
 			fixCompatibility(body);
 		}
 		// implement StandOut specific additional functionality
 		if (!Utils.isSet(flags,
-				StandOutFlags.FLAG_ADD_FUNCTIONALITY_ALL_DISABLE)) {
+                StandOutFlags.FLAG_ADD_FUNCTIONALITY_ALL_DISABLE)) {
 			addFunctionality(body);
 		}
 
@@ -184,7 +185,7 @@ public class Window extends FrameLayout {
 		// multitouch
 		if (event.getPointerCount() >= 2
 				&& Utils.isSet(flags,
-						StandOutFlags.FLAG_WINDOW_PINCH_RESIZE_ENABLE)
+                StandOutFlags.FLAG_WINDOW_PINCH_RESIZE_ENABLE)
 				&& (event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN) {
 			touchInfo.scale = 1;
 			touchInfo.dist = -1;
@@ -214,7 +215,7 @@ public class Window extends FrameLayout {
 		// handle multitouch
 		if (event.getPointerCount() >= 2
 				&& Utils.isSet(flags,
-						StandOutFlags.FLAG_WINDOW_PINCH_RESIZE_ENABLE)) {
+                StandOutFlags.FLAG_WINDOW_PINCH_RESIZE_ENABLE)) {
 			// 2 fingers or more
 
 			float x0 = event.getX(0);
@@ -268,7 +269,7 @@ public class Window extends FrameLayout {
 
 	/**
 	 * Request or remove the focus from this window.
-	 * 
+	 *
 	 * @param focus
 	 *            Whether we want to gain or lose focus.
 	 * @return True if focus changed successfully, false if it failed.
@@ -294,7 +295,7 @@ public class Window extends FrameLayout {
 			}
 
 			if (!Utils.isSet(flags,
-					StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE)) {
+                    StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE)) {
 				// change visual state
 				View content = findViewById(R.id.content);
 				if (focus) {
@@ -347,7 +348,7 @@ public class Window extends FrameLayout {
 	 * Convenience method to start editting the size and position of this
 	 * window. Make sure you call {@link Editor#commit()} when you are done to
 	 * update the window.
-	 * 
+	 *
 	 * @return The Editor associated with this window.
 	 */
 	public Editor edit() {
@@ -367,11 +368,11 @@ public class Window extends FrameLayout {
 	/**
 	 * Returns the system window decorations if the implementation sets
 	 * {@link #FLAG_DECORATION_SYSTEM}.
-	 * 
+	 *
 	 * <p>
 	 * The system window decorations support hiding, closing, moving, and
 	 * resizing.
-	 * 
+	 *
 	 * @return The frame view containing the system window decorations.
 	 */
 	private View getSystemDecorations() {
@@ -503,21 +504,21 @@ public class Window extends FrameLayout {
 
 	/**
 	 * Implement StandOut specific additional functionalities.
-	 * 
+	 *
 	 * <p>
 	 * Currently, this method does the following:
-	 * 
+	 *
 	 * <p>
 	 * Attach resize handles: For every View found to have id R.id.corner,
 	 * attach an OnTouchListener that implements resizing the window.
-	 * 
+	 *
 	 * @param root
 	 *            The view hierarchy that is part of the window.
 	 */
 	void addFunctionality(View root) {
 		// corner for resize
 		if (!Utils.isSet(flags,
-				StandOutFlags.FLAG_ADD_FUNCTIONALITY_RESIZE_DISABLE)) {
+                StandOutFlags.FLAG_ADD_FUNCTIONALITY_RESIZE_DISABLE)) {
 			View corner = root.findViewById(R.id.corner);
 			if (corner != null) {
 				corner.setOnTouchListener(new OnTouchListener() {
@@ -536,7 +537,7 @@ public class Window extends FrameLayout {
 
 		// window_icon for drop down
 		if (!Utils.isSet(flags,
-				StandOutFlags.FLAG_ADD_FUNCTIONALITY_DROP_DOWN_DISABLE)) {
+                StandOutFlags.FLAG_ADD_FUNCTIONALITY_DROP_DOWN_DISABLE)) {
 			final View icon = root.findViewById(R.id.window_icon);
 			if (icon != null) {
 				icon.setOnClickListener(new OnClickListener() {
@@ -556,13 +557,13 @@ public class Window extends FrameLayout {
 	/**
 	 * Iterate through each View in the view hiearchy and implement StandOut
 	 * specific compatibility workarounds.
-	 * 
+	 *
 	 * <p>
 	 * Currently, this method does the following:
-	 * 
+	 *
 	 * <p>
 	 * Nothing yet.
-	 * 
+	 *
 	 * @param root
 	 *            The root view hierarchy to iterate through and check.
 	 */
@@ -587,9 +588,9 @@ public class Window extends FrameLayout {
 	/**
 	 * Convenient way to resize or reposition a Window. The Editor allows you to
 	 * easily resize and reposition the window around anchor points.
-	 * 
+	 *
 	 * @author Mark Wei <markwei@gmail.com>
-	 * 
+	 *
 	 */
 	public class Editor {
 		/**
@@ -707,7 +708,7 @@ public class Window extends FrameLayout {
 				int maxHeight = mParams.maxHeight;
 
 				if (Utils.isSet(flags,
-						StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE)) {
+                        StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE)) {
 					maxWidth = (int) Math.min(maxWidth, displayWidth);
 					maxHeight = (int) Math.min(maxHeight, displayHeight);
 				}
@@ -720,7 +721,7 @@ public class Window extends FrameLayout {
 
 				// keep window in aspect ratio
 				if (Utils.isSet(flags,
-						StandOutFlags.FLAG_WINDOW_ASPECT_RATIO_ENABLE)) {
+                        StandOutFlags.FLAG_WINDOW_ASPECT_RATIO_ENABLE)) {
 					int ratioWidth = (int) (mParams.height * touchInfo.ratio);
 					int ratioHeight = (int) (mParams.width / touchInfo.ratio);
 					if (ratioHeight >= mParams.minHeight
@@ -808,7 +809,7 @@ public class Window extends FrameLayout {
 				}
 
 				if (Utils.isSet(flags,
-						StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE)) {
+                        StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE)) {
 					// if gravity is not TOP|LEFT throw exception
 					if (mParams.gravity != (Gravity.TOP | Gravity.LEFT)) {
 						throw new IllegalStateException(

@@ -1,13 +1,13 @@
-package wei.mark.standout;
+package standout;
+
+import android.util.SparseArray;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import wei.mark.standout.ui.Window;
-
-import android.util.SparseArray;
+import standout.ui.Window;
 
 public class WindowCache {
 	public Map<Class<? extends StandOutWindow>, SparseArray<Window>> sWindows;

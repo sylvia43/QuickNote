@@ -1,4 +1,4 @@
-package wei.mark.standout;
+package standout;
 
 public class Utils {
 	public static boolean isSet(int flags, int flag) {

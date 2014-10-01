@@ -1,4 +1,4 @@
-package wei.mark.standout.ui;
+package standout.ui;
 
 import java.util.Locale;
 
