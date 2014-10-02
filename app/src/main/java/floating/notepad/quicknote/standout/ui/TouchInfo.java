@@ -1,4 +1,4 @@
-package standout.ui;
+package floating.notepad.quicknote.standout.ui;
 
 import java.util.Locale;
 

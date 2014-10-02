@@ -1,7 +1,7 @@
-package standout.constants;
+package floating.notepad.quicknote.standout.constants;
 
 /**
- * Flags to be returned from {@link standout.StandOutWindow#getFlags(int)}.
+ * Flags to be returned from {@link floating.notepad.quicknote.standout.StandOutWindow#getFlags(int)}.
  *
  * @author Mark Wei <markwei@gmail.com>
  *
@@ -68,9 +68,9 @@ public class StandOutFlags {
 
 	/**
 	 * Setting this flag indicates that windows are able to be hidden, that
-	 * {@link standout.StandOutWindow#getHiddenIcon(int)},
-	 * {@link standout.StandOutWindow#getHiddenTitle(int)}, and
-	 * {@link standout.StandOutWindow#getHiddenMessage(int)} are implemented, and that
+	 * {@link floating.notepad.quicknote.standout.StandOutWindow#getHiddenIcon(int)},
+	 * {@link floating.notepad.quicknote.standout.StandOutWindow#getHiddenTitle(int)}, and
+	 * {@link floating.notepad.quicknote.standout.StandOutWindow#getHiddenMessage(int)} are implemented, and that
 	 * the system window decorator should provide a hide button if
 	 * {@link #FLAG_DECORATION_SYSTEM} is set.
 	 */
@@ -118,11 +118,11 @@ public class StandOutFlags {
 	 *
 	 * <p>
 	 * The aspect ratio will only be enforced in
-	 * {@link standout.StandOutWindow#onTouchHandleResize(int, standout.ui.Window, android.view.View, android.view.MotionEvent)}
+	 * {@link floating.notepad.quicknote.standout.StandOutWindow#onTouchHandleResize(int, floating.notepad.quicknote.standout.ui.Window, android.view.View, android.view.MotionEvent)}
 	 * . The aspect ratio will not be enforced if you set the width or height of
 	 * the window's LayoutParams manually.
 	 *
-	 * @see standout.StandOutWindow#onTouchHandleResize(int, standout.ui.Window, android.view.View, android.view.MotionEvent)
+	 * @see floating.notepad.quicknote.standout.StandOutWindow#onTouchHandleResize(int, floating.notepad.quicknote.standout.ui.Window, android.view.View, android.view.MotionEvent)
 	 */
 	public static final int FLAG_WINDOW_ASPECT_RATIO_ENABLE = 1 << flag_bit++;
 
@@ -130,7 +130,7 @@ public class StandOutFlags {
 	 * Setting this flag indicates that the system should resize the window when
 	 * it detects a pinch-to-zoom gesture.
 	 *
-	 * @see standout.ui.Window#onInterceptTouchEvent(android.view.MotionEvent)
+	 * @see floating.notepad.quicknote.standout.ui.Window#onInterceptTouchEvent(android.view.MotionEvent)
 	 */
 	public static final int FLAG_WINDOW_PINCH_RESIZE_ENABLE = 1 << flag_bit++;
 
@@ -148,8 +148,8 @@ public class StandOutFlags {
 	 * key events. Normally, focused windows will consume the Back and Menu
 	 * keys.
 	 *
-	 * @see {@link standout.StandOutWindow#focus(int)}
-	 * @see {@link standout.StandOutWindow#unfocus(int)}
+	 * @see {@link floating.notepad.quicknote.standout.StandOutWindow#focus(int)}
+	 * @see {@link floating.notepad.quicknote.standout.StandOutWindow#unfocus(int)}
 	 *
 	 */
 	public static final int FLAG_WINDOW_FOCUSABLE_DISABLE = 1 << flag_bit++;
@@ -158,9 +158,9 @@ public class StandOutFlags {
 	 * Setting this flag indicates that the system should not change the
 	 * window's visual state when focus is changed. If this flag is set, the
 	 * implementation can choose to change the visual state in
-	 * {@link standout.StandOutWindow#onFocusChange(int, standout.ui.Window, boolean)}.
+	 * {@link floating.notepad.quicknote.standout.StandOutWindow#onFocusChange(int, floating.notepad.quicknote.standout.ui.Window, boolean)}.
 	 *
-	 * @see {@link standout.ui.Window#onFocus(boolean)}
+	 * @see {@link floating.notepad.quicknote.standout.ui.Window#onFocus(boolean)}
 	 *
 	 */
 	public static final int FLAG_WINDOW_FOCUS_INDICATOR_DISABLE = 1 << flag_bit++;
@@ -168,20 +168,20 @@ public class StandOutFlags {
 	/**
 	 * Setting this flag indicates that the system should disable all
 	 * compatibility workarounds. The default behavior is to run
-	 * {@link standout.ui.Window#fixCompatibility(android.view.View, int)} on the view returned by the
+	 * {@link floating.notepad.quicknote.standout.ui.Window#fixCompatibility(android.view.View, int)} on the view returned by the
 	 * implementation.
 	 *
-	 * @see {@link standout.ui.Window#fixCompatibility(android.view.View, int)}
+	 * @see {@link floating.notepad.quicknote.standout.ui.Window#fixCompatibility(android.view.View, int)}
 	 */
 	public static final int FLAG_FIX_COMPATIBILITY_ALL_DISABLE = 1 << flag_bit++;
 
 	/**
 	 * Setting this flag indicates that the system should disable all additional
 	 * functionality. The default behavior is to run
-	 * {@link standout.ui.Window#addFunctionality(android.view.View, int)} on the view returned by the
+	 * {@link floating.notepad.quicknote.standout.ui.Window#addFunctionality(android.view.View, int)} on the view returned by the
 	 * implementation.
 	 *
-	 * @see {@link standout.StandOutWindow#addFunctionality(android.view.View, int)}
+	 * @see {@link floating.notepad.quicknote.standout.StandOutWindow#addFunctionality(android.view.View, int)}
 	 */
 	public static final int FLAG_ADD_FUNCTIONALITY_ALL_DISABLE = 1 << flag_bit++;
 
@@ -193,7 +193,7 @@ public class StandOutFlags {
 	 * If {@link #FLAG_DECORATION_SYSTEM} is set, the user will always be able
 	 * to resize the window with the default corner.
 	 *
-	 * @see {@link standout.ui.Window#addFunctionality(android.view.View, int)}
+	 * @see {@link floating.notepad.quicknote.standout.ui.Window#addFunctionality(android.view.View, int)}
 	 */
 	public static final int FLAG_ADD_FUNCTIONALITY_RESIZE_DISABLE = 1 << flag_bit++;
 
@@ -206,7 +206,7 @@ public class StandOutFlags {
 	 * If {@link #FLAG_DECORATION_SYSTEM} is set, the user will always be able
 	 * to show the drop down menu with the default window icon.
 	 *
-	 * @see {@link standout.ui.Window#addFunctionality(android.view.View, int)}
+	 * @see {@link floating.notepad.quicknote.standout.ui.Window#addFunctionality(android.view.View, int)}
 	 */
 	public static final int FLAG_ADD_FUNCTIONALITY_DROP_DOWN_DISABLE = 1 << flag_bit++;
 }

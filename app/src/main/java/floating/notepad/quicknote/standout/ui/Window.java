@@ -1,4 +1,4 @@
-package standout.ui;
+package floating.notepad.quicknote.standout.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,10 +19,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import floating.notepad.quicknote.R;
-import standout.StandOutWindow;
-import standout.Utils;
-import standout.constants.StandOutFlags;
-import standout.StandOutWindow.StandOutLayoutParams;
+import floating.notepad.quicknote.standout.StandOutWindow;
+import floating.notepad.quicknote.standout.Utils;
+import floating.notepad.quicknote.standout.constants.StandOutFlags;
+import floating.notepad.quicknote.standout.StandOutWindow.StandOutLayoutParams;
 
 /**
  * Special view that represents a floating window.
@@ -57,11 +57,11 @@ public class Window extends FrameLayout {
 	public boolean focused;
 
 	/**
-	 * Original params from {@link standout.StandOutWindow#getParams(int, standout.ui.Window)}.
+	 * Original params from {@link floating.notepad.quicknote.standout.StandOutWindow#getParams(int, floating.notepad.quicknote.standout.ui.Window)}.
 	 */
 	public StandOutLayoutParams originalParams;
 	/**
-	 * Original flags from {@link standout.StandOutWindow#getFlags(int)}.
+	 * Original flags from {@link floating.notepad.quicknote.standout.StandOutWindow#getFlags(int)}.
 	 */
 	public int flags;
 

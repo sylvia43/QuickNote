@@ -1,4 +1,4 @@
-package standout;
+package floating.notepad.quicknote.standout;
 
 public class Utils {
 	public static boolean isSet(int flags, int flag) {

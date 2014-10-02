@@ -1,4 +1,4 @@
-package standout;
+package floating.notepad.quicknote.standout;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -36,8 +36,8 @@ import java.util.List;
 import java.util.Set;
 
 import floating.notepad.quicknote.R;
-import standout.constants.StandOutFlags;
-import standout.ui.Window;
+import floating.notepad.quicknote.standout.constants.StandOutFlags;
+import floating.notepad.quicknote.standout.ui.Window;
 
 /**
  * Extend this class to easily create and manage floating StandOut windows.
@@ -107,7 +107,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that will be used
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that will be used
 	 *            to create and manage the window.
 	 * @param id
 	 *            The id representing this window. If the id exists, and the
@@ -129,7 +129,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that is managing
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is managing
 	 *            the window.
 	 * @param id
 	 *            The id representing this window. The window must previously be
@@ -147,7 +147,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that is managing
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is managing
 	 *            the window.
 	 * @param id
 	 *            The id representing this window. The window must previously be
@@ -165,7 +165,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that is managing
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is managing
 	 *            the window.
 	 * @see #closeAll()
 	 */
@@ -188,7 +188,7 @@ public abstract class StandOutWindow extends Service {
 	 *            A Context of the application package implementing the class of
 	 *            the sending window.
 	 * @param toCls
-	 *            The Service's class extending {@link standout.StandOutWindow} that is
+	 *            The Service's class extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is
 	 *            managing the receiving window.
 	 * @param toId
 	 *            The id of the receiving window, or DISREGARD_ID.
@@ -217,7 +217,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that will be used
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that will be used
 	 *            to create and manage the window.
 	 * @param id
 	 *            The id representing this window. If the id exists, and the
@@ -241,7 +241,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that is managing
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is managing
 	 *            the window.
 	 * @param id
 	 *            The id representing this window. If the id exists, and the
@@ -262,7 +262,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that is managing
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is managing
 	 *            the window.
 	 * @param id
 	 *            The id representing this window. If the id exists, and the
@@ -283,7 +283,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param context
 	 *            A Context of the application package implementing this class.
 	 * @param cls
-	 *            The Service extending {@link standout.StandOutWindow} that is managing
+	 *            The Service extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is managing
 	 *            the window.
 	 * @return An {@link android.content.Intent} to use with
 	 *         {@link android.content.Context#startService(android.content.Intent)}.
@@ -300,7 +300,7 @@ public abstract class StandOutWindow extends Service {
 	 *            A Context of the application package implementing the class of
 	 *            the sending window.
 	 * @param toCls
-	 *            The Service's class extending {@link standout.StandOutWindow} that is
+	 *            The Service's class extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is
 	 *            managing the receiving window.
 	 * @param toId
 	 *            The id of the receiving window.
@@ -457,7 +457,7 @@ public abstract class StandOutWindow extends Service {
 	public abstract void createAndAttachView(int id, FrameLayout frame);
 
 	/**
-	 * Return the {@link standout.StandOutWindow#LayoutParams} for the corresponding id.
+	 * Return the {@link floating.notepad.quicknote.standout.StandOutWindow#LayoutParams} for the corresponding id.
 	 * The system will set the layout params on the view for this StandOut
 	 * window. The layout params may be reused.
 	 *
@@ -467,7 +467,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param window
 	 *            The window corresponding to the id. Given as courtesy, so you
 	 *            may get the existing layout params.
-	 * @return The {@link standout.StandOutWindow#LayoutParams} corresponding to the id.
+	 * @return The {@link floating.notepad.quicknote.standout.StandOutWindow#LayoutParams} corresponding to the id.
 	 *         The layout params will be set on the window. The layout params
 	 *         returned will be reused whenever possible, minimizing the number
 	 *         of times getParams() will be called.
@@ -479,12 +479,12 @@ public abstract class StandOutWindow extends Service {
 	 * window corresponding to the id.
 	 *
 	 * <p>
-	 * You may use any of the flags defined in {@link standout.constants.StandOutFlags}. This
+	 * You may use any of the flags defined in {@link floating.notepad.quicknote.standout.constants.StandOutFlags}. This
 	 * method will be called many times, so keep it fast.
 	 *
 	 * <p>
 	 * Use bitwise OR (|) to set flags, and bitwise XOR (^) to unset flags. To
-	 * test if a flag is set, use {@link standout.Utils#isSet(int, int)}.
+	 * test if a flag is set, use {@link floating.notepad.quicknote.standout.Utils#isSet(int, int)}.
 	 *
 	 * @param id
 	 *            The id of the window.
@@ -761,7 +761,7 @@ public abstract class StandOutWindow extends Service {
 	 * <p>
 	 * Implement this method to set a custom drop down menu when the user clicks
 	 * on the icon of the window corresponding to the id. The icon is only shown
-	 * when {@link standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set.
+	 * when {@link floating.notepad.quicknote.standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set.
 	 *
 	 * @param id
 	 *            The id of the window.
@@ -828,7 +828,7 @@ public abstract class StandOutWindow extends Service {
 	/**
 	 * Implement this method to populate the drop down menu when the user clicks
 	 * on the icon of the window corresponding to the id. The icon is only shown
-	 * when {@link standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set.
+	 * when {@link floating.notepad.quicknote.standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set.
 	 *
 	 * @param id
 	 *            The id of the window.
@@ -874,7 +874,7 @@ public abstract class StandOutWindow extends Service {
 	 *            The view where the event originated from.
 	 * @param event
 	 *            See linked method.
-	 * @see {@link #onTouchHandleMove(int, standout.ui.Window, android.view.View, android.view.MotionEvent)}
+	 * @see {@link #onTouchHandleMove(int, floating.notepad.quicknote.standout.ui.Window, android.view.View, android.view.MotionEvent)}
 	 */
 	public void onMove(int id, Window window, View view, MotionEvent event) {
 	}
@@ -891,7 +891,7 @@ public abstract class StandOutWindow extends Service {
 	 *            The view where the event originated from.
 	 * @param event
 	 *            See linked method.
-	 * @see {@link #onTouchHandleResize(int, standout.ui.Window, android.view.View, android.view.MotionEvent)}
+	 * @see {@link #onTouchHandleResize(int, floating.notepad.quicknote.standout.ui.Window, android.view.View, android.view.MotionEvent)}
 	 */
 	public void onResize(int id, Window window, View view, MotionEvent event) {
 	}
@@ -999,7 +999,7 @@ public abstract class StandOutWindow extends Service {
 	 *            The updated layout params.
 	 * @return Return true to cancel the window from being updated, or false to
 	 *         continue.
-	 * @see #updateViewLayout(int, standout.ui.Window, StandOutLayoutParams)
+	 * @see #updateViewLayout(int, floating.notepad.quicknote.standout.ui.Window, StandOutLayoutParams)
 	 */
 	public boolean onUpdate(int id, Window window, StandOutLayoutParams params) {
 		return false;
@@ -1044,7 +1044,7 @@ public abstract class StandOutWindow extends Service {
 	/**
 	 * Implement this callback to be alerted when a window corresponding to the
 	 * id receives a key event. This callback will occur before the window
-	 * handles the event with {@link standout.ui.Window#dispatchKeyEvent(android.view.KeyEvent)}.
+	 * handles the event with {@link floating.notepad.quicknote.standout.ui.Window#dispatchKeyEvent(android.view.KeyEvent)}.
 	 *
 	 * @param id
 	 *            The id of the window, provided as a courtesy.
@@ -1054,7 +1054,7 @@ public abstract class StandOutWindow extends Service {
 	 *            The key event.
 	 * @return Return true to cancel the window from handling the key event, or
 	 *         false to let the window handle the key event.
-	 * @see {@link standout.ui.Window#dispatchKeyEvent(android.view.KeyEvent)}
+	 * @see {@link floating.notepad.quicknote.standout.ui.Window#dispatchKeyEvent(android.view.KeyEvent)}
 	 */
 	public boolean onKeyEvent(int id, Window window, KeyEvent event) {
 		return false;
@@ -1351,7 +1351,7 @@ public abstract class StandOutWindow extends Service {
 	 * @param fromId
 	 *            Provide the id of the sending window if you want a result.
 	 * @param toCls
-	 *            The Service's class extending {@link standout.StandOutWindow} that is
+	 *            The Service's class extending {@link floating.notepad.quicknote.standout.StandOutWindow} that is
 	 *            managing the receiving window.
 	 * @param toId
 	 *            The id of the receiving window.
@@ -1527,7 +1527,7 @@ public abstract class StandOutWindow extends Service {
 
 	/**
 	 * Change the title of the window, if such a title exists. A title exists if
-	 * {@link standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set, or if your own view
+	 * {@link floating.notepad.quicknote.standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set, or if your own view
 	 * contains a TextView with id R.id.title.
 	 *
 	 * @param id
@@ -1547,7 +1547,7 @@ public abstract class StandOutWindow extends Service {
 
 	/**
 	 * Change the icon of the window, if such a icon exists. A icon exists if
-	 * {@link standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set, or if your own view
+	 * {@link floating.notepad.quicknote.standout.constants.StandOutFlags#FLAG_DECORATION_SYSTEM} is set, or if your own view
 	 * contains a TextView with id R.id.window_icon.
 	 *
 	 * @param id

@@ -1,4 +1,4 @@
-package standout;
+package floating.notepad.quicknote.standout;
 
 import android.util.SparseArray;
 
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import standout.ui.Window;
+import floating.notepad.quicknote.standout.ui.Window;
 
 public class WindowCache {
 	public Map<Class<? extends StandOutWindow>, SparseArray<Window>> sWindows;

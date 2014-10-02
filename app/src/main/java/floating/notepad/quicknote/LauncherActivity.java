@@ -3,7 +3,7 @@ package floating.notepad.quicknote;
 import android.app.Activity;
 import android.os.Bundle;
 
-import standout.StandOutWindow;
+import floating.notepad.quicknote.standout.StandOutWindow;
 
 public class LauncherActivity extends Activity {
 
