@@ -2,7 +2,6 @@ package floating.notepad.quicknote;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 
 import wei.mark.standout.StandOutWindow;
 

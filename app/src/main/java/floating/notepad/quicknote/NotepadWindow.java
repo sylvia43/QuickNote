@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,18 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
 
 public class NotepadWindow extends StandOutWindow {
 
-    File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/QuickNote/");
-    File file = new File(dir, "quicknote.txt");
+    SharedPreferences prefs;
 
     @Override
     public String getAppName() {
@@ -39,9 +33,14 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
         EditText et = (EditText) frame.findViewById(R.id.editText);
+
+        et.setText(prefs.getString("text", ""));
+
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -119,20 +118,8 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     public void save(FrameLayout frame) {
-        try {
-            //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            //SharedPreferences.Editor editor = prefs.edit();
-            dir.mkdirs();
-
-            String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
-            //editor.putString("content", text).commit();
-
-            FileOutputStream f = new FileOutputStream(file);
-            f.write(text.getBytes());
-            f.flush();
-            f.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SharedPreferences.Editor editor = prefs.edit();
+        String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
+        editor.putString("text", text).commit();
     }
 }
