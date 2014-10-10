@@ -35,7 +35,7 @@ public class NotepadWindow extends StandOutWindow {
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                
             }
 
             @Override
