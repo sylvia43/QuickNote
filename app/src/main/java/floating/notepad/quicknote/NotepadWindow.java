@@ -9,9 +9,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
@@ -56,6 +61,16 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
 
+        Spinner spinner = (Spinner) frame.findViewById(R.id.spinner);
+
+        List<CharSequence> noteNames = new ArrayList<CharSequence>();
+        String[] noteTitles = prefs.getString("NOTE_TITLES", "New Note").split(",");
+
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
+                android.R.layout.simple_spinner_item, noteTitles);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         Button dock = (Button) frame.findViewById(R.id.dockButton);
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +93,10 @@ public class NotepadWindow extends StandOutWindow {
                 updateViewLayout(id, getParams(id, null));
             }
         });
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("NOTE_TITLES", "Asdf, asdfg, asdfhj");
+        editor.commit();
     }
 
     @Override

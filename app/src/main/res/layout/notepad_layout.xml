@@ -31,6 +31,28 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true" />
 
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/dockButton"
+                android:layout_toStartOf="@+id/dockButton"
+                android:layout_toRightOf="@+id/settingButton"
+                android:layout_toEndOf="@+id/settingButton" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:id="@+id/settingButton"
+                android:background="@drawable/invisible_button"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
