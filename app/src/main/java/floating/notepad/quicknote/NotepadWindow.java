@@ -77,6 +77,7 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
+                frame.findViewById(R.id.spinner).setVisibility(View.GONE);
                 frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
                 updateViewLayout(id, new StandOutLayoutParams(id, 200, 200, StandOutLayoutParams.BOTTOM,
                         StandOutLayoutParams.LEFT));
@@ -89,6 +90,7 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
+                frame.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.openButton).setVisibility(View.GONE);
                 updateViewLayout(id, getParams(id, null));
             }
