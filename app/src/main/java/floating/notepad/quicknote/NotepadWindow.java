@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import wei.mark.standout.StandOutWindow;
@@ -25,6 +27,10 @@ import wei.mark.standout.ui.Window;
 public class NotepadWindow extends StandOutWindow {
 
     SharedPreferences prefs;
+
+    public static final String NOTE_NAMES = "names";
+    public static final String CURRENT_NOTE = "current";
+    public static final String CURRENT_NOTE_NUM = "num";
 
     @Override
     public String getAppName() {
@@ -44,7 +50,7 @@ public class NotepadWindow extends StandOutWindow {
         inflater.inflate(R.layout.notepad_layout, frame, true);
         EditText et = (EditText) frame.findViewById(R.id.editText);
 
-        et.setText(prefs.getString("text", ""));
+        et.setText(prefs.getString(prefs.getString(CURRENT_NOTE, ""), ""));
 
         et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,14 +68,30 @@ public class NotepadWindow extends StandOutWindow {
         });
 
         Spinner spinner = (Spinner) frame.findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt(CURRENT_NOTE_NUM, position);
+                editor.putString(CURRENT_NOTE, parent.getItemAtPosition(position).toString());
+                editor.commit();
+            }
 
-        List<CharSequence> noteNames = new ArrayList<CharSequence>();
-        String[] noteTitles = prefs.getString("NOTE_TITLES", "New Note").split(",");
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        String[] noteTitles = prefs.getString(NOTE_NAMES, "New Note").split(",");
+        Arrays.sort(noteTitles);
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
                 android.R.layout.simple_spinner_item, noteTitles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinner.setSelection(prefs.getInt(CURRENT_NOTE_NUM, 0));
 
         Button dock = (Button) frame.findViewById(R.id.dockButton);
         dock.setOnClickListener(new View.OnClickListener() {
@@ -95,10 +117,6 @@ public class NotepadWindow extends StandOutWindow {
                 updateViewLayout(id, getParams(id, null));
             }
         });
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("NOTE_TITLES", "Asdf, asdfg, asdfhj");
-        editor.commit();
     }
 
     @Override
@@ -141,6 +159,10 @@ public class NotepadWindow extends StandOutWindow {
     public void save(FrameLayout frame) {
         SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
-        editor.putString("text", text).commit();
+
+        Spinner spinner = (Spinner) frame.findViewById(R.id.spinner);
+        String s = spinner.getSelectedItem().toString();
+
+        editor.putString(s, text).commit();
     }
 }
