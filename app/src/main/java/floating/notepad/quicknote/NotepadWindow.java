@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
@@ -93,26 +91,28 @@ public class NotepadWindow extends StandOutWindow {
 
         spinner.setSelection(prefs.getInt(CURRENT_NOTE_NUM, 0));
 
-        Button dock = (Button) frame.findViewById(R.id.dockButton);
+        ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.spinner).setVisibility(View.GONE);
+                frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
                 updateViewLayout(id, new StandOutLayoutParams(id, 200, 200, StandOutLayoutParams.BOTTOM,
                         StandOutLayoutParams.LEFT));
             }
         });
 
-        Button undock = (Button) frame.findViewById(R.id.openButton);
+        ImageButton undock = (ImageButton) frame.findViewById(R.id.openButton);
         undock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
+                frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.openButton).setVisibility(View.GONE);
                 updateViewLayout(id, getParams(id, null));
             }

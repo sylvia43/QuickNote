@@ -20,12 +20,11 @@
             android:background="@color/titlebar"
             android:orientation="horizontal" >
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dock"
                 android:id="@+id/dockButton"
-                android:background="@drawable/invisible_button"
+                android:background="@drawable/ic_action_navigation_collapse"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
@@ -40,26 +39,24 @@
                 android:layout_alignParentBottom="true"
                 android:layout_toLeftOf="@+id/dockButton"
                 android:layout_toStartOf="@+id/dockButton"
-                android:layout_toRightOf="@+id/settingButton"
-                android:layout_toEndOf="@+id/settingButton" />
+                android:layout_toRightOf="@+id/settingsButton"
+                android:layout_toEndOf="@+id/settingsButton" />
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
-                android:id="@+id/settingButton"
-                android:background="@drawable/invisible_button"
+                android:id="@+id/settingsButton"
+                android:background="@drawable/ic_action_core_overflow"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Open"
                 android:id="@+id/openButton"
-                android:background="@drawable/invisible_button"
+                android:background="@drawable/ic_action_navigation_expand"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
