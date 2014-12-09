@@ -100,7 +100,7 @@ public class NotepadWindow extends StandOutWindow {
                 frame.findViewById(R.id.spinner).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
-                updateViewLayout(id, new StandOutLayoutParams(id, 200, 200, StandOutLayoutParams.BOTTOM,
+                updateViewLayout(id, new StandOutLayoutParams(id, 100, 100, StandOutLayoutParams.BOTTOM,
                         StandOutLayoutParams.LEFT));
             }
         });
@@ -163,6 +163,6 @@ public class NotepadWindow extends StandOutWindow {
         Spinner spinner = (Spinner) frame.findViewById(R.id.spinner);
         String s = spinner.getSelectedItem().toString();
 
-        editor.putString(s, text).commit();
+        editor.putString(s, text).apply();
     }
 }

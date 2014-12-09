@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import wei.mark.standout.StandOutWindow;
 
-
 public class LauncherActivity extends Activity {
 
     @Override
