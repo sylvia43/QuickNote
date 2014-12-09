@@ -30,18 +30,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true" />
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:background="@drawable/invisible_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_toLeftOf="@+id/dockButton"
-                android:layout_toStartOf="@+id/dockButton"
-                android:layout_toRightOf="@+id/settingsButton"
-                android:layout_toEndOf="@+id/settingsButton" />
-
             <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"

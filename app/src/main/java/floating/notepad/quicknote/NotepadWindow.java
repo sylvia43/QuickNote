@@ -9,14 +9,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-
-import java.util.Arrays;
 
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
@@ -26,9 +21,7 @@ public class NotepadWindow extends StandOutWindow {
 
     SharedPreferences prefs;
 
-    public static final String NOTE_NAMES = "names";
-    public static final String CURRENT_NOTE = "current";
-    public static final String CURRENT_NOTE_NUM = "num";
+    public static final String NOTE_CONTENT = "NOTE_CONTENT";
 
     @Override
     public String getAppName() {
@@ -48,7 +41,7 @@ public class NotepadWindow extends StandOutWindow {
         inflater.inflate(R.layout.notepad_layout, frame, true);
         EditText et = (EditText) frame.findViewById(R.id.editText);
 
-        et.setText(prefs.getString(prefs.getString(CURRENT_NOTE, ""), ""));
+        et.setText(prefs.getString(prefs.getString(NOTE_CONTENT, ""), ""));
 
         et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -65,39 +58,12 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
 
-        Spinner spinner = (Spinner) frame.findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt(CURRENT_NOTE_NUM, position);
-                editor.putString(CURRENT_NOTE, parent.getItemAtPosition(position).toString());
-                editor.commit();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        String[] noteTitles = prefs.getString(NOTE_NAMES, "New Note").split(",");
-        Arrays.sort(noteTitles);
-
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
-                android.R.layout.simple_spinner_item, noteTitles);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setSelection(prefs.getInt(CURRENT_NOTE_NUM, 0));
-
         ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
-                frame.findViewById(R.id.spinner).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
                 updateViewLayout(id, new StandOutLayoutParams(id, 100, 100, StandOutLayoutParams.BOTTOM,
@@ -111,7 +77,6 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
-                frame.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.openButton).setVisibility(View.GONE);
                 updateViewLayout(id, getParams(id, null));
@@ -127,7 +92,8 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public int getFlags(int id) {
-        return StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
+        return StandOutFlags.FLAG_BODY_MOVE_ENABLE |
+               StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
     }
 
     @Override
@@ -159,10 +125,6 @@ public class NotepadWindow extends StandOutWindow {
     public void save(FrameLayout frame) {
         SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
-
-        Spinner spinner = (Spinner) frame.findViewById(R.id.spinner);
-        String s = spinner.getSelectedItem().toString();
-
-        editor.putString(s, text).apply();
+        editor.putString(NOTE_CONTENT, text).apply();
     }
 }
