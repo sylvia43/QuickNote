@@ -123,7 +123,7 @@ public class NotepadWindow extends StandOutWindow {
         return new StandOutLayoutParams(id,
                 collapsed ? SMALL_WIDTH : WIDTH,
                 collapsed ? SMALL_HEIGHT : HEIGHT,
-                prefs != null ? prefs.getInt(POS_X, StandOutLayoutParams.BOTTOM) : StandOutLayoutParams.BOTTOM,
+                (prefs != null ? prefs.getInt(POS_X, StandOutLayoutParams.BOTTOM) : StandOutLayoutParams.BOTTOM) + (collapsed?WIDTH-SMALL_WIDTH:SMALL_WIDTH-WIDTH),
                 prefs != null ? prefs.getInt(POS_Y, StandOutLayoutParams.LEFT) : StandOutLayoutParams.LEFT);
     }
 
