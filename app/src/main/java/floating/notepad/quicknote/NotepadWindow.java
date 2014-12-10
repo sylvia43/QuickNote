@@ -2,6 +2,8 @@ package floating.notepad.quicknote;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,15 +11,15 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
@@ -99,6 +101,14 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
 
+        ImageButton menu = (ImageButton) frame.findViewById(R.id.settingsButton);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDropDown(id).showAsDropDown(v);
+            }
+        });
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -154,13 +164,6 @@ public class NotepadWindow extends StandOutWindow {
         return StandOutWindow.getCloseAllIntent(this, getClass());
     }
 
-    public void savePosition(Window window, int id) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(POS_X, getWindow(id).getLayoutParams().x);
-        editor.putInt(POS_Y, getWindow(id).getLayoutParams().y);
-        editor.apply();
-    }
-
     public void save(FrameLayout frame, int id) {
         SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
@@ -168,5 +171,46 @@ public class NotepadWindow extends StandOutWindow {
         editor.putInt(POS_X, getWindow(id).getLayoutParams().x);
         editor.putInt(POS_Y, getWindow(id).getLayoutParams().y);
         editor.apply();
+    }
+
+    public List<DropDownListItem> getDropDownItems(final int id) {
+        List<DropDownListItem> items = new ArrayList<DropDownListItem>();
+        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Clear", new Runnable() {
+            @Override
+            public void run() {
+                EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
+                et.setText("");
+            }
+        }));
+        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Copy", new Runnable() {
+            @Override
+            public void run() {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setPrimaryClip(ClipData.newPlainText("Note", prefs.getString(NOTE_CONTENT, "")));
+            }
+        }));
+        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Paste", new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
+                    et.setText(prefs.getString(NOTE_CONTENT, "") + clipboard.getPrimaryClip().getItemAt(0).getText());
+                } catch (Exception e) {
+
+                }
+            }
+        }));
+        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Share", new Runnable() {
+            @Override
+            public void run() {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quick Note");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, prefs.getString(NOTE_CONTENT, ""));
+                startActivity(Intent.createChooser(sharingIntent, "Share Note").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        }));
+        return items;
     }
 }
