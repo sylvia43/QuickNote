@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -123,6 +124,10 @@ public class NotepadWindow extends StandOutWindow {
                StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE;
     }
 
+    public void onMove(int id, Window window, View view, MotionEvent event) {
+        save(window, id);
+    }
+
     @Override
     public Notification getPersistentNotification(int id) {
         Notification.Builder n = new Notification.Builder(this);
@@ -147,6 +152,13 @@ public class NotepadWindow extends StandOutWindow {
     @Override
     public Intent getPersistentNotificationIntent(int id) {
         return StandOutWindow.getCloseAllIntent(this, getClass());
+    }
+
+    public void savePosition(Window window, int id) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(POS_X, getWindow(id).getLayoutParams().x);
+        editor.putInt(POS_Y, getWindow(id).getLayoutParams().y);
+        editor.apply();
     }
 
     public void save(FrameLayout frame, int id) {
