@@ -41,7 +41,7 @@ public class NotepadWindow extends StandOutWindow {
         inflater.inflate(R.layout.notepad_layout, frame, true);
         EditText et = (EditText) frame.findViewById(R.id.editText);
 
-        et.setText(prefs.getString(prefs.getString(NOTE_CONTENT, ""), ""));
+        et.setText(prefs.getString(NOTE_CONTENT, ""));
 
         et.addTextChangedListener(new TextWatcher() {
             @Override
