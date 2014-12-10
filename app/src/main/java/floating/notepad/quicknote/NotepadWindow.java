@@ -2,14 +2,18 @@ package floating.notepad.quicknote;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -44,6 +48,8 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
+        collapsed = false;
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -58,13 +64,8 @@ public class NotepadWindow extends StandOutWindow {
                 save(frame, id);
             }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void afterTextChanged(Editable s) { }
         });
 
         ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
@@ -77,8 +78,8 @@ public class NotepadWindow extends StandOutWindow {
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
+                unfocus(id);
                 updateViewLayout(id, getParams(id, null));
-
             }
         });
 
@@ -92,9 +93,18 @@ public class NotepadWindow extends StandOutWindow {
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.openButton).setVisibility(View.GONE);
+                unfocus(id);
                 updateViewLayout(id, getParams(id, null));
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                unfocus(id);
+                updateViewLayout(id, getParams(id, null));
+            }
+        }, 10);
     }
 
     @Override
@@ -109,8 +119,8 @@ public class NotepadWindow extends StandOutWindow {
     @Override
     public int getFlags(int id) {
         return StandOutFlags.FLAG_BODY_MOVE_ENABLE |
-               StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
-        // FLAG_WINDOW_FOCUS_INDICATOR_DISABLE
+               StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE |
+               StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE;
     }
 
     @Override
