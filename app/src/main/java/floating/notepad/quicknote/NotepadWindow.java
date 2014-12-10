@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +23,9 @@ public class NotepadWindow extends StandOutWindow {
     SharedPreferences prefs;
 
     public static final String NOTE_CONTENT = "NOTE_CONTENT";
+    public static final String POS_X = "POS_X";
+    public static final String POS_Y = "POS_Y";
+    public boolean collapsed = false;
 
     @Override
     public String getAppName() {
@@ -46,7 +50,7 @@ public class NotepadWindow extends StandOutWindow {
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                save(frame);
+                save(frame, id);
             }
 
             @Override
@@ -62,12 +66,14 @@ public class NotepadWindow extends StandOutWindow {
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                collapsed = true;
+                save(frame, id);
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
-                updateViewLayout(id, new StandOutLayoutParams(id, 100, 100, StandOutLayoutParams.BOTTOM,
-                        StandOutLayoutParams.LEFT));
+                updateViewLayout(id, getParams(id, null));
+
             }
         });
 
@@ -75,6 +81,8 @@ public class NotepadWindow extends StandOutWindow {
         undock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                collapsed = false;
+                save(frame, id);
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
@@ -86,14 +94,18 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
-        return new StandOutLayoutParams(id, 500, 500, StandOutLayoutParams.BOTTOM,
-                StandOutLayoutParams.LEFT);
+        if (prefs != null)
+            return new StandOutLayoutParams(id, collapsed?96:500, collapsed?96:500, prefs.getInt(POS_X, StandOutLayoutParams.BOTTOM),
+                    prefs.getInt(POS_Y, StandOutLayoutParams.LEFT));
+        else
+            return new StandOutLayoutParams(id, 500, 500, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.LEFT);
     }
 
     @Override
     public int getFlags(int id) {
         return StandOutFlags.FLAG_BODY_MOVE_ENABLE |
                StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
+        // FLAG_WINDOW_FOCUS_INDICATOR_DISABLE
     }
 
     @Override
@@ -122,9 +134,12 @@ public class NotepadWindow extends StandOutWindow {
         return StandOutWindow.getCloseAllIntent(this, getClass());
     }
 
-    public void save(FrameLayout frame) {
+    public void save(FrameLayout frame, int id) {
         SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
-        editor.putString(NOTE_CONTENT, text).apply();
+        editor.putString(NOTE_CONTENT, text);
+        editor.putInt(POS_X, getWindow(id).getLayoutParams().x);
+        editor.putInt(POS_Y, getWindow(id).getLayoutParams().y);
+        editor.apply();
     }
 }

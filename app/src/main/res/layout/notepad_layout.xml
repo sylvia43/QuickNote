@@ -9,7 +9,7 @@
         android:id="@+id/window"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/window" >
+        android:background="@drawable/window">
 
         <RelativeLayout
             android:id="@+id/titlebar"
