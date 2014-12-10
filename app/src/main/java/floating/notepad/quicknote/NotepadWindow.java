@@ -27,6 +27,11 @@ public class NotepadWindow extends StandOutWindow {
     public static final String POS_Y = "POS_Y";
     public boolean collapsed = false;
 
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 500;
+    public static final int SMALL_WIDTH = 96;
+    public static final int SMALL_HEIGHT = 96;
+
     @Override
     public String getAppName() {
         return "Floating Notepad";
@@ -94,11 +99,11 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
-        if (prefs != null)
-            return new StandOutLayoutParams(id, collapsed?96:500, collapsed?96:500, prefs.getInt(POS_X, StandOutLayoutParams.BOTTOM),
-                    prefs.getInt(POS_Y, StandOutLayoutParams.LEFT));
-        else
-            return new StandOutLayoutParams(id, 500, 500, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.LEFT);
+        return new StandOutLayoutParams(id,
+                collapsed ? SMALL_WIDTH : WIDTH,
+                collapsed ? SMALL_HEIGHT : HEIGHT,
+                prefs != null ? prefs.getInt(POS_X, StandOutLayoutParams.BOTTOM) : StandOutLayoutParams.BOTTOM,
+                prefs != null ? prefs.getInt(POS_Y, StandOutLayoutParams.LEFT) : StandOutLayoutParams.LEFT);
     }
 
     @Override
