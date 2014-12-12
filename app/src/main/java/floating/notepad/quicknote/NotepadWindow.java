@@ -77,6 +77,8 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 collapsed = true;
                 save(frame, id);
+                if (prefs.contains(POS_X))
+                    prefs.edit().putInt(POS_X, prefs.getInt(POS_X, -1) + WIDTH - SMALL_WIDTH).commit();
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
@@ -92,6 +94,8 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 collapsed = false;
                 save(frame, id);
+                if (prefs.contains(POS_X))
+                    prefs.edit().putInt(POS_X, prefs.getInt(POS_X, -1) + SMALL_WIDTH - WIDTH).commit();
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
@@ -123,8 +127,8 @@ public class NotepadWindow extends StandOutWindow {
         return new StandOutLayoutParams(id,
                 collapsed ? SMALL_WIDTH : WIDTH,
                 collapsed ? SMALL_HEIGHT : HEIGHT,
-                prefs != null ? prefs.getInt(POS_X, StandOutLayoutParams.BOTTOM) : StandOutLayoutParams.BOTTOM,
-                prefs != null ? prefs.getInt(POS_Y, StandOutLayoutParams.LEFT) : StandOutLayoutParams.LEFT);
+                prefs != null ? prefs.getInt(POS_X, StandOutLayoutParams.RIGHT) : StandOutLayoutParams.RIGHT,
+                prefs != null ? prefs.getInt(POS_Y, StandOutLayoutParams.TOP) : StandOutLayoutParams.TOP);
     }
 
     @Override
