@@ -179,21 +179,21 @@ public class NotepadWindow extends StandOutWindow {
 
     public List<DropDownListItem> getDropDownItems(final int id) {
         List<DropDownListItem> items = new ArrayList<DropDownListItem>();
-        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Clear", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_delete, "Clear", new Runnable() {
             @Override
             public void run() {
                 EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
                 et.setText("");
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Copy", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_copy, "Copy", new Runnable() {
             @Override
             public void run() {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboard.setPrimaryClip(ClipData.newPlainText("Note", prefs.getString(NOTE_CONTENT, "")));
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Paste", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_paste, "Paste", new Runnable() {
             @Override
             public void run() {
                 try {
@@ -205,7 +205,7 @@ public class NotepadWindow extends StandOutWindow {
                 }
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_core_overflow, "Share", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_share, "Share", new Runnable() {
             @Override
             public void run() {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

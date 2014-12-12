@@ -41,7 +41,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/settingsButton"
-                android:background="@drawable/ic_action_core_overflow"
+                android:background="@drawable/ic_action_overflow"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
