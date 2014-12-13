@@ -776,14 +776,6 @@ public abstract class StandOutWindow extends Service {
 			items = new ArrayList<StandOutWindow.DropDownListItem>();
 		}
 
-		// add default drop down items
-		items.add(new DropDownListItem(android.R.drawable.ic_menu_close_clear_cancel, "Save & Quit", new Runnable() {
-            @Override
-            public void run() {
-                closeAll();
-            }
-        }));
-
 		// turn item list into views in PopupWindow
 		LinearLayout list = new LinearLayout(this);
 		list.setOrientation(LinearLayout.VERTICAL);
