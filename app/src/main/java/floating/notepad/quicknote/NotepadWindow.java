@@ -34,10 +34,14 @@ public class NotepadWindow extends StandOutWindow {
     public static final String POS_Y = "POS_Y";
     public boolean collapsed = false;
 
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
-    public static final int SMALL_WIDTH = 96;
-    public static final int SMALL_HEIGHT = 96;
+    public static final String WIDTH_PREF = "WIDTH";
+    public static final String HEIGHT_PREF = "HEIGHT";
+    public static final String SMALL_WIDTH_PREF = "SMALL_WIDTH";
+    public static final String SMALL_HEIGHT_PREF = "SMALL_HEIGHT";
+    public static int WIDTH = 500;
+    public static int HEIGHT = 500;
+    public static int SMALL_WIDTH = 96;
+    public static int SMALL_HEIGHT = 96;
 
     @Override
     public String getAppName() {
@@ -54,6 +58,11 @@ public class NotepadWindow extends StandOutWindow {
         collapsed = false;
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        WIDTH = prefs.getInt(WIDTH_PREF, WIDTH);
+        HEIGHT = prefs.getInt(WIDTH_PREF, HEIGHT);
+        SMALL_WIDTH = prefs.getInt(WIDTH_PREF, SMALL_WIDTH);
+        SMALL_HEIGHT = prefs.getInt(WIDTH_PREF, SMALL_HEIGHT);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
@@ -213,6 +222,13 @@ public class NotepadWindow extends StandOutWindow {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quick Note");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, prefs.getString(NOTE_CONTENT, ""));
                 startActivity(Intent.createChooser(sharingIntent, "Share Note").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        }));
+        items.add(new DropDownListItem(R.drawable.ic_action_overflow, "Preferences", new Runnable() {
+            @Override
+            public void run() {
+                Intent prefPopupIntent = new Intent(getApplicationContext(), PreferencesPopup.class);
+                startActivity(prefPopupIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {

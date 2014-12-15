@@ -20,6 +20,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".PreferencesPopup"
+            android:label="@string/action_settings"
+            android:theme="@style/DialogNoTitleBar" >
+            >
+
+        </activity>
+
         <service android:name="floating.notepad.quicknote.NotepadWindow" >
         </service>
     </application>
