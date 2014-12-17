@@ -136,7 +136,7 @@ public abstract class StandOutWindow extends Service {
 	 */
 	public static void hide(Context context,
 			Class<? extends StandOutWindow> cls, int id) {
-		context.startService(getShowIntent(context, cls, id));
+		context.startService(getHideIntent(context, cls, id));
 	}
 
 	/**
@@ -1124,7 +1124,7 @@ public abstract class StandOutWindow extends Service {
 		} else {
 			// notification can only be null if it was provided before
 			if (!startedForeground) {
-				throw new RuntimeException("Your StandOutWindow service must"
+				Log.e("NOTIF", "Your StandOutWindow service must"
 						+ "provide a persistent notification."
 						+ "The notification prevents Android"
 						+ "from killing your service in low"

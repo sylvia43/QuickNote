@@ -10,6 +10,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:name=".ApplicationWrapper"
         android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         <activity
             android:name=".LauncherActivity"
@@ -20,15 +21,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".PreferencesPopup"
-            android:label="@string/action_settings"
-            android:theme="@style/DialogNoTitleBar" >
-            >
-
-        </activity>
-
         <service android:name="floating.notepad.quicknote.NotepadWindow" >
+        </service>
+        <service android:name="floating.notepad.quicknote.PreferencesPopup" >
         </service>
     </application>
 

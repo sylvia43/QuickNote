@@ -45,24 +45,24 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
-        return "Floating Notepad";
+        return ApplicationWrapper.getInstance().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return R.drawable.ic_launcher;
+        return ApplicationWrapper.getInstance().getAppIcon();
     }
 
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
         collapsed = false;
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs = ApplicationWrapper.getInstance().getSharedPrefs();
 
         WIDTH = prefs.getInt(WIDTH_PREF, WIDTH);
-        HEIGHT = prefs.getInt(WIDTH_PREF, HEIGHT);
-        SMALL_WIDTH = prefs.getInt(WIDTH_PREF, SMALL_WIDTH);
-        SMALL_HEIGHT = prefs.getInt(WIDTH_PREF, SMALL_HEIGHT);
+        HEIGHT = prefs.getInt(HEIGHT_PREF, HEIGHT);
+        SMALL_WIDTH = prefs.getInt(SMALL_WIDTH_PREF, SMALL_WIDTH);
+        SMALL_HEIGHT = prefs.getInt(SMALL_HEIGHT_PREF, SMALL_HEIGHT);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
@@ -153,28 +153,7 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public Notification getPersistentNotification(int id) {
-        Notification.Builder n = new Notification.Builder(this);
-        n.setSmallIcon(getAppIcon());
-        n.setContentTitle(getPersistentNotificationTitle(id));
-        n.setContentText(getPersistentNotificationMessage(id));
-        n.setPriority(Notification.PRIORITY_MIN);
-        n.setContentIntent(PendingIntent.getService(this, 0, getPersistentNotificationIntent(id), PendingIntent.FLAG_UPDATE_CURRENT));
-        return n.build();
-    }
-
-    @Override
-    public String getPersistentNotificationTitle(int id) {
-        return getAppName();
-    }
-
-    @Override
-    public String getPersistentNotificationMessage(int id) {
-        return "Tap to save & close notepad";
-    }
-
-    @Override
-    public Intent getPersistentNotificationIntent(int id) {
-        return StandOutWindow.getCloseAllIntent(this, getClass());
+        return ApplicationWrapper.getInstance().getPersistentNotification();
     }
 
     public void save(FrameLayout frame, int id) {
@@ -227,8 +206,8 @@ public class NotepadWindow extends StandOutWindow {
         items.add(new DropDownListItem(R.drawable.ic_action_overflow, "Preferences", new Runnable() {
             @Override
             public void run() {
-                Intent prefPopupIntent = new Intent(getApplicationContext(), PreferencesPopup.class);
-                startActivity(prefPopupIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                StandOutWindow.hide(ApplicationWrapper.getInstance().getApplicationContext(), NotepadWindow.class, 0);
+                StandOutWindow.show(ApplicationWrapper.getInstance().getApplicationContext(), PreferencesPopup.class, 1);
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {

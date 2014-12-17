@@ -9,6 +9,8 @@ import wei.mark.standout.StandOutWindow.StandOutLayoutParams;
 import wei.mark.standout.Utils;
 import wei.mark.standout.constants.StandOutFlags;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -817,11 +820,22 @@ public class Window extends FrameLayout {
 										+ " gravity must be TOP|LEFT if FLAG_WINDOW_EDGE_LIMITS_ENABLE or FLAG_WINDOW_EDGE_TILE_ENABLE is set.");
 					}
 
-					// keep window inside edges
-					mParams.x = Math.min(Math.max(mParams.x, 0), displayWidth
-							- mParams.width);
-					mParams.y = Math.min(Math.max(mParams.y, 0), displayHeight
-							- mParams.height);
+                    switch (getResources().getConfiguration().orientation) {
+                        case Configuration.ORIENTATION_PORTRAIT:
+                            mParams.x = Math.min(Math.max(mParams.x, 0), displayWidth
+                                    - mParams.width);
+                            mParams.y = Math.min(Math.max(mParams.y, 0), displayHeight
+                                    - mParams.height);
+                            break;
+                        case Configuration.ORIENTATION_LANDSCAPE:
+                            mParams.x = Math.min(Math.max(mParams.x, 0), displayHeight
+                                    - mParams.height);
+                            mParams.y = Math.min(Math.max(mParams.y, 0), displayWidth
+                                    - mParams.width);
+                            break;
+                        default:
+                            Log.e("ORIENTATION", "Unknown orientation.");
+                    }
 				}
 			}
 
