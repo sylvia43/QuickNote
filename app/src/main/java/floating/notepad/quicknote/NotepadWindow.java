@@ -41,12 +41,12 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
-        return "Floating Notepad";
+        return ApplicationWrapper.getInstance().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return R.drawable.ic_launcher;
+        return ApplicationWrapper.getInstance().getAppIcon();
     }
 
     @Override
@@ -144,28 +144,22 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public Notification getPersistentNotification(int id) {
-        Notification.Builder n = new Notification.Builder(this);
-        n.setSmallIcon(getAppIcon());
-        n.setContentTitle(getPersistentNotificationTitle(id));
-        n.setContentText(getPersistentNotificationMessage(id));
-        n.setPriority(Notification.PRIORITY_MIN);
-        n.setContentIntent(PendingIntent.getService(this, 0, getPersistentNotificationIntent(id), PendingIntent.FLAG_UPDATE_CURRENT));
-        return n.build();
+        return ApplicationWrapper.getInstance().getPersistentNotification();
     }
 
     @Override
     public String getPersistentNotificationTitle(int id) {
-        return getAppName();
+        return ApplicationWrapper.getInstance().getPersistentNotificationTitle();
     }
 
     @Override
     public String getPersistentNotificationMessage(int id) {
-        return "Tap to save & close notepad";
+        return ApplicationWrapper.getInstance().getPersistentNotificationMessage();
     }
 
     @Override
     public Intent getPersistentNotificationIntent(int id) {
-        return StandOutWindow.getCloseAllIntent(this, getClass());
+        return ApplicationWrapper.getInstance().getPersistentNotificationIntent();
     }
 
     public void save(FrameLayout frame, int id) {
