@@ -32,12 +32,17 @@ public class NotepadWindow extends StandOutWindow {
     public static final String NOTE_CONTENT = "NOTE_CONTENT";
     public static final String POS_X = "POS_X";
     public static final String POS_Y = "POS_Y";
-    public boolean collapsed = false;
+    public static final String WIDTH_PREF = "WIDTH";
+    public static final String HEIGHT_PREF = "HEIGHT";
+    public static final String SMALL_WIDTH_PREF = "SMALL_WIDTH";
+    public static final String SMALL_HEIGHT_PREF = "SMALL_HEIGHT";
 
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
-    public static final int SMALL_WIDTH = 96;
-    public static final int SMALL_HEIGHT = 96;
+    public int WIDTH = 500;
+    public int HEIGHT = 500;
+    public int SMALL_WIDTH = 96;
+    public int SMALL_HEIGHT = 96;
+
+    public boolean collapsed = false;
 
     @Override
     public String getAppName() {
@@ -53,7 +58,12 @@ public class NotepadWindow extends StandOutWindow {
     public void createAndAttachView(final int id, final FrameLayout frame) {
         collapsed = false;
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+
+        WIDTH = prefs.getInt(WIDTH_PREF, WIDTH);
+        HEIGHT = prefs.getInt(HEIGHT_PREF, HEIGHT);
+        SMALL_WIDTH = prefs.getInt(SMALL_WIDTH_PREF, SMALL_WIDTH);
+        SMALL_HEIGHT = prefs.getInt(SMALL_HEIGHT_PREF, SMALL_HEIGHT);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);

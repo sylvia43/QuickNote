@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import wei.mark.standout.StandOutWindow;
@@ -20,7 +19,6 @@ public class ApplicationWrapper extends Application {
         super.onCreate();
         instance = this;
     }
-
 
     public String getAppName() {
         return "QuickNote";
@@ -53,6 +51,6 @@ public class ApplicationWrapper extends Application {
     }
 
     public SharedPreferences getSharedPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 }
