@@ -209,6 +209,13 @@ public class NotepadWindow extends StandOutWindow {
                 startActivity(Intent.createChooser(sharingIntent, "Share Note").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }));
+        items.add(new DropDownListItem(R.drawable.ic_action_overflow, "Preferences", new Runnable() {
+            @Override
+            public void run() {
+                StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+            }
+        }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {
             @Override
             public void run() {

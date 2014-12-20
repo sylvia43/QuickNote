@@ -23,6 +23,8 @@
 
         <service android:name="floating.notepad.quicknote.NotepadWindow" >
         </service>
+        <service android:name="floating.notepad.quicknote.PreferencesPopup" >
+        </service>
     </application>
 
 </manifest>
