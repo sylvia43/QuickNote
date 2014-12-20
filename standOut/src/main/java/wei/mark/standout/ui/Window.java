@@ -820,6 +820,8 @@ public class Window extends FrameLayout {
 										+ " gravity must be TOP|LEFT if FLAG_WINDOW_EDGE_LIMITS_ENABLE or FLAG_WINDOW_EDGE_TILE_ENABLE is set.");
 					}
 
+                    DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+
                     switch (getResources().getConfiguration().orientation) {
                         case Configuration.ORIENTATION_PORTRAIT:
                             mParams.x = Math.min(Math.max(mParams.x, 0), displayWidth
@@ -828,7 +830,7 @@ public class Window extends FrameLayout {
                                     - mParams.height);
                             break;
                         case Configuration.ORIENTATION_LANDSCAPE:
-                            mParams.x = Math.min(Math.max(mParams.x, 0), displayHeight
+                            mParams.x = Math.min(Math.max(mParams.x, 0), metrics.heightPixels
                                     - mParams.height);
                             mParams.y = Math.min(Math.max(mParams.y, 0), displayWidth
                                     - mParams.width);

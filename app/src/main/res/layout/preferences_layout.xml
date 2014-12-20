@@ -5,37 +5,81 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/titlebar"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:gravity="center_vertical"
-        android:background="@color/titlebar"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/closePreferencesButton"
-            android:background="@drawable/ic_action_cancel"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/body"
+        android:id="@+id/window"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/titlebar"
+        android:layout_height="match_parent"
         android:background="@drawable/window">
 
-        <SeekBar
-            android:id="@+id/seekBar"
+        <RelativeLayout
+            android:id="@+id/titlebar"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:background="@color/titlebar"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/closePreferencesButton"
+                android:background="@drawable/ic_action_cancel"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/body"
+            android:paddingTop="25dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_below="@+id/titlebar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </FrameLayout>
+            android:background="@drawable/window">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Width"
+                android:id="@+id/widthSeekBarText"
+                android:textColor="@color/text"
+                android:layout_gravity="start|top"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <SeekBar
+                android:id="@+id/widthSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_below="@+id/widthSeekBarText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Height"
+                android:id="@+id/heightSeekBarText"
+                android:textColor="@color/text"
+                android:layout_gravity="start|top"
+                android:layout_below="@+id/widthSeekBar"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <SeekBar
+                android:id="@+id/heightSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_below="@+id/heightSeekBarText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

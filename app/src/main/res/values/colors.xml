@@ -3,4 +3,5 @@
     <color name="titlebar">#26170F</color>
     <color name="lines">#a066b6d4</color>
     <color name="background">#FFFFE0</color>
+    <color name="text">#000000</color>
 </resources>

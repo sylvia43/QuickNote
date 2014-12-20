@@ -53,6 +53,6 @@ public class ApplicationWrapper extends Application {
     }
 
     public SharedPreferences getSharedPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 }

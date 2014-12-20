@@ -1068,8 +1068,9 @@ public abstract class StandOutWindow extends Service {
 		}
 
 		if (window.visibility == Window.VISIBILITY_VISIBLE) {
-			throw new IllegalStateException("Tried to show(" + id
+			Log.e("WINDOW", "Tried to show(" + id
 					+ ") a window that is already shown.");
+            return window;
 		}
 
 		// alert callbacks and cancel if instructed

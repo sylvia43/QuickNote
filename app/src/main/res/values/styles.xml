@@ -1,2 +1,5 @@
 <resources>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:fastScrollThumbDrawable">@drawable/scroller_style</item>
+    </style>
 </resources>

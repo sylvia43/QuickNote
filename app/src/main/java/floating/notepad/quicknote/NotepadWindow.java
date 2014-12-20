@@ -1,14 +1,12 @@
 package floating.notepad.quicknote;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -29,19 +27,11 @@ public class NotepadWindow extends StandOutWindow {
 
     SharedPreferences prefs;
 
-    public static final String NOTE_CONTENT = "NOTE_CONTENT";
-    public static final String POS_X = "POS_X";
-    public static final String POS_Y = "POS_Y";
+    public static int width = 500;
+    public static int height = 500;
+    public static int collapsed_width = 96;
+    public static int collapsed_height = 96;
     public boolean collapsed = false;
-
-    public static final String WIDTH_PREF = "WIDTH";
-    public static final String HEIGHT_PREF = "HEIGHT";
-    public static final String SMALL_WIDTH_PREF = "SMALL_WIDTH";
-    public static final String SMALL_HEIGHT_PREF = "SMALL_HEIGHT";
-    public static int WIDTH = 500;
-    public static int HEIGHT = 500;
-    public static int SMALL_WIDTH = 96;
-    public static int SMALL_HEIGHT = 96;
 
     @Override
     public String getAppName() {
@@ -59,16 +49,16 @@ public class NotepadWindow extends StandOutWindow {
 
         prefs = ApplicationWrapper.getInstance().getSharedPrefs();
 
-        WIDTH = prefs.getInt(WIDTH_PREF, WIDTH);
-        HEIGHT = prefs.getInt(HEIGHT_PREF, HEIGHT);
-        SMALL_WIDTH = prefs.getInt(SMALL_WIDTH_PREF, SMALL_WIDTH);
-        SMALL_HEIGHT = prefs.getInt(SMALL_HEIGHT_PREF, SMALL_HEIGHT);
+        width = prefs.getInt(Constants.WIDTH_PREF, width);
+        height = prefs.getInt(Constants.HEIGHT_PREF, height);
+        collapsed_width = prefs.getInt(Constants.SMALL_WIDTH_PREF, collapsed_width);
+        collapsed_height = prefs.getInt(Constants.SMALL_HEIGHT_PREF, collapsed_height);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
         EditText et = (EditText) frame.findViewById(R.id.editText);
 
-        et.setText(prefs.getString(NOTE_CONTENT, ""));
+        et.setText(prefs.getString(Constants.NOTE_CONTENT, ""));
 
         et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,8 +76,8 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 collapsed = true;
                 save(frame, id);
-                if (prefs.contains(POS_X))
-                    prefs.edit().putInt(POS_X, prefs.getInt(POS_X, -1) + WIDTH - SMALL_WIDTH).commit();
+                if (prefs.contains(Constants.POS_X))
+                    prefs.edit().putInt(Constants.POS_X, prefs.getInt(Constants.POS_X, -1) + width - collapsed_width).commit();
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
@@ -103,8 +93,8 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 collapsed = false;
                 save(frame, id);
-                if (prefs.contains(POS_X))
-                    prefs.edit().putInt(POS_X, prefs.getInt(POS_X, -1) + SMALL_WIDTH - WIDTH).commit();
+                if (prefs.contains(Constants.POS_X))
+                    prefs.edit().putInt(Constants.POS_X, prefs.getInt(Constants.POS_X, -1) + collapsed_width - width).commit();
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
@@ -134,10 +124,10 @@ public class NotepadWindow extends StandOutWindow {
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
         return new StandOutLayoutParams(id,
-                collapsed ? SMALL_WIDTH : WIDTH,
-                collapsed ? SMALL_HEIGHT : HEIGHT,
-                prefs != null ? prefs.getInt(POS_X, StandOutLayoutParams.RIGHT) : StandOutLayoutParams.RIGHT,
-                prefs != null ? prefs.getInt(POS_Y, StandOutLayoutParams.TOP) : StandOutLayoutParams.TOP);
+                collapsed ? collapsed_width : width,
+                collapsed ? collapsed_height : height,
+                prefs != null ? prefs.getInt(Constants.POS_X, StandOutLayoutParams.RIGHT) : StandOutLayoutParams.RIGHT,
+                prefs != null ? prefs.getInt(Constants.POS_Y, StandOutLayoutParams.TOP) : StandOutLayoutParams.TOP);
     }
 
     @Override
@@ -159,9 +149,9 @@ public class NotepadWindow extends StandOutWindow {
     public void save(FrameLayout frame, int id) {
         SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
-        editor.putString(NOTE_CONTENT, text);
-        editor.putInt(POS_X, getWindow(id).getLayoutParams().x);
-        editor.putInt(POS_Y, getWindow(id).getLayoutParams().y);
+        editor.putString(Constants.NOTE_CONTENT, text);
+        editor.putInt(Constants.POS_X, getWindow(id).getLayoutParams().x);
+        editor.putInt(Constants.POS_Y, getWindow(id).getLayoutParams().y);
         editor.apply();
     }
 
@@ -178,7 +168,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void run() {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setPrimaryClip(ClipData.newPlainText("Note", prefs.getString(NOTE_CONTENT, "")));
+                clipboard.setPrimaryClip(ClipData.newPlainText("Note", prefs.getString(Constants.NOTE_CONTENT, "")));
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_paste, "Paste", new Runnable() {
@@ -187,7 +177,7 @@ public class NotepadWindow extends StandOutWindow {
                 try {
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
-                    et.setText(prefs.getString(NOTE_CONTENT, "") + clipboard.getPrimaryClip().getItemAt(0).getText());
+                    et.setText(prefs.getString(Constants.NOTE_CONTENT, "") + clipboard.getPrimaryClip().getItemAt(0).getText());
                 } catch (Exception e) {
 
                 }
@@ -199,15 +189,15 @@ public class NotepadWindow extends StandOutWindow {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quick Note");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, prefs.getString(NOTE_CONTENT, ""));
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, prefs.getString(Constants.NOTE_CONTENT, ""));
                 startActivity(Intent.createChooser(sharingIntent, "Share Note").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_overflow, "Preferences", new Runnable() {
             @Override
             public void run() {
-                StandOutWindow.hide(ApplicationWrapper.getInstance().getApplicationContext(), NotepadWindow.class, 0);
-                StandOutWindow.show(ApplicationWrapper.getInstance().getApplicationContext(), PreferencesPopup.class, 1);
+                StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {
