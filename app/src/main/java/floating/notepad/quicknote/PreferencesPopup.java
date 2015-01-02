@@ -2,9 +2,7 @@ package floating.notepad.quicknote;
 
 import android.app.Notification;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
@@ -47,7 +45,7 @@ public class PreferencesPopup extends StandOutWindow {
 
         SeekBar seekBarWidth = (SeekBar)frame.findViewById(R.id.widthSeekBar);
         seekBarWidth.setMax(size.x);
-        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, 0)); // prefs.getInt(Constants.WIDTH_PREF, 0)
+        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH));
         seekBarWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -65,11 +63,40 @@ public class PreferencesPopup extends StandOutWindow {
             }
         });
 
+        SeekBar seekBarHeight = (SeekBar)frame.findViewById(R.id.heightSeekBar);
+        seekBarHeight.setMax(size.y);
+        seekBarHeight.setProgress(prefs.getInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT));
+        seekBarHeight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                edit.putInt(Constants.HEIGHT_PREF, progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        ImageButton save = (ImageButton) frame.findViewById(R.id.savePreferencesButton);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit.commit();
+                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+            }
+        });
+
         ImageButton close = (ImageButton) frame.findViewById(R.id.closePreferencesButton);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit.commit();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
