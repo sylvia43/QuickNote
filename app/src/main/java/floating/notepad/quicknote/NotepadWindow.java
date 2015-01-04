@@ -214,16 +214,6 @@ public class NotepadWindow extends StandOutWindow {
                 StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_delete, "Reset Prefs", new Runnable() {
-            @Override
-            public void run() {
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH);
-                edit.putInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT);
-                edit.commit();
-                updateViewLayout(id, getParams(id, null));
-            }
-        }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {
             @Override
             public void run() {

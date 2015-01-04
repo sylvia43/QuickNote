@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -49,6 +50,10 @@ public class PreferencesPopup extends StandOutWindow {
         seekBarWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress < Constants.MIN_WIDTH) {
+                    progress = Constants.MIN_WIDTH;
+                    seekBar.setProgress(Constants.MIN_WIDTH);
+                }
                 edit.putInt(Constants.WIDTH_PREF, progress);
             }
 
@@ -69,6 +74,10 @@ public class PreferencesPopup extends StandOutWindow {
         seekBarHeight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress < Constants.MIN_HEIGHT) {
+                    progress = Constants.MIN_HEIGHT;
+                    seekBar.setProgress(Constants.MIN_HEIGHT);
+                }
                 edit.putInt(Constants.HEIGHT_PREF, progress);
             }
 
@@ -97,6 +106,18 @@ public class PreferencesPopup extends StandOutWindow {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+            }
+        });
+
+        Button reset = (Button) frame.findViewById(R.id.resetPreferencesButton);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit.putInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH);
+                edit.putInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT);
+                edit.commit();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }

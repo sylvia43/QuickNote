@@ -21,7 +21,7 @@
 
             <ImageButton
                 android:id="@+id/closePreferencesButton"
-                android:background="@drawable/ic_action_cancel"
+                android:background="@drawable/ic_action_remove"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"
@@ -89,6 +89,16 @@
                 android:layout_below="@+id/heightSeekBarText"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="Reset"
+                android:textColor="@color/text"
+                android:id="@+id/resetPreferencesButton"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
     </RelativeLayout>

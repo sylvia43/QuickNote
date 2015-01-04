@@ -15,4 +15,7 @@ public class Constants {
     public static final int DEFAULT_HEIGHT = 500;
     public static final int DEFAULT_WIDTH_SMALL = 96;
     public static final int DEFAULT_HEIGHT_SMALL = 96;
+
+    public static final int MIN_WIDTH = 288;
+    public static final int MIN_HEIGHT = 288;
 }
