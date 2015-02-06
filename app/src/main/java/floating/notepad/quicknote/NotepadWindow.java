@@ -97,6 +97,32 @@ public class NotepadWindow extends StandOutWindow {
                 updateViewLayout(id, getParams(id, null));
             }
         });
+        undock.setOnTouchListener(new View.OnTouchListener() {
+            int dragging = 0;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        int ex = Math.round(event.getRawX());
+                        int ey = Math.round(event.getRawY());
+                        int sx = prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
+                        int sy = prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
+                        //if (Math.abs(ex-v.getX()) > sx/2 && Math.abs(ey-v.getY()) > sy/2)
+                            prefs.edit().putInt(Constants.POS_X, ex - sx/2)
+                                    .putInt(Constants.POS_Y, ey - sy).commit();
+                        updateViewLayout(id, getParams(id, null));
+                        dragging++;
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        if (dragging > 5) {
+                            dragging = 0;
+                            return true;
+                        }
+                    default:
+                        return false;
+                }
+            }
+        });
 
         ImageButton menu = (ImageButton) frame.findViewById(R.id.settingsButton);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +148,6 @@ public class NotepadWindow extends StandOutWindow {
                     collapsed ? prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) : prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH),
                     collapsed ? prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL) : prefs.getInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT),
                     prefs.getInt(Constants.POS_X, StandOutLayoutParams.RIGHT), prefs.getInt(Constants.POS_Y, StandOutLayoutParams.TOP));
-        Log.d("PREFS", "nil");
         return new StandOutLayoutParams(id,
                 collapsed ? Constants.DEFAULT_WIDTH_SMALL : Constants.DEFAULT_WIDTH,
                 collapsed ? Constants.DEFAULT_HEIGHT_SMALL : Constants.DEFAULT_HEIGHT,
