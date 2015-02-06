@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +69,7 @@ public class NotepadWindow extends StandOutWindow {
                 save(frame, id);
                 if (prefs.contains(Constants.POS_X))
                     prefs.edit().putInt(Constants.POS_X, prefs.getInt(Constants.POS_X, -1)
-                            + prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH) - prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL)).commit();
+                            + prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH) - prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL)).apply();
                 frame.findViewById(R.id.editText).setVisibility(View.GONE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.GONE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
@@ -88,7 +87,7 @@ public class NotepadWindow extends StandOutWindow {
                 save(frame, id);
                 if (prefs.contains(Constants.POS_X))
                     prefs.edit().putInt(Constants.POS_X, prefs.getInt(Constants.POS_X, -1)
-                            + prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) - prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH)).commit();
+                            + prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) - prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH)).apply();
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
@@ -107,9 +106,7 @@ public class NotepadWindow extends StandOutWindow {
                         int ey = Math.round(event.getRawY());
                         int sx = prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
                         int sy = prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
-                        //if (Math.abs(ex-v.getX()) > sx/2 && Math.abs(ey-v.getY()) > sy/2)
-                            prefs.edit().putInt(Constants.POS_X, ex - sx/2)
-                                    .putInt(Constants.POS_Y, ey - sy).commit();
+                        prefs.edit().putInt(Constants.POS_X, ex - sx/2).putInt(Constants.POS_Y, ey - sy).apply();
                         updateViewLayout(id, getParams(id, null));
                         dragging++;
                         return true;

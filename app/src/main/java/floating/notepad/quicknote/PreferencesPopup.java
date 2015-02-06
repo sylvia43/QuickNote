@@ -96,7 +96,7 @@ public class PreferencesPopup extends StandOutWindow {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit.commit();
+                edit.apply();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
@@ -117,7 +117,7 @@ public class PreferencesPopup extends StandOutWindow {
             public void onClick(View v) {
                 edit.putInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH);
                 edit.putInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT);
-                edit.commit();
+                edit.apply();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
