@@ -25,6 +25,8 @@
         </service>
         <service android:name="floating.notepad.quicknote.PreferencesPopup" >
         </service>
+        <service android:name="floating.notepad.quicknote.InfoPopup" >
+        </service>
     </application>
 
 </manifest>

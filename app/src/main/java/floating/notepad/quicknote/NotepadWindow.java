@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -223,7 +224,7 @@ public class NotepadWindow extends StandOutWindow {
                     EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
                     et.setText(prefs.getString(Constants.NOTE_CONTENT, "") + clipboard.getPrimaryClip().getItemAt(0).getText());
                 } catch (Exception e) {
-
+                    Log.e("PASTE_FAIL", "Failed to paste: " + e.getMessage());
                 }
             }
         }));
@@ -242,6 +243,13 @@ public class NotepadWindow extends StandOutWindow {
             public void run() {
                 StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+            }
+        }));
+        items.add(new DropDownListItem(R.drawable.ic_action_about, "About", new Runnable() {
+            @Override
+            public void run() {
+                StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {
