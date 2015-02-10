@@ -36,17 +36,14 @@ public class PreferencesPopup extends StandOutWindow {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.preferences_layout, frame, true);
 
-        WindowManager wm = (WindowManager) ApplicationWrapper.getInstance().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
+        final Point size = ApplicationWrapper.getInstance().getScreenSize();
 
         SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
         final SharedPreferences.Editor edit =  prefs.edit();
 
         SeekBar seekBarWidth = (SeekBar)frame.findViewById(R.id.widthSeekBar);
         seekBarWidth.setMax(size.x);
-        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH));
+        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH*size.x)));
         seekBarWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -70,7 +67,7 @@ public class PreferencesPopup extends StandOutWindow {
 
         SeekBar seekBarHeight = (SeekBar)frame.findViewById(R.id.heightSeekBar);
         seekBarHeight.setMax(size.y);
-        seekBarHeight.setProgress(prefs.getInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT));
+        seekBarHeight.setProgress(prefs.getInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT*size.y)));
         seekBarHeight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -115,8 +112,8 @@ public class PreferencesPopup extends StandOutWindow {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit.putInt(Constants.WIDTH_PREF, Constants.DEFAULT_WIDTH);
-                edit.putInt(Constants.HEIGHT_PREF, Constants.DEFAULT_HEIGHT);
+                edit.putInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH*size.x));
+                edit.putInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT*size.y));
                 edit.apply();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);

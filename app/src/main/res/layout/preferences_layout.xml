@@ -67,7 +67,8 @@
                 android:layout_gravity="center_horizontal|top"
                 android:layout_below="@+id/widthSeekBarText"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                style="@android:style/Widget.Holo.SeekBar" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,7 +89,8 @@
                 android:layout_gravity="center_horizontal|top"
                 android:layout_below="@+id/heightSeekBarText"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                style="@android:style/Widget.Holo.SeekBar"/>
 
             <Button
                 android:layout_width="fill_parent"

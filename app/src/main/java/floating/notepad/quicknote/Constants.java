@@ -11,8 +11,8 @@ public class Constants {
     public static final String SMALL_WIDTH_PREF = "SMALL_WIDTH";
     public static final String SMALL_HEIGHT_PREF = "SMALL_HEIGHT";
 
-    public static final int DEFAULT_WIDTH = 500;
-    public static final int DEFAULT_HEIGHT = 500;
+    public static final double DEFAULT_WIDTH = 0.6944444444;
+    public static final double DEFAULT_HEIGHT = 0.390625;
     public static final int DEFAULT_WIDTH_SMALL = 96;
     public static final int DEFAULT_HEIGHT_SMALL = 96;
 

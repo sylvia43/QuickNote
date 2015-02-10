@@ -3,9 +3,13 @@ package floating.notepad.quicknote;
 import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.preference.PreferenceManager;
+import android.view.Display;
+import android.view.WindowManager;
 
 import wei.mark.standout.StandOutWindow;
 
@@ -52,5 +56,13 @@ public class ApplicationWrapper extends Application {
 
     public SharedPreferences getSharedPrefs() {
         return PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    public Point getScreenSize() {
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
     }
 }
