@@ -4,5 +4,6 @@
     <string name="app_name">QuickNote</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="github_link"><![CDATA[<a href=\"https://github.com/anubiann00b/QuickNote\">This project is open source!</a>]]></string>
 
 </resources>

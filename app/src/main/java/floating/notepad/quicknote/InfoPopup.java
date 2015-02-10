@@ -2,15 +2,21 @@ package floating.notepad.quicknote;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
@@ -31,6 +37,30 @@ public class InfoPopup extends StandOutWindow {
     public void createAndAttachView(int id, final FrameLayout frame) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.info_popup, frame, true);
+
+        TextView githubLink = (TextView) frame.findViewById(R.id.github_link);
+        githubLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView feedback = (TextView) frame.findViewById(R.id.feedback);
+        feedback.setText(Html.fromHtml("<a href=\"mailto:skraman1999@gmail.com\">Send Feedback!</a>"));
+        feedback.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    String url = "http://www.google.com";
+                    Intent i = new Intent(Intent.ACTION_SENDTO);
+                    i.setType("text/plain");
+                    i.setData(Uri.parse("mailto:"));
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[] { "skraman1999@gmail.com" });
+                    i.putExtra(Intent.EXTRA_SUBJECT, "QuickNote Feedback");
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    InfoPopup.this.startActivity(i);
+                    StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                    StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                }
+                return true;
+            }
+        });
 
         ImageButton close = (ImageButton) frame.findViewById(R.id.closeInfoButton);
         close.setOnClickListener(new View.OnClickListener() {
