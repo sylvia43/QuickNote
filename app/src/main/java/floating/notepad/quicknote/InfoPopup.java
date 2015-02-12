@@ -55,7 +55,7 @@ public class InfoPopup extends StandOutWindow {
                     i.putExtra(Intent.EXTRA_SUBJECT, "QuickNote Feedback");
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     InfoPopup.this.startActivity(i);
-                    StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
                     StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
                 }
                 return true;
@@ -67,6 +67,7 @@ public class InfoPopup extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
+                ApplicationWrapper.getInstance().getSharedPrefs().edit().putBoolean(Constants.COLLPASED, true).apply();
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
         });

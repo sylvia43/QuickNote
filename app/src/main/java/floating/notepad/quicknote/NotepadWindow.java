@@ -43,9 +43,11 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
-        collapsed = false;
-
         prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+
+        collapsed = prefs.getBoolean(Constants.COLLPASED, false);
+        prefs.edit().putBoolean(Constants.COLLPASED, false);
+
 
         final Point size = ApplicationWrapper.getInstance().getScreenSize();
 
@@ -65,7 +67,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override public void afterTextChanged(Editable s) { }
         });
 
-        ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
+        final ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,9 +139,12 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
 
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (collapsed)
+                    dock.callOnClick();
                 unfocus(id);
                 updateViewLayout(id, getParams(id, null));
             }
