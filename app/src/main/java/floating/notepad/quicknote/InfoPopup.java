@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -39,7 +38,20 @@ public class InfoPopup extends StandOutWindow {
         inflater.inflate(R.layout.info_popup, frame, true);
 
         TextView githubLink = (TextView) frame.findViewById(R.id.github_link);
-        githubLink.setMovementMethod(LinkMovementMethod.getInstance());
+        githubLink.setText(Html.fromHtml(getString(R.string.github_link)));
+        githubLink.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/anubiann00b/QuickNote"));
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    InfoPopup.this.startActivity(i);
+                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
+                    StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                }
+                return true;
+            }
+        });
 
         TextView feedback = (TextView) frame.findViewById(R.id.feedback);
         feedback.setText(Html.fromHtml("<a href=\"mailto:skraman1999@gmail.com\">Send Feedback!</a>"));
@@ -47,7 +59,6 @@ public class InfoPopup extends StandOutWindow {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    String url = "http://www.google.com";
                     Intent i = new Intent(Intent.ACTION_SENDTO);
                     i.setType("text/plain");
                     i.setData(Uri.parse("mailto:"));

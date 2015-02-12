@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Made by Shreyas Raman"
+                android:gravity="center"
                 android:textColor="@color/text" />
 
             <TextView
@@ -52,8 +53,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:autoLink="web"
-                android:text="@string/github_link"
+                android:gravity="center"
+                android:text="This project is open source!"
                 android:textColor="@color/text" />
 
             <TextView
@@ -61,6 +62,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:gravity="center"
                 android:text="Send feedback!"
                 android:textColor="@color/text" />
 

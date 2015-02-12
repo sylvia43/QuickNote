@@ -45,8 +45,7 @@ public class NotepadWindow extends StandOutWindow {
     public void createAndAttachView(final int id, final FrameLayout frame) {
         prefs = ApplicationWrapper.getInstance().getSharedPrefs();
 
-        collapsed = prefs.getBoolean(Constants.COLLPASED, false);
-        prefs.edit().putBoolean(Constants.COLLPASED, false);
+        prefs.edit().putBoolean(Constants.COLLPASED, false).apply();
 
 
         final Point size = ApplicationWrapper.getInstance().getScreenSize();
