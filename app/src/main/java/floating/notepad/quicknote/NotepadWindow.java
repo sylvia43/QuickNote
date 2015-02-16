@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,9 +26,8 @@ import wei.mark.standout.ui.Window;
 
 public class NotepadWindow extends StandOutWindow {
 
-    SharedPreferences prefs;
-
-    public boolean collapsed = false;
+    private SharedPreferences prefs;
+    private boolean collapsed = false;
 
     @Override
     public String getAppName() {
@@ -45,7 +43,7 @@ public class NotepadWindow extends StandOutWindow {
     public void createAndAttachView(final int id, final FrameLayout frame) {
         prefs = ApplicationWrapper.getInstance().getSharedPrefs();
 
-        prefs.edit().putBoolean(Constants.COLLPASED, false).apply();
+        prefs.edit().putBoolean(Constants.COLLAPSED, false).apply();
 
 
         final Point size = ApplicationWrapper.getInstance().getScreenSize();
@@ -195,7 +193,7 @@ public class NotepadWindow extends StandOutWindow {
         return ApplicationWrapper.getInstance().getPersistentNotificationIntent();
     }
 
-    public void save(FrameLayout frame, int id) {
+    void save(FrameLayout frame, int id) {
         SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)frame.findViewById(R.id.editText)).getText().toString();
         editor.putString(Constants.NOTE_CONTENT, text);
@@ -228,7 +226,6 @@ public class NotepadWindow extends StandOutWindow {
                     EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
                     et.setText(prefs.getString(Constants.NOTE_CONTENT, "") + clipboard.getPrimaryClip().getItemAt(0).getText());
                 } catch (Exception e) {
-                    Log.e("PASTE_FAIL", "Failed to paste: " + e.getMessage());
                 }
             }
         }));

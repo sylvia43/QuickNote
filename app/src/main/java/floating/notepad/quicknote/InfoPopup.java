@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.text.Html;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -78,7 +77,7 @@ public class InfoPopup extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
-                ApplicationWrapper.getInstance().getSharedPrefs().edit().putBoolean(Constants.COLLPASED, true).apply();
+                ApplicationWrapper.getInstance().getSharedPrefs().edit().putBoolean(Constants.COLLAPSED, true).apply();
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
         });
@@ -110,7 +109,6 @@ public class InfoPopup extends StandOutWindow {
                         (int)(size.y*0.1),
                         (int)(size.x*0.1));
             default:
-                Log.e("ROTATION", "Unknown rotation: " + rotation + ".");
                 return null;
         }
     }

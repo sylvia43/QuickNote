@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Surface;
@@ -146,7 +145,6 @@ public class PreferencesPopup extends StandOutWindow {
                         (int)(size.y*0.1),
                         (int)(size.x*0.1));
             default:
-                Log.e("ROTATION", "Unknown rotation: " + rotation + ".");
                 return null;
         }
 
