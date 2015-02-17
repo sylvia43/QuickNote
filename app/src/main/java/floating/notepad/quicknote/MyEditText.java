@@ -10,6 +10,7 @@ import android.widget.EditText;
 public class MyEditText extends EditText {
 
     private static Paint linePaint;
+    private Rect bounds = new Rect();
 
     public MyEditText(Context context, AttributeSet attributes) {
         super(context, attributes);
@@ -20,7 +21,6 @@ public class MyEditText extends EditText {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Rect bounds = new Rect();
         int firstLineY = getLineBounds(0, bounds);
         int lineHeight = getLineHeight();
         int totalLines = Math.max(getLineCount(), getHeight() / lineHeight);
