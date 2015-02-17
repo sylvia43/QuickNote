@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,13 +42,9 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     public void collapse(View notepadFrame, final int id) {
-        Log.d("COLLAPSING", "Trace: ", new Exception());
         collapsed = true;
         save(notepadFrame, id);
         if (prefs.contains(Constants.POS_X)) {
-            Log.d("PREFS", prefs.getInt(Constants.POS_X, -1) + " " +
-                    prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x)) + " " +
-                    prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL));
             prefs.edit().putInt(Constants.POS_X,
                     prefs.getInt(Constants.POS_X, -1) +
                             prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x)) -
@@ -119,17 +114,25 @@ public class NotepadWindow extends StandOutWindow {
         });
         undock.setOnTouchListener(new View.OnTouchListener() {
             int dragging = 0;
+            int sx = 0;
+            int sy = 0;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        sx = Math.round(event.getRawX());
+                        sy = Math.round(event.getRawY());
+                        return false;
                     case MotionEvent.ACTION_MOVE:
                         int ex = Math.round(event.getRawX());
                         int ey = Math.round(event.getRawY());
-                        int sx = prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
-                        int sy = prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
-                        prefs.edit().putInt(Constants.POS_X, ex - sx/2).putInt(Constants.POS_Y, ey - sy).apply();
-                        updateViewLayout(id, getParams(id, null));
+                        int width = prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
+                        int height = prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
                         dragging++;
+                        if ((ex-sx)*(ex-sx) + (ey-sy)*(ey-sy) < 20*20)
+                            return false;
+                        prefs.edit().putInt(Constants.POS_X, ex - width/2).putInt(Constants.POS_Y, ey - height).apply();
+                        updateViewLayout(id, getParams(id, null));
                         return true;
                     case MotionEvent.ACTION_UP:
                         if (dragging > 5) {
