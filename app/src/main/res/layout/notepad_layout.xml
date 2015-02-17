@@ -64,7 +64,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/titlebar">
 
-            <floating.notepad.quicknote.MyEditText
+            <me.shreyasr.quicknote.MyEditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -88,7 +88,7 @@
                 android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="false"
                 android:layout_gravity="center">
-            </floating.notepad.quicknote.MyEditText>
+            </me.shreyasr.quicknote.MyEditText>
 
         </FrameLayout>
     </RelativeLayout>

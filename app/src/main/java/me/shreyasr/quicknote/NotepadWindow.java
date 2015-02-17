@@ -1,4 +1,4 @@
-package floating.notepad.quicknote;
+package me.shreyasr.quicknote;
 
 import android.app.Notification;
 import android.content.ClipData;

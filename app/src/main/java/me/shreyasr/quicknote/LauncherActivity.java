@@ -1,4 +1,4 @@
-package floating.notepad.quicknote;
+package me.shreyasr.quicknote;
 
 import android.app.Activity;
 import android.os.Bundle;
