@@ -21,6 +21,10 @@ import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
 
 public class InfoPopup extends StandOutWindow {
+
+    public InfoPopup() {
+    }
+
     @Override
     public String getAppName() {
         return "QuickNote";
@@ -32,7 +36,7 @@ public class InfoPopup extends StandOutWindow {
     }
 
     @Override
-    public void createAndAttachView(int id, final FrameLayout frame) {
+    public void createAndAttachView(final int id, final FrameLayout frame) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.info_popup, frame, true);
 
@@ -46,7 +50,8 @@ public class InfoPopup extends StandOutWindow {
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     InfoPopup.this.startActivity(i);
                     StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
-                    StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                    NotepadWindow.instance.show(0);
+                    NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
                 return true;
             }
@@ -66,7 +71,8 @@ public class InfoPopup extends StandOutWindow {
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     InfoPopup.this.startActivity(i);
                     StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
-                    StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                    NotepadWindow.instance.show(0);
+                    NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
                 return true;
             }
@@ -77,8 +83,7 @@ public class InfoPopup extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
-                ApplicationWrapper.getInstance().getSharedPrefs().edit().putBoolean(Constants.COLLAPSED, true).apply();
-                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                NotepadWindow.instance.show(0);
             }
         });
 
