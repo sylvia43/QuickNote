@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -92,11 +93,11 @@ public class NotepadWindow extends StandOutWindow {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
-        EditText et = (EditText) frame.findViewById(R.id.editText);
+        final EditText editText = (EditText) frame.findViewById(R.id.editText);
 
-        et.setText(prefs.getString(Constants.NOTE_CONTENT, ""));
+        editText.setText(prefs.getString(Constants.NOTE_CONTENT, ""));
 
-        et.addTextChangedListener(new TextWatcher() {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 save(frame, id);
@@ -164,6 +165,7 @@ public class NotepadWindow extends StandOutWindow {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 getDropDown(id).showAsDropDown(v, 0, -2);
             }
         });
