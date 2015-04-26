@@ -236,21 +236,21 @@ public class NotepadWindow extends StandOutWindow {
 
     public List<DropDownListItem> getDropDownItems(final int id) {
         List<DropDownListItem> items = new ArrayList<DropDownListItem>();
-        items.add(new DropDownListItem(R.drawable.ic_action_delete, "Clear", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_delete, getString(R.string.menu_clear), new Runnable() {
             @Override
             public void run() {
                 EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
                 et.setText("");
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_copy, "Copy", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_copy, getString(R.string.menu_copy), new Runnable() {
             @Override
             public void run() {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboard.setPrimaryClip(ClipData.newPlainText("Note", prefs.getString(Constants.NOTE_CONTENT, "")));
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_paste, "Paste", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_paste, getString(R.string.menu_paste), new Runnable() {
             @Override
             public void run() {
                 try {
@@ -260,7 +260,7 @@ public class NotepadWindow extends StandOutWindow {
                 } catch (Exception ignored) { }
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_share, "Share", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_share, getString(R.string.menu_share), new Runnable() {
             @Override
             public void run() {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -271,21 +271,21 @@ public class NotepadWindow extends StandOutWindow {
                 startActivity(Intent.createChooser(sharingIntent, "Share Note").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_settings, "Preferences", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_settings, getString(R.string.menu_preferences), new Runnable() {
             @Override
             public void run() {
                 StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_about, "About", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_about, getString(R.string.menu_about), new Runnable() {
             @Override
             public void run() {
                 StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_cancel, "Save & Quit", new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_action_cancel, getString(R.string.menu_save_quit), new Runnable() {
             @Override
             public void run() {
                 closeAll();

@@ -30,7 +30,7 @@ public class ApplicationWrapper extends Application {
     public BackupManager getBackupManager() { return backupManager; }
 
     public String getAppName() {
-        return "QuickNote";
+        return getString(R.string.app_name);
     }
 
     public int getAppIcon() {
@@ -42,7 +42,7 @@ public class ApplicationWrapper extends Application {
     }
 
     public String getPersistentNotificationMessage() {
-        return "Tap to save & close notepad";
+        return getString(R.string.saveAndClose);
     }
 
     public Intent getPersistentNotificationIntent() {

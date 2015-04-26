@@ -72,7 +72,7 @@
                 android:background="@drawable/window"
                 android:ems="10"
                 android:gravity="start"
-                android:hint="Type Here..."
+                android:hint="@string/editTextHint"
                 android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
                 android:textColor="#000000"
                 android:textCursorDrawable="@null"

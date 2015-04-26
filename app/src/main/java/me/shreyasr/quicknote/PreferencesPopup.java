@@ -22,12 +22,12 @@ public class PreferencesPopup extends StandOutWindow {
 
     @Override
     public String getAppName() {
-        return "QuickNote";
+        return ApplicationWrapper.getInstance().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return R.drawable.ic_launcher;
+        return ApplicationWrapper.getInstance().getAppIcon();
     }
 
     @Override

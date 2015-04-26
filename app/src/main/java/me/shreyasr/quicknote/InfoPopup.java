@@ -22,17 +22,14 @@ import wei.mark.standout.ui.Window;
 
 public class InfoPopup extends StandOutWindow {
 
-    public InfoPopup() {
-    }
-
     @Override
     public String getAppName() {
-        return "QuickNote";
+        return ApplicationWrapper.getInstance().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return R.drawable.ic_launcher;
+        return ApplicationWrapper.getInstance().getAppIcon();
     }
 
     @Override
@@ -58,7 +55,7 @@ public class InfoPopup extends StandOutWindow {
         });
 
         TextView feedback = (TextView) frame.findViewById(R.id.feedback);
-        feedback.setText(Html.fromHtml("<a href=\"mailto:skraman1999@gmail.com\">Send Feedback!</a>"));
+        feedback.setText(Html.fromHtml(getString(R.string.sendFeedback)));
         feedback.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
