@@ -10,6 +10,8 @@ import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -53,8 +55,13 @@ public class PreferencesPopup extends StandOutWindow {
                 edit.putInt(Constants.WIDTH_PREF, progress);
             }
 
-            @Override public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         SeekBar seekBarHeight = (SeekBar)frame.findViewById(R.id.heightSeekBar);
@@ -70,8 +77,13 @@ public class PreferencesPopup extends StandOutWindow {
                 edit.putInt(Constants.HEIGHT_PREF, progress);
             }
 
-            @Override public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         SeekBar seekBarOpacity = (SeekBar)frame.findViewById(R.id.opacitySeekBar);
@@ -83,8 +95,22 @@ public class PreferencesPopup extends StandOutWindow {
                 edit.putInt(Constants.OPACITY, progress);
             }
 
-            @Override  public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        CheckBox lockPosition = (CheckBox) frame.findViewById(R.id.lockPosition);
+        lockPosition.setChecked(prefs.getBoolean(Constants.LOCK, false));
+        lockPosition.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                edit.putBoolean(Constants.LOCK, isChecked);
+            }
         });
 
         ImageButton save = (ImageButton) frame.findViewById(R.id.savePreferencesButton);
@@ -112,6 +138,8 @@ public class PreferencesPopup extends StandOutWindow {
             public void onClick(View v) {
                 edit.putInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH*size.x));
                 edit.putInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT*size.y));
+                edit.putInt(Constants.OPACITY, Constants.DEFAULT_OPACITY);
+                edit.putBoolean(Constants.LOCK, false);
                 edit.apply();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);

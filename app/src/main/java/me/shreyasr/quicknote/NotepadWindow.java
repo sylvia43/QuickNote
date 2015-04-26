@@ -72,8 +72,8 @@ public class NotepadWindow extends StandOutWindow {
         if (prefs.contains(Constants.POS_X))
             prefs.edit().putInt(Constants.POS_X,
                     prefs.getInt(Constants.POS_X, -1) +
-                            prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) -
-                            prefs.getInt(Constants.WIDTH_PREF, (int)(Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x))
+                    prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) -
+                    prefs.getInt(Constants.WIDTH_PREF, (int)(Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x))
             ).apply();
         notepadFrame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
@@ -134,6 +134,8 @@ public class NotepadWindow extends StandOutWindow {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (prefs.getBoolean(Constants.LOCK, false))
+                    return false;
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         sx = Math.round(event.getRawX());
@@ -195,9 +197,12 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public int getFlags(int id) {
-        return StandOutFlags.FLAG_BODY_MOVE_ENABLE |
-               StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE |
-               StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE;
+        if (prefs != null && prefs.getBoolean(Constants.LOCK, false))
+            return StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE
+                    | StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE;
+        return StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE
+                | StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE
+                | StandOutFlags.FLAG_BODY_MOVE_ENABLE;
     }
 
     public void onMove(int id, Window window, View view, MotionEvent event) {

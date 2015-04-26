@@ -113,6 +113,24 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 style="@android:style/Widget.Holo.SeekBar"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/opacitySeekBar">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/lock_position"
+                    android:textColor="@color/text"
+                    android:layout_gravity="start|top"  />
+
+                <CheckBox
+                    android:id="@+id/lockPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|top" />
+            </LinearLayout>
 
             <Button
                 android:layout_width="fill_parent"
