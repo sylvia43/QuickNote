@@ -3,6 +3,7 @@ package me.shreyasr.quicknote;
 import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +23,11 @@ public class ApplicationWrapper extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        backupManager = new BackupManager(this);
     }
+
+    BackupManager backupManager = null;
+    public BackupManager getBackupManager() { return backupManager; }
 
     public String getAppName() {
         return "QuickNote";

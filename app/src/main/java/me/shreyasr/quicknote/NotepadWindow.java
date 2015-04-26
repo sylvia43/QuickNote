@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -216,6 +217,8 @@ public class NotepadWindow extends StandOutWindow {
             editor.putInt(Constants.POS_Y, getWindow(id).getLayoutParams().y);
         }
         editor.apply();
+        Log.d("Backup", "Saving");
+        ApplicationWrapper.getInstance().getBackupManager().dataChanged();
     }
 
     public List<DropDownListItem> getDropDownItems(final int id) {
