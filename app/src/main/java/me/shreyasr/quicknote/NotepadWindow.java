@@ -13,6 +13,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -30,6 +33,7 @@ public class NotepadWindow extends StandOutWindow {
     private SharedPreferences prefs;
     boolean collapsed = false;
     public FrameLayout notepadView;
+    Animation focusAnim = new AlphaAnimation(0, 1);
 
     @Override
     public String getAppName() {
@@ -42,6 +46,7 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     public void collapse(View notepadFrame, final int id) {
+        focusAnim.cancel();
         collapsed = true;
         save(notepadFrame, id);
         if (prefs.contains(Constants.POS_X)) {
@@ -59,6 +64,24 @@ public class NotepadWindow extends StandOutWindow {
         updateViewLayout(id, getParams(id, null));
     }
 
+    public void undock(View notepadFrame, int id) {
+        collapsed = false;
+        focusAnim.cancel();
+        save(notepadFrame, id);
+        if (prefs.contains(Constants.POS_X))
+            prefs.edit().putInt(Constants.POS_X,
+                    prefs.getInt(Constants.POS_X, -1) +
+                            prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) -
+                            prefs.getInt(Constants.WIDTH_PREF, (int)(Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x))
+            ).apply();
+        notepadFrame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.openButton).setVisibility(View.GONE);
+        unfocus(id);
+        updateViewLayout(id, getParams(id, null));
+    }
+
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
         notepadView = frame;
@@ -66,9 +89,6 @@ public class NotepadWindow extends StandOutWindow {
         prefs = ApplicationWrapper.getInstance().getSharedPrefs();
 
         prefs.edit().putBoolean(Constants.COLLAPSED, false).apply();
-
-
-        final Point size = ApplicationWrapper.getInstance().getScreenSize();
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
@@ -103,18 +123,7 @@ public class NotepadWindow extends StandOutWindow {
         undock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                collapsed = false;
-                save(frame, id);
-                if (prefs.contains(Constants.POS_X))
-                    prefs.edit().putInt(Constants.POS_X,
-                            prefs.getInt(Constants.POS_X, -1) +
-                                    prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) - prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * size.x))).apply();
-                frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
-                frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
-                frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
-                frame.findViewById(R.id.openButton).setVisibility(View.GONE);
-                unfocus(id);
-                updateViewLayout(id, getParams(id, null));
+                undock(frame, id);
             }
         });
         undock.setOnTouchListener(new View.OnTouchListener() {
@@ -248,8 +257,7 @@ public class NotepadWindow extends StandOutWindow {
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
                     et.setText(prefs.getString(Constants.NOTE_CONTENT, "") + clipboard.getPrimaryClip().getItemAt(0).getText());
-                } catch (Exception e) {
-                }
+                } catch (Exception ignored) { }
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_share, "Share", new Runnable() {
@@ -286,22 +294,34 @@ public class NotepadWindow extends StandOutWindow {
         return items;
     }
 
+    int[] elementIds = new int[] { R.id.editText, R.id.titlebar, R.id.openButton, R.id.settingsButton, R.id.dockButton };
+
     @Override
     public boolean onFocusChange(int id, Window window, boolean focus) {
-        int opacity = prefs.getInt(Constants.OPACITY, Constants.DEFAULT_OPACITY);
-        if (focus) {
-            window.findViewById(R.id.editText).setAlpha(1.0f);
-            window.findViewById(R.id.titlebar).getBackground().setAlpha(255);
-            window.findViewById(R.id.settingsButton).getBackground().setAlpha(255);
-            window.findViewById(R.id.dockButton).getBackground().setAlpha(255);
-            window.findViewById(R.id.openButton).getBackground().setAlpha(255);
-        } else {
-            window.findViewById(R.id.editText).setAlpha(opacity / 255f);
-            window.findViewById(R.id.titlebar).getBackground().setAlpha(opacity);
-            window.findViewById(R.id.settingsButton).getBackground().setAlpha(opacity);
-            window.findViewById(R.id.dockButton).getBackground().setAlpha(opacity);
-            window.findViewById(R.id.openButton).getBackground().setAlpha(opacity);
+        float opacity = prefs.getInt(Constants.OPACITY, Constants.DEFAULT_OPACITY)/255f;
+
+        if (focus)
+            focusAnim = new AlphaAnimation(opacity, 1);
+        else
+            focusAnim = new AlphaAnimation(1, opacity);
+        focusAnim.setInterpolator(new LinearInterpolator());
+        focusAnim.setDuration(100);
+        focusAnim.setFillAfter(true);
+
+        for (int elementId : elementIds) {
+            View view = window.findViewById(elementId);
+            if (view.getVisibility() == View.VISIBLE)
+                view.startAnimation(focusAnim);
+            else
+                view.clearAnimation();
         }
+        return false;
+    }
+
+    @Override
+    public boolean onClose(int id, Window window) {
+        if (collapsed)
+            undock(notepadView, 0);
         return false;
     }
 }

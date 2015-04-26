@@ -23,7 +23,6 @@ public class MyEditText extends EditText {
     @Override
     protected void onDraw(Canvas canvas) {
         linePaint.setAlpha((int) (this.getAlpha()*255));
-        Log.d("Drawing", "Drawing " + this.getAlpha());
         int firstLineY = getLineBounds(0, bounds);
         int lineHeight = getLineHeight();
         int totalLines = Math.max(getLineCount(), getHeight() / lineHeight);
