@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,8 +82,13 @@ public class NotepadWindow extends StandOutWindow {
                 save(frame, id);
             }
 
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override public void afterTextChanged(Editable s) { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         final ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
@@ -104,7 +108,7 @@ public class NotepadWindow extends StandOutWindow {
                 if (prefs.contains(Constants.POS_X))
                     prefs.edit().putInt(Constants.POS_X,
                             prefs.getInt(Constants.POS_X, -1) +
-                                    prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) - prefs.getInt(Constants.WIDTH_PREF, (int)(Constants.DEFAULT_WIDTH*size.x))).apply();
+                                    prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) - prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * size.x))).apply();
                 frame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
                 frame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
@@ -117,6 +121,7 @@ public class NotepadWindow extends StandOutWindow {
             int dragging = 0;
             int sx = 0;
             int sy = 0;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -130,9 +135,9 @@ public class NotepadWindow extends StandOutWindow {
                         int width = prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
                         int height = prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
                         dragging++;
-                        if ((ex-sx)*(ex-sx) + (ey-sy)*(ey-sy) < 20*20)
+                        if ((ex - sx) * (ex - sx) + (ey - sy) * (ey - sy) < 20 * 20)
                             return false;
-                        prefs.edit().putInt(Constants.POS_X, ex - width/2).putInt(Constants.POS_Y, ey - height).apply();
+                        prefs.edit().putInt(Constants.POS_X, ex - width / 2).putInt(Constants.POS_Y, ey - height).apply();
                         updateViewLayout(id, getParams(id, null));
                         return true;
                     case MotionEvent.ACTION_UP:
@@ -217,7 +222,6 @@ public class NotepadWindow extends StandOutWindow {
             editor.putInt(Constants.POS_Y, getWindow(id).getLayoutParams().y);
         }
         editor.apply();
-        Log.d("Backup", "Saving");
         ApplicationWrapper.getInstance().getBackupManager().dataChanged();
     }
 
@@ -280,5 +284,24 @@ public class NotepadWindow extends StandOutWindow {
             }
         }));
         return items;
+    }
+
+    @Override
+    public boolean onFocusChange(int id, Window window, boolean focus) {
+        int opacity = prefs.getInt(Constants.OPACITY, Constants.DEFAULT_OPACITY);
+        if (focus) {
+            window.findViewById(R.id.editText).setAlpha(1.0f);
+            window.findViewById(R.id.titlebar).getBackground().setAlpha(255);
+            window.findViewById(R.id.settingsButton).getBackground().setAlpha(255);
+            window.findViewById(R.id.dockButton).getBackground().setAlpha(255);
+            window.findViewById(R.id.openButton).getBackground().setAlpha(255);
+        } else {
+            window.findViewById(R.id.editText).setAlpha(opacity / 255f);
+            window.findViewById(R.id.titlebar).getBackground().setAlpha(opacity);
+            window.findViewById(R.id.settingsButton).getBackground().setAlpha(opacity);
+            window.findViewById(R.id.dockButton).getBackground().setAlpha(opacity);
+            window.findViewById(R.id.openButton).getBackground().setAlpha(opacity);
+        }
+        return false;
     }
 }

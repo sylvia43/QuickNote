@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.EditText;
 
 public class MyEditText extends EditText {
@@ -21,6 +22,8 @@ public class MyEditText extends EditText {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        linePaint.setAlpha((int) (this.getAlpha()*255));
+        Log.d("Drawing", "Drawing " + this.getAlpha());
         int firstLineY = getLineBounds(0, bounds);
         int lineHeight = getLineHeight();
         int totalLines = Math.max(getLineCount(), getHeight() / lineHeight);
@@ -29,9 +32,6 @@ public class MyEditText extends EditText {
             int lineY = firstLineY + i * lineHeight;
             canvas.drawLine(bounds.left, lineY, bounds.right, lineY, linePaint);
         }
-
         super.onDraw(canvas);
     }
-
-
 }

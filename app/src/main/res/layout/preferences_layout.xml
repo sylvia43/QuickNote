@@ -92,6 +92,28 @@
                 android:layout_alignParentStart="true"
                 style="@android:style/Widget.Holo.SeekBar"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Opacity"
+                android:id="@+id/opactiySeekBarText"
+                android:textColor="@color/text"
+                android:layout_gravity="start|top"
+                android:layout_below="@+id/heightSeekBar"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <SeekBar
+                android:id="@+id/opacitySeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_below="@+id/opactiySeekBarText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                style="@android:style/Widget.Holo.SeekBar"/>
+
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

@@ -42,7 +42,7 @@ public class PreferencesPopup extends StandOutWindow {
 
         SeekBar seekBarWidth = (SeekBar)frame.findViewById(R.id.widthSeekBar);
         seekBarWidth.setMax(size.x);
-        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH*size.x)));
+        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * size.x)));
         seekBarWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -53,20 +53,13 @@ public class PreferencesPopup extends StandOutWindow {
                 edit.putInt(Constants.WIDTH_PREF, progress);
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
         SeekBar seekBarHeight = (SeekBar)frame.findViewById(R.id.heightSeekBar);
         seekBarHeight.setMax(size.y);
-        seekBarHeight.setProgress(prefs.getInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT*size.y)));
+        seekBarHeight.setProgress(prefs.getInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT * size.y)));
         seekBarHeight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -77,15 +70,21 @@ public class PreferencesPopup extends StandOutWindow {
                 edit.putInt(Constants.HEIGHT_PREF, progress);
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            @Override public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
 
+        SeekBar seekBarOpacity = (SeekBar)frame.findViewById(R.id.opacitySeekBar);
+        seekBarOpacity.setMax(255);
+        seekBarOpacity.setProgress(prefs.getInt(Constants.OPACITY, Constants.DEFAULT_OPACITY));
+        seekBarOpacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                edit.putInt(Constants.OPACITY, progress);
             }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            @Override  public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
         ImageButton save = (ImageButton) frame.findViewById(R.id.savePreferencesButton);
