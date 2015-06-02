@@ -38,21 +38,21 @@ public class PreferencesPopup extends StandOutWindow {
         inflater.inflate(R.layout.preferences_layout, frame, true);
 
         final Point size = ApplicationWrapper.getInstance().getScreenSize();
+        final int minWidth = WindowUtils.getMinWidthPx();
+        final int minHeight = WindowUtils.getMinHeightPx();
 
-        SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
-        final SharedPreferences.Editor edit =  prefs.edit();
+        final SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+        final SharedPreferences.Editor edit = prefs.edit();
 
         SeekBar seekBarWidth = (SeekBar)frame.findViewById(R.id.widthSeekBar);
         seekBarWidth.setMax(size.x);
-        seekBarWidth.setProgress(prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * size.x)));
+        seekBarWidth.setProgress(WindowUtils.getWidthPx());
         seekBarWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress < Constants.MIN_WIDTH) {
-                    progress = Constants.MIN_WIDTH;
-                    seekBar.setProgress(Constants.MIN_WIDTH);
-                }
-                edit.putInt(Constants.WIDTH_PREF, progress);
+                if (progress < minWidth)
+                    seekBar.setProgress(minWidth);
+                edit.putInt(Constants.WIDTH_PREF, seekBar.getProgress());
             }
 
             @Override
@@ -66,15 +66,13 @@ public class PreferencesPopup extends StandOutWindow {
 
         SeekBar seekBarHeight = (SeekBar)frame.findViewById(R.id.heightSeekBar);
         seekBarHeight.setMax(size.y);
-        seekBarHeight.setProgress(prefs.getInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT * size.y)));
+        seekBarHeight.setProgress(WindowUtils.getHeightPx());
         seekBarHeight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress < Constants.MIN_HEIGHT) {
-                    progress = Constants.MIN_HEIGHT;
-                    seekBar.setProgress(Constants.MIN_HEIGHT);
-                }
-                edit.putInt(Constants.HEIGHT_PREF, progress);
+                if (progress < minHeight)
+                    seekBar.setProgress(minHeight);
+                edit.putInt(Constants.HEIGHT_PREF, seekBar.getProgress());
             }
 
             @Override
@@ -136,11 +134,8 @@ public class PreferencesPopup extends StandOutWindow {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit.putInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH*size.x));
-                edit.putInt(Constants.HEIGHT_PREF, (int) (Constants.DEFAULT_HEIGHT*size.y));
-                edit.putInt(Constants.OPACITY, Constants.DEFAULT_OPACITY);
-                edit.putBoolean(Constants.LOCK, false);
-                edit.apply();
+                prefs.edit().putInt(Constants.OPACITY, Constants.DEFAULT_OPACITY).putBoolean(Constants.LOCK, false).apply();
+                WindowUtils.reset();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }

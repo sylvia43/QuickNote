@@ -18,7 +18,7 @@ public class NoteBackupAgent extends BackupAgentHelper {
                 Constants.NOTE_CONTENT, Constants.COLLAPSED,
                 Constants.POS_X, Constants.POS_Y,
                 Constants.WIDTH_PREF, Constants.HEIGHT_PREF,
-                Constants.SMALL_WIDTH_PREF, Constants.SMALL_HEIGHT_PREF);
+                Constants.SIZE_PREF);
         addHelper("prefs", helper);
     }
 

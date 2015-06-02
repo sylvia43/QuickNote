@@ -24,20 +24,50 @@ public class WindowUtils {
     }
 
     public static int getWidthPx() {
-        return ApplicationWrapper.getInstance().getSharedPrefs()
-                .getInt(Constants.WIDTH_PREF,
-                        (int) (Constants.DEFAULT_WIDTH*ApplicationWrapper.getInstance().getScreenSize().x));
+        return prefs.getInt(Constants.WIDTH_PREF,
+                (int) (Constants.DEFAULT_WIDTH_DP * getDensity()));
     }
 
     public static int getHeightPx() {
-        return ApplicationWrapper.getInstance().getSharedPrefs()
-                .getInt(Constants.HEIGHT_PREF,
-                        (int) (Constants.DEFAULT_HEIGHT*ApplicationWrapper.getInstance().getScreenSize().y));
+        return prefs.getInt(Constants.HEIGHT_PREF,
+                (int) (Constants.DEFAULT_HEIGHT_DP * getDensity()));
+    }
+
+    public static void setWidthPx(int val) {
+        prefs.edit().putInt(Constants.WIDTH_PREF, val).apply();
+    }
+
+    public static void setHeightPx(int val) {
+        prefs.edit().putInt(Constants.HEIGHT_PREF, val).apply();
     }
 
     public static int getSizePx() {
-        return ApplicationWrapper.getInstance().getSharedPrefs()
-                .getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
+        return (int) (prefs.getInt(Constants.SIZE_PREF, Constants.DEFAULT_SIZE_DP)*getDensity());
+    }
+
+    public static int getDefaultWidthPx() {
+        return (int) (Constants.DEFAULT_WIDTH_DP * getDensity());
+    }
+
+    public static int getDefaultHeightPx() {
+        return (int) (Constants.DEFAULT_HEIGHT_DP * getDensity());
+    }
+
+    public static int getMinWidthPx() {
+        return (int) (Constants.MIN_WIDTH_DP * getDensity());
+    }
+
+    public static int getMinHeightPx() {
+        return (int) (Constants.MIN_HEIGHT_DP * getDensity());
+    }
+
+    public static float getDensity() {
+        return ApplicationWrapper.getInstance().getResources().getDisplayMetrics().density;
+    }
+
+    public static void reset() {
+        setWidthPx(getDefaultWidthPx());
+        setHeightPx(getDefaultHeightPx());
     }
 
     public static int getStatusBarSize() {
@@ -46,12 +76,5 @@ public class WindowUtils {
         if (resourceId > 0)
             result = ApplicationWrapper.getInstance().getResources().getDimensionPixelSize(resourceId);
         return result;
-    }
-
-    private static float density = -1;
-    public static float getDensity() {
-        if (density == -1)
-            density = ApplicationWrapper.getInstance().getResources().getDisplayMetrics().density;
-        return density;
     }
 }
