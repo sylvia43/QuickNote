@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,7 +55,7 @@ public class NotepadWindow extends StandOutWindow {
                 case MotionEvent.ACTION_MOVE:
                     int ex = Math.round(event.getRawX());
                     int ey = Math.round(event.getRawY());
-                    int size = WindowUtils.getSize();
+                    int size = WindowUtils.getSizePx();
 
                     dragging++;
                     if ((ex - sx) * (ex - sx) + (ey - sy) * (ey - sy) < 20 * 20)
@@ -162,11 +161,10 @@ public class NotepadWindow extends StandOutWindow {
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("dock", String.valueOf(dock.getWidth()));
                 collapse(frame, id);
             }
         });
-        dock.setOnTouchListener(new DragMoveTouchListener(id, WindowUtils.getWidth()-WindowUtils.getSize()));
+        dock.setOnTouchListener(new DragMoveTouchListener(id, WindowUtils.getWidthPx()-WindowUtils.getSizePx()));
 
         ImageButton undock = (ImageButton) frame.findViewById(R.id.openButton);
         undock.setOnClickListener(new View.OnClickListener() {

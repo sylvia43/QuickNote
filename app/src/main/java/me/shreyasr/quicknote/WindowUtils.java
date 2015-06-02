@@ -2,30 +2,21 @@ package me.shreyasr.quicknote;
 
 public class WindowUtils {
 
-    public static int getWidth() {
+    public static int getWidthPx() {
         return ApplicationWrapper.getInstance().getSharedPrefs()
                 .getInt(Constants.WIDTH_PREF,
                         (int) (Constants.DEFAULT_WIDTH*ApplicationWrapper.getInstance().getScreenSize().x));
     }
 
-    public static int getHeight() {
+    public static int getHeightPx() {
         return ApplicationWrapper.getInstance().getSharedPrefs()
                 .getInt(Constants.HEIGHT_PREF,
                         (int) (Constants.DEFAULT_HEIGHT*ApplicationWrapper.getInstance().getScreenSize().y));
     }
 
-    public static int getSmallWidth() {
-        return ApplicationWrapper.getInstance().getSharedPrefs()
-                .getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
-    }
-
-    public static int getSmallHeight() {
+    public static int getSizePx() {
         return ApplicationWrapper.getInstance().getSharedPrefs()
                 .getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
-    }
-
-    public static int getWindowBarHeight() {
-        return getSmallHeight();
     }
 
     public static int getStatusBarSize() {
@@ -36,7 +27,10 @@ public class WindowUtils {
         return result;
     }
 
-    public static int getSize() {
-        return 96;
+    private static float density = -1;
+    public static float getDensity() {
+        if (density == -1)
+            density = ApplicationWrapper.getInstance().getResources().getDisplayMetrics().density;
+        return density;
     }
 }
