@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -91,9 +92,28 @@ public class NotepadWindow extends StandOutWindow {
 
         prefs.edit().putBoolean(Constants.COLLAPSED, false).apply();
 
+        Log.d("creating", "attatching");
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
         final EditText editText = (EditText) frame.findViewById(R.id.editText);
+        editText.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            boolean wasFullscreen = false;
+
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                Log.d("Visibility", String.valueOf(visibility));
+                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == View.SYSTEM_UI_FLAG_FULLSCREEN) {
+                    if (!wasFullscreen)
+                        NotepadWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, id);
+                    wasFullscreen = true;
+                } else {
+                    if (wasFullscreen)
+                        NotepadWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, id);
+                    wasFullscreen = false;
+                }
+            }
+        });
 
         editText.setText(prefs.getString(Constants.NOTE_CONTENT, ""));
 
