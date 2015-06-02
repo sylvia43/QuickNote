@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -192,26 +191,19 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
-        Point screen = ApplicationWrapper.getInstance().getScreenSize();
-        if (prefs != null)
-            return new StandOutLayoutParams(id,
-                    collapsed ? WindowUtils.getSizePx() : WindowUtils.getWidthPx(),
-                    collapsed ? WindowUtils.getSizePx() : WindowUtils.getHeightPx(),
-                    WindowUtils.getXPx(), WindowUtils.getYPx());
         return new StandOutLayoutParams(id,
-                collapsed ? Constants.DEFAULT_WIDTH_SMALL : (int)(Constants.DEFAULT_WIDTH*screen.x),
-                collapsed ? Constants.DEFAULT_HEIGHT_SMALL : (int)(Constants.DEFAULT_HEIGHT*screen.y),
-                StandOutLayoutParams.RIGHT, StandOutLayoutParams.TOP);
+                collapsed ? WindowUtils.getSizePx() : WindowUtils.getWidthPx(),
+                collapsed ? WindowUtils.getSizePx() : WindowUtils.getHeightPx(),
+                WindowUtils.getXPx(), WindowUtils.getYPx());
     }
 
     @Override
     public int getFlags(int id) {
-        if (prefs != null && prefs.getBoolean(Constants.LOCK, false))
-            return StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE
-                    | StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE;
-        return StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE
-                | StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE
-                | StandOutFlags.FLAG_BODY_MOVE_ENABLE;
+        int flags = StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE
+                | StandOutFlags.FLAG_WINDOW_FOCUS_INDICATOR_DISABLE;
+        if (prefs == null || !prefs.getBoolean(Constants.LOCK, false))
+            flags |= StandOutFlags.FLAG_BODY_MOVE_ENABLE;
+        return flags;
     }
 
     public void onMove(int id, Window window, View view, MotionEvent event) {
@@ -239,14 +231,12 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     void save(View editText, int id) {
-        SharedPreferences.Editor editor = prefs.edit();
         String text = ((EditText)editText.findViewById(R.id.editText)).getText().toString();
-        editor.putString(Constants.NOTE_CONTENT, text);
+        prefs.edit().putString(Constants.NOTE_CONTENT, text).apply();
         if (getWindow(id) != null) {
-            editor.putInt(Constants.POS_X, getWindow(id).getLayoutParams().x);
-            editor.putInt(Constants.POS_Y, getWindow(id).getLayoutParams().y);
+            WindowUtils.setXPx(getWindow(id).getLayoutParams().x);
+            WindowUtils.setYPx(getWindow(id).getLayoutParams().y);
         }
-        editor.apply();
         ApplicationWrapper.getInstance().getBackupManager().dataChanged();
     }
 
