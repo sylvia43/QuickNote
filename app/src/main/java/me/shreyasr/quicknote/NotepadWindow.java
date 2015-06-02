@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,51 @@ import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
 
 public class NotepadWindow extends StandOutWindow {
+
+    class DragMoveTouchListener implements View.OnTouchListener {
+
+        int dragging = 0;
+        int sx = 0;
+        int sy = 0;
+        final int id;
+        final int xOff;
+
+        DragMoveTouchListener(int id, int xOff) {
+            this.id = id;
+            this.xOff = xOff;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (prefs.getBoolean(Constants.LOCK, false))
+                return false;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    sx = Math.round(event.getRawX());
+                    sy = Math.round(event.getRawY());
+                    return false;
+                case MotionEvent.ACTION_MOVE:
+                    int ex = Math.round(event.getRawX());
+                    int ey = Math.round(event.getRawY());
+                    int size = WindowUtils.getSize();
+
+                    dragging++;
+                    if ((ex - sx) * (ex - sx) + (ey - sy) * (ey - sy) < 20 * 20)
+                        return false;
+                    prefs.edit().putInt(Constants.POS_X, ex - xOff - size/2).putInt(Constants.POS_Y, ey-size).apply();
+                    updateViewLayout(id, getParams(id, null));
+
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (dragging > 5) {
+                        dragging = 0;
+                        return true;
+                    }
+                default:
+                    return false;
+            }
+        }
+    }
 
     public static NotepadWindow instance;
     private SharedPreferences prefs;
@@ -116,9 +162,11 @@ public class NotepadWindow extends StandOutWindow {
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("dock", String.valueOf(dock.getWidth()));
                 collapse(frame, id);
             }
         });
+        dock.setOnTouchListener(new DragMoveTouchListener(id, WindowUtils.getWidth()-WindowUtils.getSize()));
 
         ImageButton undock = (ImageButton) frame.findViewById(R.id.openButton);
         undock.setOnClickListener(new View.OnClickListener() {
@@ -127,41 +175,7 @@ public class NotepadWindow extends StandOutWindow {
                 undock(frame, id);
             }
         });
-        undock.setOnTouchListener(new View.OnTouchListener() {
-            int dragging = 0;
-            int sx = 0;
-            int sy = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (prefs.getBoolean(Constants.LOCK, false))
-                    return false;
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        sx = Math.round(event.getRawX());
-                        sy = Math.round(event.getRawY());
-                        return false;
-                    case MotionEvent.ACTION_MOVE:
-                        int ex = Math.round(event.getRawX());
-                        int ey = Math.round(event.getRawY());
-                        int width = prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL);
-                        int height = prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL);
-                        dragging++;
-                        if ((ex - sx) * (ex - sx) + (ey - sy) * (ey - sy) < 20 * 20)
-                            return false;
-                        prefs.edit().putInt(Constants.POS_X, ex - width / 2).putInt(Constants.POS_Y, ey - height).apply();
-                        updateViewLayout(id, getParams(id, null));
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (dragging > 5) {
-                            dragging = 0;
-                            return true;
-                        }
-                    default:
-                        return false;
-                }
-            }
-        });
+        undock.setOnTouchListener(new DragMoveTouchListener(id, 0));
 
         ImageButton menu = (ImageButton) frame.findViewById(R.id.settingsButton);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +185,7 @@ public class NotepadWindow extends StandOutWindow {
                 getDropDown(id).showAsDropDown(v, 0, -2);
             }
         });
+        menu.setOnTouchListener(new DragMoveTouchListener(id, 0));
 
         new Handler().postDelayed(new Runnable() {
             @Override
