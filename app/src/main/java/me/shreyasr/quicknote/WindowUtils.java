@@ -1,6 +1,27 @@
 package me.shreyasr.quicknote;
 
+import android.content.SharedPreferences;
+
 public class WindowUtils {
+
+    private final static SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+
+    // prefs.getInt(Constants.POS_X, StandOutLayoutParams.RIGHT), prefs.getInt(Constants.POS_Y, StandOutLayoutParams.TOP));
+    public static int getXPx() {
+        return prefs.getInt(Constants.POS_X, 0);
+    }
+
+    public static int getYPx() {
+        return prefs.getInt(Constants.POS_Y, 0);
+    }
+
+    public static void setXPx(int val) {
+        prefs.edit().putInt(Constants.POS_X, val).apply();
+    }
+
+    public static void setYPx(int val) {
+        prefs.edit().putInt(Constants.POS_Y, val).apply();
+    }
 
     public static int getWidthPx() {
         return ApplicationWrapper.getInstance().getSharedPrefs()

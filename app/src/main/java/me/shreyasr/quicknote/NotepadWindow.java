@@ -55,14 +55,16 @@ public class NotepadWindow extends StandOutWindow {
                 case MotionEvent.ACTION_MOVE:
                     int ex = Math.round(event.getRawX());
                     int ey = Math.round(event.getRawY());
-                    int size = WindowUtils.getSizePx();
 
                     dragging++;
                     if ((ex - sx) * (ex - sx) + (ey - sy) * (ey - sy) < 20 * 20)
                         return false;
-                    prefs.edit().putInt(Constants.POS_X, ex - xOff - size/2).putInt(Constants.POS_Y, ey-size).apply();
-                    updateViewLayout(id, getParams(id, null));
 
+                    int size = WindowUtils.getSizePx();
+                    WindowUtils.setXPx(ex - xOff - size/2);
+                    WindowUtils.setYPx(ey-size);
+
+                    updateViewLayout(id, getParams(id, null));
                     return true;
                 case MotionEvent.ACTION_UP:
                     if (dragging > 5) {
@@ -92,16 +94,12 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     public void collapse(View notepadFrame, final int id) {
-        focusAnim.cancel();
         collapsed = true;
+        focusAnim.cancel();
         save(notepadFrame, id);
-        if (prefs.contains(Constants.POS_X)) {
-            prefs.edit().putInt(Constants.POS_X,
-                    prefs.getInt(Constants.POS_X, -1) +
-                            prefs.getInt(Constants.WIDTH_PREF, (int) (Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x)) -
-                            prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL)
-            ).apply();
-        }
+
+        WindowUtils.setXPx(WindowUtils.getXPx()+WindowUtils.getWidthPx()-WindowUtils.getSizePx());
+
         notepadFrame.findViewById(R.id.editText).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
@@ -114,12 +112,9 @@ public class NotepadWindow extends StandOutWindow {
         collapsed = false;
         focusAnim.cancel();
         save(notepadFrame, id);
-        if (prefs.contains(Constants.POS_X))
-            prefs.edit().putInt(Constants.POS_X,
-                    prefs.getInt(Constants.POS_X, -1) +
-                    prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) -
-                    prefs.getInt(Constants.WIDTH_PREF, (int)(Constants.DEFAULT_WIDTH * ApplicationWrapper.getInstance().getScreenSize().x))
-            ).apply();
+
+        WindowUtils.setXPx(WindowUtils.getXPx() - WindowUtils.getWidthPx() + WindowUtils.getSizePx());
+
         notepadFrame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
@@ -190,6 +185,7 @@ public class NotepadWindow extends StandOutWindow {
             public void run() {
                 unfocus(id);
                 updateViewLayout(id, getParams(id, null));
+                save(editText, id);
             }
         }, 10);
     }
@@ -199,9 +195,9 @@ public class NotepadWindow extends StandOutWindow {
         Point screen = ApplicationWrapper.getInstance().getScreenSize();
         if (prefs != null)
             return new StandOutLayoutParams(id,
-                    collapsed ? prefs.getInt(Constants.SMALL_WIDTH_PREF, Constants.DEFAULT_WIDTH_SMALL) : prefs.getInt(Constants.WIDTH_PREF, (int)(Constants.DEFAULT_WIDTH*screen.x)),
-                    collapsed ? prefs.getInt(Constants.SMALL_HEIGHT_PREF, Constants.DEFAULT_HEIGHT_SMALL) : prefs.getInt(Constants.HEIGHT_PREF, (int)(Constants.DEFAULT_HEIGHT*screen.y)),
-                    prefs.getInt(Constants.POS_X, StandOutLayoutParams.RIGHT), prefs.getInt(Constants.POS_Y, StandOutLayoutParams.TOP));
+                    collapsed ? WindowUtils.getSizePx() : WindowUtils.getWidthPx(),
+                    collapsed ? WindowUtils.getSizePx() : WindowUtils.getHeightPx(),
+                    WindowUtils.getXPx(), WindowUtils.getYPx());
         return new StandOutLayoutParams(id,
                 collapsed ? Constants.DEFAULT_WIDTH_SMALL : (int)(Constants.DEFAULT_WIDTH*screen.x),
                 collapsed ? Constants.DEFAULT_HEIGHT_SMALL : (int)(Constants.DEFAULT_HEIGHT*screen.y),
