@@ -122,7 +122,7 @@ public class NotepadWindow extends StandOutWindow {
 
         WindowUtils.setXPx(WindowUtils.getXPx() + WindowUtils.getWidthPx() - WindowUtils.getSizePx());
 
-        notepadFrame.findViewById(R.id.editText).setVisibility(View.GONE);
+        notepadFrame.findViewById(R.id.notepadContent).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class NotepadWindow extends StandOutWindow {
 
         WindowUtils.setXPx(WindowUtils.getXPx() - WindowUtils.getWidthPx() + WindowUtils.getSizePx());
 
-        notepadFrame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.notepadContent).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.VISIBLE);
@@ -158,7 +158,7 @@ public class NotepadWindow extends StandOutWindow {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notepad_layout, frame, true);
-        final EditText editText = (EditText) frame.findViewById(R.id.editText);
+        final EditText editText = (EditText) frame.findViewById(R.id.notepadContent);
 
         updateNotepad();
 
@@ -177,6 +177,7 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
 
+        //region Dock Button
         final ImageButton dock = (ImageButton) frame.findViewById(R.id.dockButton);
         dock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +187,9 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
         dock.setOnTouchListener(new DragMoveTouchListener(id));
+        //endregion
 
+        //region Undock Button
         ImageButton undock = (ImageButton) frame.findViewById(R.id.undockButton);
         undock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +199,9 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
         undock.setOnTouchListener(new DragMoveTouchListener(id));
+        //endregion
 
+        //region Menu Button
         ImageButton menu = (ImageButton) frame.findViewById(R.id.settingsButton);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +212,9 @@ public class NotepadWindow extends StandOutWindow {
             }
         });
         menu.setOnTouchListener(new DragMoveTouchListener(id));
+        //endregion
 
+        //region Note Selection Spinner
         final Spinner spinner = (Spinner) frame.findViewById(R.id.noteSelectionSpinner);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                 new ArrayList<String>(Arrays.asList(NotepadUtils.getNoteTitles())));
@@ -216,36 +223,12 @@ public class NotepadWindow extends StandOutWindow {
         spinner.setAdapter(adapter);
         spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));
 
-        adapter.add("Add new");
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = adapter.getItem(position);
-                if (item.equals("Add new")) {
-                    final EditText input = new EditText(ApplicationWrapper.getInstance());
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationWrapper.getInstance())
-                            .setTitle("New Note Title")
-                            .setView(input)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String newNote = input.getText().toString();
-                                    NotepadUtils.setCurrentNote(newNote);
-                                    adapter.insert(newNote, 0);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null);
-                    AlertDialog alert = builder.create();
-                    android.view.Window window = alert.getWindow();
-                    WindowManager.LayoutParams params = window.getAttributes();
-                    params.token = NotepadWindow.this.notepadView.getWindowToken();
-                    params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
-                    window.setAttributes(params);
-                    alert.show();
-                } else {
-                    NotepadUtils.setCurrentNote(item);
-                    updateNotepad();
-                }
+                NotepadUtils.setCurrentNote(item);
+                updateNotepad();
             }
 
             @Override
@@ -253,6 +236,38 @@ public class NotepadWindow extends StandOutWindow {
 
             }
         });
+        //endregion
+
+        //region Add Button
+        ImageButton add = (ImageButton) frame.findViewById(R.id.addButton);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText input = new EditText(ApplicationWrapper.getInstance());
+                AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationWrapper.getInstance())
+                        .setTitle("New Note Title")
+                        .setView(input)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String newNote = input.getText().toString();
+                                NotepadUtils.setCurrentNote(newNote);
+                                adapter.insert(newNote, 0);
+                                updateNotepad();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null);
+                AlertDialog alert = builder.create();
+                android.view.Window window = alert.getWindow();
+                WindowManager.LayoutParams params = window.getAttributes();
+                params.token = NotepadWindow.this.notepadView.getWindowToken();
+                params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+                window.setAttributes(params);
+                alert.show();
+            }
+        });
+        add.setOnTouchListener(new DragMoveTouchListener(id));
+        //endregion
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -265,7 +280,7 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     private void updateNotepad() {
-        ((EditText)notepadView.findViewById(R.id.editText)).setText(NotepadUtils.getCurrentNoteContent());
+        ((EditText)notepadView.findViewById(R.id.notepadContent)).setText(NotepadUtils.getCurrentNoteContent());
     }
 
     @Override
@@ -310,7 +325,7 @@ public class NotepadWindow extends StandOutWindow {
     }
 
     void save(View editText, int id) {
-        String text = ((EditText)editText.findViewById(R.id.editText)).getText().toString();
+        String text = ((EditText)editText.findViewById(R.id.notepadContent)).getText().toString();
         NotepadUtils.save(text);
         if (getWindow(id) != null) {
             WindowUtils.setXPx(getWindow(id).getLayoutParams().x);
@@ -325,7 +340,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void run() {
                 ApplicationWrapper.track("menu", "clear");
-                EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
+                EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.notepadContent);
                 et.setText("");
             }
         }));
@@ -343,7 +358,7 @@ public class NotepadWindow extends StandOutWindow {
                 ApplicationWrapper.track("menu", "paste");
                 try {
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                    EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.editText);
+                    EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.notepadContent);
                     et.setText(NotepadUtils.getCurrentNoteContent() + clipboard.getPrimaryClip().getItemAt(0).getText());
                 } catch (Exception ignored) { }
             }
@@ -386,7 +401,7 @@ public class NotepadWindow extends StandOutWindow {
         return items;
     }
 
-    int[] elementIds = new int[] { R.id.editText, R.id.titlebar, R.id.undockButton, R.id.settingsButton, R.id.dockButton };
+    int[] elementIds = new int[] { R.id.notepadContent, R.id.titlebar, R.id.undockButton, R.id.settingsButton, R.id.dockButton };
 
     @Override
     public boolean onFocusChange(int id, Window window, boolean focus) {

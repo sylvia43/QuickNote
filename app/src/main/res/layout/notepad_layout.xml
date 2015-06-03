@@ -45,14 +45,23 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
+            <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/addButton"
+                android:background="@drawable/ic_action_new"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@id/dockButton" />
+
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/noteSelectionSpinner"
+                android:layout_toLeftOf="@id/addButton"
                 android:layout_toRightOf="@id/settingsButton"
-                android:layout_toLeftOf="@id/dockButton"
-                android:layout_toEndOf="@id/settingsButton"
-                android:layout_toStartOf="@id/dockButton" />
+                android:layout_toStartOf="@id/addButton"
+                android:layout_toEndOf="@id/settingsButton" />
 
             <ImageButton
                 android:layout_width="48dp"
@@ -72,7 +81,7 @@
             android:layout_below="@+id/titlebar">
 
             <me.shreyasr.quicknote.MyEditText
-                android:id="@+id/editText"
+                android:id="@+id/notepadContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="5dp"
