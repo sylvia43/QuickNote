@@ -15,10 +15,9 @@ public class NoteBackupAgent extends BackupAgentHelper {
     public void onCreate() {
         Log.d("Backup", "Creating");
         SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(ApplicationWrapper.getInstance(),
-                Constants.NOTE_CONTENT, Constants.COLLAPSED,
-                Constants.POS_X, Constants.POS_Y,
-                Constants.WIDTH_PREF, Constants.HEIGHT_PREF,
-                Constants.SIZE_PREF);
+                Constants.NOTE_TITLES, Constants.CURRENT_NOTE, Constants.COLLAPSED, // NotepadUtils.getNoteTitles()
+                Constants.WIDTH_PREF, Constants.HEIGHT_PREF, Constants.SIZE_PREF,
+                Constants.POS_X, Constants.POS_Y);
         addHelper("prefs", helper);
     }
 

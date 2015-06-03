@@ -2,7 +2,8 @@ package me.shreyasr.quicknote;
 
 public class Constants {
 
-    public static final String NOTE_CONTENT = "NOTE_CONTENT";
+    public static final String NOTE_TITLES = "NOTE_TITLE";
+    public static final String CURRENT_NOTE = "CURRENT_NOTE";
     public static final String POS_X = "POS_X";
     public static final String POS_Y = "POS_Y";
     public static final String COLLAPSED = "COLLAPSED";

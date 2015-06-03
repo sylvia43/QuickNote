@@ -6,7 +6,6 @@ public class WindowUtils {
 
     private final static SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
 
-    // prefs.getInt(Constants.POS_X, StandOutLayoutParams.RIGHT), prefs.getInt(Constants.POS_Y, StandOutLayoutParams.TOP));
     public static int getXPx() {
         return prefs.getInt(Constants.POS_X, 0);
     }
