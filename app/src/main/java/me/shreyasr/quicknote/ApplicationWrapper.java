@@ -12,6 +12,10 @@ import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import wei.mark.standout.StandOutWindow;
 
 public class ApplicationWrapper extends Application {
@@ -24,6 +28,22 @@ public class ApplicationWrapper extends Application {
         super.onCreate();
         instance = this;
         backupManager = new BackupManager(this);
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+        tracker = analytics.newTracker("UA-63677547-1"); // Replace with actual tracker/property Id
+        tracker.setScreenName("QuickNote Tracker");
+        tracker.enableExceptionReporting(true);
+    }
+
+    Tracker tracker = null;
+    GoogleAnalytics analytics = null;
+    public Tracker getTracker() { return tracker; }
+
+    public static void track(String category, String action) {
+        instance.tracker.send(new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(action)
+                .build());
     }
 
     BackupManager backupManager = null;

@@ -42,6 +42,7 @@ public class InfoPopup extends StandOutWindow {
         githubLink.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                ApplicationWrapper.track("about", "github");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/anubiann00b/QuickNote"));
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -59,6 +60,7 @@ public class InfoPopup extends StandOutWindow {
         feedback.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                ApplicationWrapper.track("about", "feedback");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Intent i = new Intent(Intent.ACTION_SENDTO);
                     i.setType("text/plain");
