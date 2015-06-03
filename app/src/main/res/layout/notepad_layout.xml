@@ -45,10 +45,19 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/noteSelectionSpinner"
+                android:layout_toRightOf="@id/settingsButton"
+                android:layout_toLeftOf="@id/dockButton"
+                android:layout_toEndOf="@id/settingsButton"
+                android:layout_toStartOf="@id/dockButton" />
+
             <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:id="@+id/openButton"
+                android:id="@+id/undockButton"
                 android:background="@drawable/ic_action_navigation_expand"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"

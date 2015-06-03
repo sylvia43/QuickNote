@@ -16,9 +16,11 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +37,20 @@ public class NotepadWindow extends StandOutWindow {
         int sx = 0;
         int sy = 0;
         final int id;
-        final int xOff;
+        int xOff;
+        private View view;
 
-        DragMoveTouchListener(int id, int xOff) {
+        DragMoveTouchListener(int id) {
+            this(id, null);
+        }
+
+        /*
+         * View is for a Spinner or such object, which highlights on down
+         * and only dehighlights when it's activated on up.
+         */
+        DragMoveTouchListener(int id, View view) {
             this.id = id;
-            this.xOff = xOff;
+            this.view = view;
         }
 
         @Override
@@ -50,7 +61,11 @@ public class NotepadWindow extends StandOutWindow {
                 case MotionEvent.ACTION_DOWN:
                     sx = Math.round(event.getRawX());
                     sy = Math.round(event.getRawY());
-                    return false;
+                    xOff = sx - WindowUtils.getXPx();
+                    if (view == null)
+                        return false;
+                    else
+                        return true;
                 case MotionEvent.ACTION_MOVE:
                     int ex = Math.round(event.getRawX());
                     int ey = Math.round(event.getRawY());
@@ -59,15 +74,18 @@ public class NotepadWindow extends StandOutWindow {
                     if ((ex - sx) * (ex - sx) + (ey - sy) * (ey - sy) < 20 * 20)
                         return false;
 
-                    int size = WindowUtils.getSizePx();
-                    WindowUtils.setXPx(ex - xOff - size/2);
-                    WindowUtils.setYPx(ey-size);
+                    WindowUtils.setXPx(ex-xOff);
+                    WindowUtils.setYPx(ey-WindowUtils.getSizePx());
 
                     updateViewLayout(id, getParams(id, null));
                     return true;
                 case MotionEvent.ACTION_UP:
                     if (dragging > 5) {
                         dragging = 0;
+                        return true;
+                    }
+                    if (view != null) {
+                        view.performClick();
                         return true;
                     }
                 default:
@@ -97,12 +115,13 @@ public class NotepadWindow extends StandOutWindow {
         focusAnim.cancel();
         save(notepadFrame, id);
 
-        WindowUtils.setXPx(WindowUtils.getXPx()+WindowUtils.getWidthPx()-WindowUtils.getSizePx());
+        WindowUtils.setXPx(WindowUtils.getXPx() + WindowUtils.getWidthPx() - WindowUtils.getSizePx());
 
         notepadFrame.findViewById(R.id.editText).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
-        notepadFrame.findViewById(R.id.openButton).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.GONE);
+        notepadFrame.findViewById(R.id.undockButton).setVisibility(View.VISIBLE);
         unfocus(id);
         updateViewLayout(id, getParams(id, null));
     }
@@ -117,7 +136,8 @@ public class NotepadWindow extends StandOutWindow {
         notepadFrame.findViewById(R.id.editText).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
-        notepadFrame.findViewById(R.id.openButton).setVisibility(View.GONE);
+        notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.undockButton).setVisibility(View.GONE);
         unfocus(id);
         updateViewLayout(id, getParams(id, null));
     }
@@ -160,9 +180,9 @@ public class NotepadWindow extends StandOutWindow {
                 ApplicationWrapper.track("window", "dock");
             }
         });
-        dock.setOnTouchListener(new DragMoveTouchListener(id, WindowUtils.getWidthPx()-WindowUtils.getSizePx()));
+        dock.setOnTouchListener(new DragMoveTouchListener(id, WindowUtils.getWidthPx() - WindowUtils.getSizePx()));
 
-        ImageButton undock = (ImageButton) frame.findViewById(R.id.openButton);
+        ImageButton undock = (ImageButton) frame.findViewById(R.id.undockButton);
         undock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +190,7 @@ public class NotepadWindow extends StandOutWindow {
                 ApplicationWrapper.track("window", "undock");
             }
         });
-        undock.setOnTouchListener(new DragMoveTouchListener(id, 0));
+        undock.setOnTouchListener(new DragMoveTouchListener(id));
 
         ImageButton menu = (ImageButton) frame.findViewById(R.id.settingsButton);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +201,13 @@ public class NotepadWindow extends StandOutWindow {
                 ApplicationWrapper.track("window", "menu open");
             }
         });
-        menu.setOnTouchListener(new DragMoveTouchListener(id, 0));
+        menu.setOnTouchListener(new DragMoveTouchListener(id));
+
+        final Spinner spinner = (Spinner) frame.findViewById(R.id.noteSelectionSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[]{"ayyyy", "lmao"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -311,7 +337,7 @@ public class NotepadWindow extends StandOutWindow {
         return items;
     }
 
-    int[] elementIds = new int[] { R.id.editText, R.id.titlebar, R.id.openButton, R.id.settingsButton, R.id.dockButton };
+    int[] elementIds = new int[] { R.id.editText, R.id.titlebar, R.id.undockButton, R.id.settingsButton, R.id.dockButton };
 
     @Override
     public boolean onFocusChange(int id, Window window, boolean focus) {
