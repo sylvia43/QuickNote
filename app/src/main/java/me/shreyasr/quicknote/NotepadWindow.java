@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -238,6 +239,8 @@ public class NotepadWindow extends StandOutWindow {
 
             }
         });
+        spinner.setSelection(adapter.getPosition(NotepadUtils.getCurrentNoteTitle()));
+
         //endregion
 
         //region Add Button
@@ -246,7 +249,8 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 final EditText input = new EditText(ApplicationWrapper.getInstance());
-                AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationWrapper.getInstance())
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        new ContextThemeWrapper(ApplicationWrapper.getInstance(), android.R.style.Theme_DeviceDefault_Dialog))
                         .setTitle("New Note Title")
                         .setView(input)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
