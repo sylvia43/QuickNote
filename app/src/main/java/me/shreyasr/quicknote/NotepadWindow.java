@@ -249,6 +249,19 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 final EditText input = new EditText(ApplicationWrapper.getInstance());
+                input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        input.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager inputMethodManager = (InputMethodManager) ApplicationWrapper.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                inputMethodManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+                            }
+                        });
+                    }
+                });
+                input.requestFocus();
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         new ContextThemeWrapper(ApplicationWrapper.getInstance(), android.R.style.Theme_DeviceDefault_Dialog))
                         .setTitle("New Note Title")
