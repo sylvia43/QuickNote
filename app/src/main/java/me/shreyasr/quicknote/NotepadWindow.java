@@ -126,6 +126,7 @@ public class NotepadWindow extends StandOutWindow {
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.GONE);
+        notepadFrame.findViewById(R.id.addButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.undockButton).setVisibility(View.VISIBLE);
         unfocus(id);
         updateViewLayout(id, getParams(id, null));
@@ -142,6 +143,7 @@ public class NotepadWindow extends StandOutWindow {
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.addButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.undockButton).setVisibility(View.GONE);
         unfocus(id);
         updateViewLayout(id, getParams(id, null));
@@ -217,7 +219,7 @@ public class NotepadWindow extends StandOutWindow {
         //region Note Selection Spinner
         final Spinner spinner = (Spinner) frame.findViewById(R.id.noteSelectionSpinner);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new ArrayList<String>(Arrays.asList(NotepadUtils.getNoteTitles())));
+                new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

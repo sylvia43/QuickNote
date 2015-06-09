@@ -20,17 +20,22 @@ public class NotepadUtils {
     }
 
     public static String[] getNoteTitles() {
-        String titles = prefs.getString(Constants.NOTE_TITLES, "");
-        if (titles.isEmpty())
-            return new String[0];
-        return titles.split(",");
+        if (prefs.getString(Constants.NOTE_TITLES, "").isEmpty()) {
+            String defaultNoteTitle = ApplicationWrapper.getInstance().getString(R.string.deault_note_name);
+            addNote(defaultNoteTitle);
+            prefs.edit().putString(Constants.CURRENT_NOTE, defaultNoteTitle).apply();
+        }
+        return prefs.getString(Constants.NOTE_TITLES, "").split(",");
     }
 
     public synchronized static void addNote(String title) {
         String titles = prefs.getString(Constants.NOTE_TITLES, "");
-        prefs.edit()
-                .putString(Constants.NOTE_TITLES, titles + "," + title)
-                .putString(title, "").apply();
+        SharedPreferences.Editor edit = prefs.edit();
+        if (!"".equals(titles))
+            edit.putString(Constants.NOTE_TITLES, titles + "," + title);
+        else
+            edit.putString(Constants.NOTE_TITLES, title);
+        edit.apply();
     }
 
     public static void setCurrentNote(String currentNote) {
@@ -47,11 +52,9 @@ public class NotepadUtils {
     }
 
     public static void save(String text) {
-        if (hasCurrentNote()) {
+        if (hasCurrentNote())
             prefs.edit().putString(getCurrentNoteTitle(), text).apply();
-        } else {
-            addNote("default");
+        else
             setCurrentNote("default");
-        }
     }
 }
