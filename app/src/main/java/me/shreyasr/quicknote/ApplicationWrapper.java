@@ -8,9 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -18,11 +16,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.Map;
-
+import me.shreyasr.quicknote.window.NotepadWindow;
 import wei.mark.standout.StandOutWindow;
 
 public class ApplicationWrapper extends Application {

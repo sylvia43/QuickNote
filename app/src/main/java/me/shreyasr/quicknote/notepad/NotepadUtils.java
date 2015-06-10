@@ -1,8 +1,12 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.notepad;
 
 import android.content.SharedPreferences;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.Constants;
+import me.shreyasr.quicknote.R;
+import me.shreyasr.quicknote.window.NotepadWindow;
 
 public class NotepadUtils {
 
@@ -78,9 +82,9 @@ public class NotepadUtils {
     }
 
     public static void updateNotepad() {
-        ((EditText)NotepadWindow.instance.notepadView.findViewById(R.id.notepadContent)).setText(getCurrentNoteContent());
-        CustomSpinner spinner = NotepadWindow.instance.spinner;
-        NoteListAdapter adapter = (NoteListAdapter) spinner.getAdapter();
+        ((EditText) NotepadWindow.instance.notepadView.findViewById(R.id.notepadContent)).setText(getCurrentNoteContent());
+        NoteSwitchSpinner spinner = NotepadWindow.instance.spinner;
+        NoteSwitchSpinnerAdapter adapter = (NoteSwitchSpinnerAdapter) spinner.getAdapter();
         spinner.setSelection(adapter.getPosition(getCurrentNoteTitle()));
         adapter.notifyDataSetChanged();
     }

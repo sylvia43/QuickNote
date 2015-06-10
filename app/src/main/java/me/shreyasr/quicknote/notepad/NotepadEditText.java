@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.notepad;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,12 +8,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-public class MyEditText extends EditText {
+import me.shreyasr.quicknote.R;
+
+public class NotepadEditText extends EditText {
 
     private static Paint linePaint;
     private Rect bounds = new Rect();
 
-    public MyEditText(Context context, AttributeSet attributes) {
+    public NotepadEditText(Context context, AttributeSet attributes) {
         super(context, attributes);
         linePaint = new Paint();
         linePaint.setColor(getResources().getColor(R.color.lines));

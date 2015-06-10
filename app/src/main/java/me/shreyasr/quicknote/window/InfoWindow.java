@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.window;
 
 import android.app.Notification;
 import android.content.Context;
@@ -16,11 +16,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
 
-public class InfoPopup extends StandOutWindow {
+public class InfoWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
@@ -46,8 +48,8 @@ public class InfoPopup extends StandOutWindow {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/anubiann00b/QuickNote"));
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    InfoPopup.this.startActivity(i);
-                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
+                    InfoWindow.this.startActivity(i);
+                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
                     NotepadWindow.instance.show(0);
                     NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
@@ -68,8 +70,8 @@ public class InfoPopup extends StandOutWindow {
                     i.putExtra(Intent.EXTRA_EMAIL, new String[] { "skraman1999@gmail.com" });
                     i.putExtra(Intent.EXTRA_SUBJECT, "QuickNote Feedback");
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    InfoPopup.this.startActivity(i);
-                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
+                    InfoWindow.this.startActivity(i);
+                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
                     NotepadWindow.instance.show(0);
                     NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
@@ -81,7 +83,7 @@ public class InfoPopup extends StandOutWindow {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StandOutWindow.close(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
+                StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
                 NotepadWindow.instance.show(0);
             }
         });

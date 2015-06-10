@@ -3,6 +3,7 @@ package me.shreyasr.quicknote;
 import android.app.Activity;
 import android.os.Bundle;
 
+import me.shreyasr.quicknote.window.NotepadWindow;
 import wei.mark.standout.StandOutWindow;
 
 public class LauncherActivity extends Activity {

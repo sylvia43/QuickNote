@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.window;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -27,6 +27,12 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.Constants;
+import me.shreyasr.quicknote.notepad.NoteSwitchSpinner;
+import me.shreyasr.quicknote.notepad.NoteSwitchSpinnerAdapter;
+import me.shreyasr.quicknote.notepad.NotepadUtils;
+import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
@@ -100,7 +106,7 @@ public class NotepadWindow extends StandOutWindow {
     private SharedPreferences prefs;
     boolean collapsed = false;
     public FrameLayout notepadView;
-    public CustomSpinner spinner;
+    public NoteSwitchSpinner spinner;
     Animation focusAnim = new AlphaAnimation(0, 1);
 
     @Override
@@ -213,8 +219,8 @@ public class NotepadWindow extends StandOutWindow {
         //endregion
 
         //region Note Selection Spinner
-        spinner = (CustomSpinner) frame.findViewById(R.id.noteSelectionSpinner);
-        final NoteListAdapter adapter = new NoteListAdapter();
+        spinner = (NoteSwitchSpinner) frame.findViewById(R.id.noteSelectionSpinner);
+        final NoteSwitchSpinnerAdapter adapter = new NoteSwitchSpinnerAdapter();
 
         spinner.setAdapter(adapter);
         spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));
@@ -388,7 +394,7 @@ public class NotepadWindow extends StandOutWindow {
             public void run() {
                 ApplicationWrapper.track("menu", "prefs");
                 StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_about, getString(R.string.menu_about), new Runnable() {
@@ -396,7 +402,7 @@ public class NotepadWindow extends StandOutWindow {
             public void run() {
                 ApplicationWrapper.track("menu", "about");
                 StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), InfoPopup.class, 1);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_action_cancel, getString(R.string.menu_save_quit), new Runnable() {

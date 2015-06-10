@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:name="me.shreyasr.quicknote.ApplicationWrapper"
         android:theme="@android:style/Theme.Translucent.NoTitleBar"
-        android:backupAgent=".NoteBackupAgent" >
+        android:backupAgent=".notepad.NoteBackupAgent" >
         <meta-data android:name="com.google.android.backup.api_key"
                    android:value="AEdPqrEAAAAIEWK6Kr-mlHHitMxz8zsaDWlHxXjyvI1eFT1JzA" />
         <meta-data
@@ -42,11 +42,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name="me.shreyasr.quicknote.NotepadWindow" >
+        <service android:name=".window.NotepadWindow" >
         </service>
-        <service android:name="me.shreyasr.quicknote.PreferencesPopup" >
+        <service android:name=".window.PreferencesWindow" >
         </service>
-        <service android:name="me.shreyasr.quicknote.InfoPopup" >
+        <service android:name=".window.InfoWindow" >
         </service>
     </application>
 

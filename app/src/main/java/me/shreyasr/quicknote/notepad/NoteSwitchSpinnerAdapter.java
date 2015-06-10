@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.notepad;
 
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -12,12 +12,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class NoteListAdapter extends BaseAdapter {
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.R;
+
+public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 
     private final List<String> noteTitles;
      DialogInterface dialog;
 
-    public NoteListAdapter() {
+    public NoteSwitchSpinnerAdapter() {
         noteTitles = Collections.synchronizedList(new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
     }
 

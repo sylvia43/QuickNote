@@ -1,6 +1,9 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.window;
 
 import android.content.SharedPreferences;
+
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.Constants;
 
 public class WindowUtils {
 

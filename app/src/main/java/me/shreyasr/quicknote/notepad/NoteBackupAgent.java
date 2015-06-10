@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.notepad;
 
 import android.app.backup.BackupAgentHelper;
 import android.app.backup.BackupDataInput;
@@ -8,6 +8,9 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import java.io.IOException;
+
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.Constants;
 
 public class NoteBackupAgent extends BackupAgentHelper {
 

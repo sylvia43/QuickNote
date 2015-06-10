@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.window;
 
 import android.app.Notification;
 import android.content.Context;
@@ -16,11 +16,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 
+import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.Constants;
+import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
 
-public class PreferencesPopup extends StandOutWindow {
+public class PreferencesWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
@@ -116,7 +119,7 @@ public class PreferencesPopup extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 edit.apply();
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
         });
@@ -125,7 +128,7 @@ public class PreferencesPopup extends StandOutWindow {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
         });
@@ -136,7 +139,7 @@ public class PreferencesPopup extends StandOutWindow {
             public void onClick(View v) {
                 prefs.edit().putInt(Constants.OPACITY, Constants.DEFAULT_OPACITY).putBoolean(Constants.LOCK, false).apply();
                 WindowUtils.reset();
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesPopup.class, 1);
+                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
         });

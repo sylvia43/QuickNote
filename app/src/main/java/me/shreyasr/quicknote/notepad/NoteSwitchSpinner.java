@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote;
+package me.shreyasr.quicknote.notepad;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,20 +14,23 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
-public class CustomSpinner extends Spinner {
+import me.shreyasr.quicknote.R;
+import me.shreyasr.quicknote.window.NotepadWindow;
+
+public class NoteSwitchSpinner extends Spinner {
 
     private AlertDialog mPopup;
     private DialogInterface.OnClickListener onClickListener;
 
-    public CustomSpinner(Context context) {
+    public NoteSwitchSpinner(Context context) {
         super(context);
     }
 
-    public CustomSpinner(Context context, AttributeSet attrs) {
+    public NoteSwitchSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomSpinner(Context context, AttributeSet attrs, int defStyle) {
+    public NoteSwitchSpinner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -77,7 +80,7 @@ public class CustomSpinner extends Spinner {
         window.setAttributes(params);
         alert.show();
 
-        ((NoteListAdapter)getAdapter()).dialog = alert;
+        ((NoteSwitchSpinnerAdapter)getAdapter()).dialog = alert;
 
         //ListView.getDefaultSize(size, measureSpec)
         ListView listView = mPopup.getListView();

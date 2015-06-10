@@ -55,7 +55,7 @@
                 android:layout_toLeftOf="@id/dockButton"
                 android:layout_toStartOf="@id/dockButton" />
 
-            <me.shreyasr.quicknote.CustomSpinner
+            <me.shreyasr.quicknote.notepad.NoteSwitchSpinner
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/noteSelectionSpinner"
@@ -82,7 +82,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/titlebar">
 
-            <me.shreyasr.quicknote.MyEditText
+            <me.shreyasr.quicknote.notepad.NotepadEditText
                 android:id="@+id/notepadContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -106,7 +106,7 @@
                 android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="false"
                 android:layout_gravity="center">
-            </me.shreyasr.quicknote.MyEditText>
+            </me.shreyasr.quicknote.notepad.NotepadEditText>
 
         </FrameLayout>
     </RelativeLayout>
