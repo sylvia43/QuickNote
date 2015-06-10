@@ -64,6 +64,10 @@ public class WindowUtils {
         return ApplicationWrapper.getInstance().getResources().getDisplayMetrics().density;
     }
 
+    public static int dpToPx(int dp) {
+        return (int) (dp*getDensity());
+    }
+
     public static void reset() {
         setWidthPx(getDefaultWidthPx());
         setHeightPx(getDefaultHeightPx());

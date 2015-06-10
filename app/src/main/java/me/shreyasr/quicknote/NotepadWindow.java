@@ -20,15 +20,11 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import wei.mark.standout.StandOutWindow;
@@ -104,6 +100,7 @@ public class NotepadWindow extends StandOutWindow {
     private SharedPreferences prefs;
     boolean collapsed = false;
     public FrameLayout notepadView;
+    public CustomSpinner spinner;
     Animation focusAnim = new AlphaAnimation(0, 1);
 
     @Override
@@ -163,8 +160,6 @@ public class NotepadWindow extends StandOutWindow {
         inflater.inflate(R.layout.notepad_layout, frame, true);
         final EditText editText = (EditText) frame.findViewById(R.id.notepadContent);
 
-        updateNotepad();
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -218,25 +213,21 @@ public class NotepadWindow extends StandOutWindow {
         //endregion
 
         //region Note Selection Spinner
-        final Spinner spinner = (Spinner) frame.findViewById(R.id.noteSelectionSpinner);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
+        spinner = (CustomSpinner) frame.findViewById(R.id.noteSelectionSpinner);
+        final NoteListAdapter adapter = new NoteListAdapter();
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setPopupBackgroundDrawable(null);
+        spinner.setPopupBackgroundResource(R.drawable.spinner_dropdown_background);
+        spinner.setCustomItemClickListener(new DialogInterface.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(DialogInterface dialog, int position) {
+                spinner.setSelection(position);
                 String item = adapter.getItem(position);
                 NotepadUtils.setCurrentNote(item);
-                updateNotepad();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                dialog.dismiss();
             }
         });
         spinner.setSelection(adapter.getPosition(NotepadUtils.getCurrentNoteTitle()));
@@ -270,9 +261,9 @@ public class NotepadWindow extends StandOutWindow {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String newNote = input.getText().toString();
-                                NotepadUtils.setCurrentNote(newNote);
                                 adapter.insert(newNote, 0);
-                                updateNotepad();
+                                NotepadUtils.setCurrentNote(newNote);
+                                NotepadUtils.updateNotepad();
                             }
                         })
                         .setNegativeButton(android.R.string.no, null);
@@ -288,6 +279,8 @@ public class NotepadWindow extends StandOutWindow {
         add.setOnTouchListener(new DragMoveTouchListener(id));
         //endregion
 
+        NotepadUtils.updateNotepad();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -296,10 +289,6 @@ public class NotepadWindow extends StandOutWindow {
                 save(editText, id);
             }
         }, 10);
-    }
-
-    private void updateNotepad() {
-        ((EditText)notepadView.findViewById(R.id.notepadContent)).setText(NotepadUtils.getCurrentNoteContent());
     }
 
     @Override
@@ -345,7 +334,7 @@ public class NotepadWindow extends StandOutWindow {
 
     void save(View editText, int id) {
         String text = ((EditText)editText.findViewById(R.id.notepadContent)).getText().toString();
-        NotepadUtils.save(text);
+        NotepadUtils.saveContent(text);
         if (getWindow(id) != null) {
             WindowUtils.setXPx(getWindow(id).getLayoutParams().x);
             WindowUtils.setYPx(getWindow(id).getLayoutParams().y);
