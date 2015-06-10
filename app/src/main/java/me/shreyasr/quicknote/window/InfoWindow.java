@@ -50,7 +50,7 @@ public class InfoWindow extends StandOutWindow {
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     InfoWindow.this.startActivity(i);
                     StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
-                    NotepadWindow.instance.show(0);
+                        NotepadWindow.instance.show(0);
                     NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
                 return true;

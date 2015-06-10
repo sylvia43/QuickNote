@@ -53,25 +53,23 @@ public class NoteSwitchSpinner extends Spinner {
         this.onClickListener = listener;
     }
 
-    //when clicked alertDialog is made
     @Override
     public boolean performClick() {
         Context context = getContext();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         CharSequence prompt = getPrompt();
-        if (prompt != null) {
+        if (prompt != null)
             builder.setTitle(prompt);
-        }
 
         mPopup = builder.setSingleChoiceItems(new DropDownAdapter(getAdapter()), getSelectedItemPosition(), onClickListener).create();
 
         AlertDialog alert = builder.create();
         android.view.Window window = alert.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
-        params.x = 0; // x position
-        params.y = 50; // y position
-        params.height = 390; //LayoutParams.WRAP_CONTEN
+        params.x = 0;
+        params.y = 50;
+        params.height = 390;
         params.width = 315;
         params.horizontalMargin = 0;
         params.verticalMargin = 0;
@@ -82,20 +80,16 @@ public class NoteSwitchSpinner extends Spinner {
 
         ((NoteSwitchSpinnerAdapter)getAdapter()).dialog = alert;
 
-        //ListView.getDefaultSize(size, measureSpec)
         ListView listView = mPopup.getListView();
-        //listView.set
-        // Remove divider between rows
         listView.setDivider(null);
 
         // Set custom background
         listView.setBackgroundResource(R.drawable.spinner_dropdown_background);
 
-        // Remove background from all (grand)parent's
+        // Remove background up the hierarchy
         ViewParent parent = listView.getParent();
         while (parent != null && parent instanceof View) {
             ((View) parent).setBackgroundDrawable(null);
-
             parent = parent.getParent();
         }
 
@@ -109,13 +103,9 @@ public class NoteSwitchSpinner extends Spinner {
     }
 
     private static class DropDownAdapter implements ListAdapter, SpinnerAdapter {
+
         private SpinnerAdapter mAdapter;
 
-        /**
-         * <p>Creates a new ListAddapter wrapper for the specified adapter.</p>
-         *
-         * @param adapter the Adapter to transform into a ListAdapter
-         */
         public DropDownAdapter(SpinnerAdapter adapter) {
             this.mAdapter = adapter;
         }
@@ -156,20 +146,10 @@ public class NoteSwitchSpinner extends Spinner {
             }
         }
 
-        /**
-         * <p>Always returns false.</p>
-         *
-         * @return false
-         */
         public boolean areAllItemsEnabled() {
             return true;
         }
 
-        /**
-         * <p>Always returns false.</p>
-         *
-         * @return false
-         */
         public boolean isEnabled(int position) {
             return true;
         }

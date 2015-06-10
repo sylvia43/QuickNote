@@ -71,13 +71,13 @@ public class NotepadUtils {
         setCurrentNote(newTitle);
     }
 
-    public static void removeNoteTitle(String item) {
-        if (!hasNoteTitle(item))
+    public static void removeNoteTitle(String titleToRemove) {
+        if (!hasNoteTitle(titleToRemove))
             return;
         String titles = prefs.getString(Constants.NOTE_TITLES, "");
-        titles = titles.replace(item + ",", "").replace("," + item, "");
-        prefs.edit().putString(Constants.NOTE_TITLES, titles).apply();
-        if (item.equals(getCurrentNoteTitle()))
+        titles = titles.replace(titleToRemove + ",", "").replace("," + titleToRemove, "");
+        prefs.edit().putString(Constants.NOTE_TITLES, titles).remove(titleToRemove).apply();
+        if (titleToRemove.equals(getCurrentNoteTitle()))
             setCurrentNote(getNoteTitles()[0]);
     }
 
