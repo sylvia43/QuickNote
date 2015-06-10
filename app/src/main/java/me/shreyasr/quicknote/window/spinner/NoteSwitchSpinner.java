@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote.notepad;
+package me.shreyasr.quicknote.window.spinner;
 
 import android.app.AlertDialog;
 import android.content.Context;

@@ -7,6 +7,8 @@ import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.window.NotepadWindow;
+import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner;
+import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinnerAdapter;
 
 public class NotepadUtils {
 

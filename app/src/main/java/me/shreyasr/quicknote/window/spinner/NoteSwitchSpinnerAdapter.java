@@ -1,4 +1,4 @@
-package me.shreyasr.quicknote.notepad;
+package me.shreyasr.quicknote.window.spinner;
 
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import java.util.List;
 
 import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.R;
+import me.shreyasr.quicknote.notepad.NotepadUtils;
 
 public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 

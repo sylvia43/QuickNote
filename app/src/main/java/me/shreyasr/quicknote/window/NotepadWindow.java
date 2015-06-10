@@ -29,8 +29,8 @@ import java.util.List;
 
 import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.Constants;
-import me.shreyasr.quicknote.notepad.NoteSwitchSpinner;
-import me.shreyasr.quicknote.notepad.NoteSwitchSpinnerAdapter;
+import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner;
+import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinnerAdapter;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
 import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
