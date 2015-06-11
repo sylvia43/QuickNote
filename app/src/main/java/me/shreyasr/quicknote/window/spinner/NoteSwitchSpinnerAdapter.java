@@ -19,7 +19,7 @@ import me.shreyasr.quicknote.notepad.NotepadUtils;
 public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 
     private final List<String> noteTitles;
-     DialogInterface dialog;
+    DialogInterface dialog;
 
     public NoteSwitchSpinnerAdapter() {
         noteTitles = Collections.synchronizedList(new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
@@ -68,6 +68,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                 String originalTitle = getItem(position);
                 noteTitles.set(position, "asdf");
                 NotepadUtils.editNoteTitle(originalTitle, "asdf");
+                notifyDataSetChanged();
                 if (dialog != null) dialog.dismiss();
             }
         });
@@ -78,6 +79,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                 String toRemove = getItem(position);
                 noteTitles.remove(position);
                 NotepadUtils.removeNoteTitle(toRemove);
+                notifyDataSetChanged();
                 if (dialog != null) dialog.dismiss();
             }
         });

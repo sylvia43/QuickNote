@@ -59,7 +59,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/noteSelectionSpinner"
-                android:dropDownWidth="250dp"
                 android:layout_toLeftOf="@id/addButton"
                 android:layout_toRightOf="@id/settingsButton"
                 android:layout_toStartOf="@id/addButton"

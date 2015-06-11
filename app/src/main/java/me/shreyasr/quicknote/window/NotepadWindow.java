@@ -29,10 +29,10 @@ import java.util.List;
 
 import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.Constants;
+import me.shreyasr.quicknote.R;
+import me.shreyasr.quicknote.notepad.NotepadUtils;
 import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner;
 import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinnerAdapter;
-import me.shreyasr.quicknote.notepad.NotepadUtils;
-import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
@@ -227,9 +227,9 @@ public class NotepadWindow extends StandOutWindow {
 
         spinner.setPopupBackgroundDrawable(null);
         spinner.setPopupBackgroundResource(R.drawable.spinner_dropdown_background);
-        spinner.setCustomItemClickListener(new DialogInterface.OnClickListener() {
+        spinner.setCustomOnClickListener(new NoteSwitchSpinner.NoteTitleClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int position) {
+            public void onNoteTitleClick(NoteSwitchSpinner.DropdownPopup dialog, int position) {
                 spinner.setSelection(position);
                 String item = adapter.getItem(position);
                 NotepadUtils.setCurrentNote(item);

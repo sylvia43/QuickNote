@@ -1,98 +1,69 @@
 package me.shreyasr.quicknote.window.spinner;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
-import me.shreyasr.quicknote.R;
-import me.shreyasr.quicknote.window.NotepadWindow;
+import me.shreyasr.quicknote.window.WindowUtils;
 
 public class NoteSwitchSpinner extends Spinner {
 
-    private AlertDialog mPopup;
-    private DialogInterface.OnClickListener onClickListener;
+    NoteTitleClickListener onClickListener;
+    DropdownPopup dropdownPopup;
 
     public NoteSwitchSpinner(Context context) {
-        super(context);
+        this(context, null);
+    }
+
+    public NoteSwitchSpinner(Context context, int mode) {
+        this(context, null, android.R.attr.spinnerStyle, mode);
     }
 
     public NoteSwitchSpinner(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, android.R.attr.spinnerStyle);
     }
 
-    public NoteSwitchSpinner(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public NoteSwitchSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0, -1);
+    }
+
+
+    public NoteSwitchSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
+        this(context, attrs, defStyleAttr, 0, mode);
+    }
+
+    public NoteSwitchSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int mode) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        dropdownPopup = new DropdownPopup(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        dropdownPopup.setAdapter(new DropDownAdapter(getAdapter()));
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
-        if (mPopup != null && mPopup.isShowing()) {
-            mPopup.dismiss();
-            mPopup = null;
-        }
     }
 
-    public void setCustomItemClickListener(DialogInterface.OnClickListener listener) {
+    public void setCustomOnClickListener(NoteTitleClickListener listener) {
         this.onClickListener = listener;
     }
 
     @Override
     public boolean performClick() {
-        Context context = getContext();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        CharSequence prompt = getPrompt();
-        if (prompt != null)
-            builder.setTitle(prompt);
-
-        mPopup = builder.setSingleChoiceItems(new DropDownAdapter(getAdapter()), getSelectedItemPosition(), onClickListener).create();
-
-        AlertDialog alert = builder.create();
-        android.view.Window window = alert.getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.x = 0;
-        params.y = 50;
-        params.height = 390;
-        params.width = 315;
-        params.horizontalMargin = 0;
-        params.verticalMargin = 0;
-        params.token = NotepadWindow.instance.notepadView.getWindowToken();
-        params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
-        window.setAttributes(params);
-        alert.show();
-
-        ((NoteSwitchSpinnerAdapter)getAdapter()).dialog = alert;
-
-        ListView listView = mPopup.getListView();
-        listView.setDivider(null);
-
-        // Set custom background
-        listView.setBackgroundResource(R.drawable.spinner_dropdown_background);
-
-        // Remove background up the hierarchy
-        ViewParent parent = listView.getParent();
-        while (parent != null && parent instanceof View) {
-            ((View) parent).setBackgroundDrawable(null);
-            parent = parent.getParent();
-        }
-
+        dropdownPopup.show(false);
         return true;
     }
 
@@ -166,5 +137,42 @@ public class NoteSwitchSpinner extends Spinner {
             return getCount() == 0;
         }
     }
-}
 
+    public class DropdownPopup extends ListPopupWindow {
+
+        public DropdownPopup(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+
+            setAnchorView(NoteSwitchSpinner.this);
+            setModal(true);
+            setPromptPosition(POSITION_PROMPT_ABOVE);
+            setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    onClickListener.onNoteTitleClick(dropdownPopup, position);
+                }
+            });
+        }
+
+        void computeContentWidth() {
+            setContentWidth(WindowUtils.getWidthPx());
+            setHorizontalOffset(-WindowUtils.getSizePx());
+        }
+
+        public void show(boolean firstRun) {
+            if (!firstRun)
+                computeContentWidth();
+
+            setInputMethodMode(ListPopupWindow.INPUT_METHOD_NOT_NEEDED);
+            super.show();
+            final ListView listView = getListView();
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            setSelection(NoteSwitchSpinner.this.getSelectedItemPosition());
+        }
+    }
+
+    public static abstract class NoteTitleClickListener {
+
+        public abstract void onNoteTitleClick(DropdownPopup popup, int position);
+    }
+}
