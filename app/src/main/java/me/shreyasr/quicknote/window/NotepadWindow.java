@@ -267,7 +267,8 @@ public class NotepadWindow extends StandOutWindow {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String newNote = input.getText().toString();
-                                adapter.append(newNote);
+                                if (!NotepadUtils.hasNoteTitle(newNote))
+                                    adapter.append(newNote);
                                 NotepadUtils.setCurrentNote(newNote);
                                 NotepadUtils.updateNotepad();
                             }

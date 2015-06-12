@@ -139,7 +139,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="?android:attr/buttonBarButtonStyle"
-                android:text="Show Intro"
+                android:text="@string/show_intro_button"
                 android:gravity="center"
                 android:textColor="@color/text"
                 android:layout_below="@id/position_lock_group" />

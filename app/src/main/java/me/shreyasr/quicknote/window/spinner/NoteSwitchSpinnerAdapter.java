@@ -3,7 +3,6 @@ package me.shreyasr.quicknote.window.spinner;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +84,6 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                     }
                 });
                 input.requestFocus();
-                Log.d("q", Arrays.toString(NotepadUtils.getNoteTitles()) + " " + position);
                 input.append(NotepadUtils.getNoteTitle(position));
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         new ContextThemeWrapper(ApplicationWrapper.getInstance(), android.R.style.Theme_DeviceDefault_Dialog))

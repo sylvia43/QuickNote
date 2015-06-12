@@ -34,7 +34,7 @@ public class NotepadUtils {
 
     public static String[] getNoteTitles() {
         if (prefs.getString(Constants.NOTE_TITLES, "").isEmpty()) {
-            String defaultNoteTitle = ApplicationWrapper.getInstance().getString(R.string.deault_note_name);
+            String defaultNoteTitle = ApplicationWrapper.getInstance().getString(R.string.default_note_name);
             addNote(defaultNoteTitle);
             prefs.edit().putString(Constants.CURRENT_NOTE, defaultNoteTitle).apply();
         }
@@ -46,6 +46,8 @@ public class NotepadUtils {
     }
 
     public synchronized static void addNote(String title) {
+        if (hasNoteTitle(title) || title.contains(","))
+            return;
         String titles = prefs.getString(Constants.NOTE_TITLES, "");
         SharedPreferences.Editor edit = prefs.edit();
         if (!"".equals(titles))
@@ -93,7 +95,7 @@ public class NotepadUtils {
     public static void editNoteTitle(String oldTitle, String newTitle) {
         List<String> titles = getNoteTitlesList();
         int index = titles.indexOf(oldTitle);
-        String content = getCurrentNoteContent();
+        String content = prefs.getString(oldTitle, "");
         if (index > -1)
             titles.set(index, newTitle);
         setNoteTitlesList(titles);
@@ -131,15 +133,16 @@ public class NotepadUtils {
     }
 
     public static void addIntroNote() {
-        String intro = "Intro";
+        String intro = ApplicationWrapper.getInstance().getString(R.string.intro_note_title);
         addNote(intro);
         setCurrentNote(intro);
-        saveContent("Welcome to QuickNote!\n" +
-                "The button in the top right docks and undocks the notepad.\n" +
-                "The button on the left opens the menu. Settings and info are available there.\n" +
-                "The + button allows you to create a new note.\n" +
-                "Hit the dropdown in the center to switch, edit, and delete notes.\n" +
-                "Have fun!");
+        saveContent("Welcome to QuickNote!\n\n" +
+                "This content can be shown again from Preferences.\n\n" +
+                "Top right button docks/undocks.\n\n" +
+                "Left button opens the menu, with settings and info.\n\n" +
+                "'+' button creates new note.\n\n" +
+                "Dropdown in the center edits titles, and switches or deletes notes.\n\n" +
+                "Enjoy!");
         prefs.edit().putBoolean(Constants.FIRST_RUN, false).apply();
         updateNotepad();
     }
