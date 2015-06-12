@@ -3,6 +3,10 @@ package me.shreyasr.quicknote.notepad;
 import android.content.SharedPreferences;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
@@ -36,6 +40,10 @@ public class NotepadUtils {
         return prefs.getString(Constants.NOTE_TITLES, "").split(",");
     }
 
+    public static String getNoteTitle(int position) {
+        return getNoteTitles()[position];
+    }
+
     public synchronized static void addNote(String title) {
         String titles = prefs.getString(Constants.NOTE_TITLES, "");
         SharedPreferences.Editor edit = prefs.edit();
@@ -63,24 +71,41 @@ public class NotepadUtils {
     public static void saveContent(String text) {
         if (hasCurrentNote())
             prefs.edit().putString(getCurrentNoteTitle(), text).apply();
-        else
-            setCurrentNote("default");
+    }
+
+    public static List<String> getNoteTitlesList() {
+        return new ArrayList<>(Arrays.asList(getNoteTitles()));
+    }
+
+    public static void setNoteTitlesList(List<String> list) {
+        boolean first = true;
+        String titles = "";
+        for (String s : list) {
+            if (!first)
+                titles += ",";
+            first = false;
+            titles += s;
+        }
+        prefs.edit().putString(Constants.NOTE_TITLES, titles).apply();
     }
 
     public static void editNoteTitle(String title, String newTitle) {
-        String titles = prefs.getString(Constants.NOTE_TITLES, "").replace(title + ",", newTitle + ",").replace("," + title, "," + newTitle);
-        prefs.edit().putString(Constants.NOTE_TITLES, titles).apply();
+        List<String> titles = getNoteTitlesList();
+        int index = titles.indexOf(title);
+        if (index > -1)
+            titles.set(index, newTitle);
+        setNoteTitlesList(titles);
         setCurrentNote(newTitle);
     }
 
     public static void removeNoteTitle(String titleToRemove) {
         if (!hasNoteTitle(titleToRemove))
             return;
-        String titles = prefs.getString(Constants.NOTE_TITLES, "");
-        titles = titles.replace(titleToRemove + ",", "").replace("," + titleToRemove, "");
-        prefs.edit().putString(Constants.NOTE_TITLES, titles).remove(titleToRemove).apply();
+        List<String> titles = getNoteTitlesList();
+        titles.remove(titleToRemove);
+        setNoteTitlesList(titles);
         if (titleToRemove.equals(getCurrentNoteTitle()))
-            setCurrentNote(getNoteTitles()[0]);
+            setCurrentNote(titles.get(0));
     }
 
     public static void updateNotepad() {
