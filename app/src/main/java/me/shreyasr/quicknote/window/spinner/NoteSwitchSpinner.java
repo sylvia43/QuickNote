@@ -50,6 +50,7 @@ public class NoteSwitchSpinner extends Spinner {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         dropdownPopup.setAdapter(new DropDownAdapter(getAdapter()));
+        ((NoteSwitchSpinnerAdapter)getAdapter()).dialog = dropdownPopup;
     }
 
     @Override
@@ -165,7 +166,7 @@ public class NoteSwitchSpinner extends Spinner {
 
             setInputMethodMode(ListPopupWindow.INPUT_METHOD_NOT_NEEDED);
             super.show();
-            final ListView listView = getListView();
+            ListView listView = getListView();
             listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             setSelection(NoteSwitchSpinner.this.getSelectedItemPosition());
         }

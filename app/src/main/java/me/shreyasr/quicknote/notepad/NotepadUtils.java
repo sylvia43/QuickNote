@@ -89,12 +89,14 @@ public class NotepadUtils {
         prefs.edit().putString(Constants.NOTE_TITLES, titles).apply();
     }
 
-    public static void editNoteTitle(String title, String newTitle) {
+    public static void editNoteTitle(String oldTitle, String newTitle) {
         List<String> titles = getNoteTitlesList();
-        int index = titles.indexOf(title);
+        int index = titles.indexOf(oldTitle);
+        String content = getCurrentNoteContent();
         if (index > -1)
             titles.set(index, newTitle);
         setNoteTitlesList(titles);
+        prefs.edit().putString(newTitle, content).remove(oldTitle).apply();
         setCurrentNote(newTitle);
     }
 

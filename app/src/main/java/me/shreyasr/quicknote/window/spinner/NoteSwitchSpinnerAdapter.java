@@ -27,7 +27,7 @@ import me.shreyasr.quicknote.window.NotepadWindow;
 public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 
     private final List<String> noteTitles;
-    DialogInterface dialog;
+    public NoteSwitchSpinner.DropdownPopup dialog = null;
 
     public NoteSwitchSpinnerAdapter() {
         noteTitles = Collections.synchronizedList(new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
