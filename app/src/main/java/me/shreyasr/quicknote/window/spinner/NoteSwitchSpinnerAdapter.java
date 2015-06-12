@@ -120,7 +120,8 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String toRemove = getItem(position);
-                noteTitles.remove(position);
+                if (getCount() > 1)
+                    noteTitles.remove(position);
                 NotepadUtils.removeNoteTitle(toRemove);
                 notifyDataSetChanged();
                 if (dialog != null) dialog.dismiss();

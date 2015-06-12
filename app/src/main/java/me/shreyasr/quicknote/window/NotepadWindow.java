@@ -285,7 +285,10 @@ public class NotepadWindow extends StandOutWindow {
         add.setOnTouchListener(new DragMoveTouchListener(id));
         //endregion
 
+        if (NotepadUtils.isFirstRun())
+            NotepadUtils.addIntroNote();
         NotepadUtils.updateNotepad();
+        adapter.notifyDataSetChanged();
 
         new Handler().postDelayed(new Runnable() {
             @Override

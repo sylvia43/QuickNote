@@ -87,7 +87,6 @@ public class InfoWindow extends StandOutWindow {
                 NotepadWindow.instance.show(0);
             }
         });
-
     }
 
     @Override

@@ -7,6 +7,7 @@ public class Constants {
     public static final String POS_X = "POS_X";
     public static final String POS_Y = "POS_Y";
     public static final String COLLAPSED = "COLLAPSED";
+    public static final String FIRST_RUN = "FIRST_RUN";
 
     public static final String WIDTH_PREF = "WIDTH";
     public static final String HEIGHT_PREF = "HEIGHT";

@@ -114,6 +114,7 @@
                 android:layout_alignParentStart="true"
                 style="@android:style/Widget.Holo.SeekBar"/>
             <LinearLayout
+                android:id="@+id/position_lock_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/opacitySeekBar">
@@ -131,6 +132,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|top" />
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/show_intro_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="Show Intro"
+                android:gravity="center"
+                android:textColor="@color/text"
+                android:layout_below="@id/position_lock_group" />
 
             <Button
                 android:layout_width="fill_parent"

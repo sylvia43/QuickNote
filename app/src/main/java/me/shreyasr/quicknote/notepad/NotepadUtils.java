@@ -2,6 +2,7 @@ package me.shreyasr.quicknote.notepad;
 
 import android.content.SharedPreferences;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,9 +101,16 @@ public class NotepadUtils {
         setCurrentNote(newTitle);
     }
 
+    private static Toast cannotDeleteLastToast = null;
     public static void removeNoteTitle(String titleToRemove) {
         if (!hasNoteTitle(titleToRemove))
             return;
+        if (getNoteTitles().length <= 1) {
+            if (cannotDeleteLastToast == null)
+                cannotDeleteLastToast = Toast.makeText(ApplicationWrapper.getInstance(), "Cannot delete last note", Toast.LENGTH_SHORT);
+            cannotDeleteLastToast.show();
+            return;
+        }
         List<String> titles = getNoteTitlesList();
         titles.remove(titleToRemove);
         setNoteTitlesList(titles);
@@ -116,5 +124,23 @@ public class NotepadUtils {
         NoteSwitchSpinnerAdapter adapter = (NoteSwitchSpinnerAdapter) spinner.getAdapter();
         spinner.setSelection(adapter.getPosition(getCurrentNoteTitle()));
         adapter.notifyDataSetChanged();
+    }
+
+    public static boolean isFirstRun() {
+        return prefs.getBoolean(Constants.FIRST_RUN, true);
+    }
+
+    public static void addIntroNote() {
+        String intro = "Intro";
+        addNote(intro);
+        setCurrentNote(intro);
+        saveContent("Welcome to QuickNote!\n" +
+                "The button in the top right docks and undocks the notepad.\n" +
+                "The button on the left opens the menu. Settings and info are available there.\n" +
+                "The + button allows you to create a new note.\n" +
+                "Hit the dropdown in the center to switch, edit, and delete notes.\n" +
+                "Have fun!");
+        prefs.edit().putBoolean(Constants.FIRST_RUN, false).apply();
+        updateNotepad();
     }
 }

@@ -19,6 +19,7 @@ import android.widget.SeekBar;
 import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
+import me.shreyasr.quicknote.notepad.NotepadUtils;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
@@ -139,6 +140,16 @@ public class PreferencesWindow extends StandOutWindow {
             public void onClick(View v) {
                 prefs.edit().putInt(Constants.OPACITY, Constants.DEFAULT_OPACITY).putBoolean(Constants.LOCK, false).apply();
                 WindowUtils.reset();
+                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
+                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+            }
+        });
+
+        Button intro = (Button) frame.findViewById(R.id.show_intro_button);
+        intro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotepadUtils.addIntroNote();
                 StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
                 StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
             }
