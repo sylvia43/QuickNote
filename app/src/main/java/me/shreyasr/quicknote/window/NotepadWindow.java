@@ -271,9 +271,15 @@ public class NotepadWindow extends StandOutWindow {
                                     adapter.append(newNote);
                                 NotepadUtils.setCurrentNote(newNote);
                                 NotepadUtils.updateNotepad();
+                                ApplicationWrapper.track("notes", "add");
                             }
                         })
-                        .setNegativeButton(android.R.string.no, null);
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ApplicationWrapper.track("notes", "cancel");
+                            }
+                        });
                 AlertDialog alert = builder.create();
                 android.view.Window window = alert.getWindow();
                 WindowManager.LayoutParams params = window.getAttributes();

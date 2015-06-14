@@ -121,6 +121,10 @@ public class NotepadUtils {
     }
 
     public static void updateNotepad() {
+        if (prefs.contains(Constants.OLD_NOTE_CONTENT)) {
+            addNote("Old Notes");
+            prefs.edit().putString("Old Notes", prefs.getString(Constants.OLD_NOTE_CONTENT, "")).remove(Constants.OLD_NOTE_CONTENT).apply();
+        }
         ((EditText) NotepadWindow.instance.notepadView.findViewById(R.id.notepadContent)).setText(getCurrentNoteContent());
         NoteSwitchSpinner spinner = NotepadWindow.instance.spinner;
         NoteSwitchSpinnerAdapter adapter = (NoteSwitchSpinnerAdapter) spinner.getAdapter();

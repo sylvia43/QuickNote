@@ -33,3 +33,4 @@ build/
 
 screenshots/
 app/manifest-merger-release-report.txt
+/app/src/main/res/values/secrets.xml

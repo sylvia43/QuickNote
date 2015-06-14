@@ -99,9 +99,15 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                                 noteTitles.set(position, newTitle);
                                 NotepadUtils.editNoteTitle(originalTitle, newTitle);
                                 notifyDataSetChanged();
+                                ApplicationWrapper.track("notes", "edit");
                             }
                         })
-                        .setNegativeButton(android.R.string.no, null);
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ApplicationWrapper.track("notes", "edit_cancel");
+                            }
+                        });
                 AlertDialog alert = builder.create();
                 android.view.Window window = alert.getWindow();
                 WindowManager.LayoutParams params = window.getAttributes();
@@ -117,6 +123,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
         convertView.findViewById(R.id.spinner_item_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ApplicationWrapper.track("notes", "delete");
                 String toRemove = getItem(position);
                 if (getCount() > 1)
                     noteTitles.remove(position);

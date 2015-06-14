@@ -31,7 +31,7 @@ public class ApplicationWrapper extends Application {
         backupManager = new BackupManager(this);
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
-        tracker = analytics.newTracker("UA-63677547-1"); // Replace with actual tracker/property Id
+        tracker = analytics.newTracker(getResources().getString(R.string.tracker_id));
         tracker.setScreenName("QuickNote Tracker");
         tracker.enableExceptionReporting(true);
     }

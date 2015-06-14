@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import me.shreyasr.quicknote.ApplicationWrapper;
 import me.shreyasr.quicknote.window.WindowUtils;
 
 public class NoteSwitchSpinner extends Spinner {
@@ -151,6 +152,7 @@ public class NoteSwitchSpinner extends Spinner {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     onClickListener.onNoteTitleClick(dropdownPopup, position);
+                    ApplicationWrapper.track("notes", "switch");
                 }
             });
         }
@@ -163,6 +165,8 @@ public class NoteSwitchSpinner extends Spinner {
         public void show(boolean firstRun) {
             if (!firstRun)
                 computeContentWidth();
+
+            ApplicationWrapper.track("notes","switcher_open");
 
             setInputMethodMode(ListPopupWindow.INPUT_METHOD_NOT_NEEDED);
             super.show();
