@@ -2,12 +2,13 @@ package me.shreyasr.quicknote.window;
 
 import android.content.SharedPreferences;
 
-import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.Constants;
+import me.shreyasr.quicknote.R;
 
 public class WindowUtils {
 
-    private final static SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+    private final static SharedPreferences prefs = App.get().getSharedPrefs();
 
     public static int getXPx() {
         return prefs.getInt(Constants.POS_X, 0);
@@ -44,7 +45,7 @@ public class WindowUtils {
     }
 
     public static int getSizePx() {
-        return (int) (prefs.getInt(Constants.SIZE_PREF, Constants.DEFAULT_SIZE_DP)*getDensity());
+        return (int) (prefs.getInt(Constants.SIZE_PREF, (int) App.get().getResources().getDimension(R.dimen.size))*getDensity());
     }
 
     public static int getDefaultWidthPx() {
@@ -64,7 +65,7 @@ public class WindowUtils {
     }
 
     public static float getDensity() {
-        return ApplicationWrapper.getInstance().getResources().getDisplayMetrics().density;
+        return App.get().getResources().getDisplayMetrics().density;
     }
 
     public static int dpToPx(int dp) {
@@ -78,9 +79,9 @@ public class WindowUtils {
 
     public static int getStatusBarSize() {
         int result = 0;
-        int resourceId = ApplicationWrapper.getInstance().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resourceId = App.get().getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0)
-            result = ApplicationWrapper.getInstance().getResources().getDimensionPixelSize(resourceId);
+            result = App.get().getResources().getDimensionPixelSize(resourceId);
         return result;
     }
 }

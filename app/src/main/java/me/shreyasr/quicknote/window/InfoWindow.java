@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
@@ -26,12 +26,12 @@ public class InfoWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
-        return ApplicationWrapper.getInstance().getAppName();
+        return App.get().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return ApplicationWrapper.getInstance().getAppIcon();
+        return App.get().getAppIcon();
     }
 
     @Override
@@ -44,12 +44,12 @@ public class InfoWindow extends StandOutWindow {
         githubLink.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ApplicationWrapper.track("about", "github");
+                App.track("about", "github");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/anubiann00b/QuickNote"));
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     InfoWindow.this.startActivity(i);
-                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
+                    StandOutWindow.close(App.get(), InfoWindow.class, 1);
                         NotepadWindow.instance.show(0);
                     NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
@@ -62,7 +62,7 @@ public class InfoWindow extends StandOutWindow {
         feedback.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ApplicationWrapper.track("about", "feedback");
+                App.track("about", "feedback");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Intent i = new Intent(Intent.ACTION_SENDTO);
                     i.setType("text/plain");
@@ -71,7 +71,7 @@ public class InfoWindow extends StandOutWindow {
                     i.putExtra(Intent.EXTRA_SUBJECT, "QuickNote Feedback");
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     InfoWindow.this.startActivity(i);
-                    StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
+                    StandOutWindow.close(App.get(), InfoWindow.class, 1);
                     NotepadWindow.instance.show(0);
                     NotepadWindow.instance.collapse(NotepadWindow.instance.notepadView, 0);
                 }
@@ -83,7 +83,7 @@ public class InfoWindow extends StandOutWindow {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StandOutWindow.close(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
+                StandOutWindow.close(App.get(), InfoWindow.class, 1);
                 NotepadWindow.instance.show(0);
             }
         });
@@ -91,7 +91,7 @@ public class InfoWindow extends StandOutWindow {
 
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
-        WindowManager wm = (WindowManager) ApplicationWrapper.getInstance().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) App.get().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -125,6 +125,6 @@ public class InfoWindow extends StandOutWindow {
 
     @Override
     public Notification getPersistentNotification(int id) {
-        return ApplicationWrapper.getInstance().getPersistentNotification();
+        return App.get().getPersistentNotification();
     }
 }

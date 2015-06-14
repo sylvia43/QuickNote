@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
 import me.shreyasr.quicknote.window.NotepadWindow;
@@ -54,7 +54,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(ApplicationWrapper.getInstance()).inflate(android.R.layout.simple_spinner_item, parent, false);
+            convertView = LayoutInflater.from(App.get()).inflate(android.R.layout.simple_spinner_item, parent, false);
             ((TextView) convertView).setText(noteTitles.get(position));
         }
         return convertView;
@@ -63,21 +63,21 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     @Override
     public View getDropDownView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(ApplicationWrapper.getInstance()).inflate(R.layout.spinner_item, parent, false);
+            convertView = LayoutInflater.from(App.get()).inflate(R.layout.spinner_item, parent, false);
 
         ((TextView) convertView.findViewById(R.id.spinner_item_content)).setText(noteTitles.get(position));
 
         convertView.findViewById(R.id.spinner_item_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText input = new EditText(ApplicationWrapper.getInstance());
+                final EditText input = new EditText(App.get());
                 input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
                         input.post(new Runnable() {
                             @Override
                             public void run() {
-                                InputMethodManager inputMethodManager = (InputMethodManager) ApplicationWrapper.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                InputMethodManager inputMethodManager = (InputMethodManager) App.get().getSystemService(Context.INPUT_METHOD_SERVICE);
                                 inputMethodManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
                             }
                         });
@@ -86,7 +86,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                 input.requestFocus();
                 input.append(NotepadUtils.getNoteTitle(position));
                 AlertDialog.Builder builder = new AlertDialog.Builder(
-                        new ContextThemeWrapper(ApplicationWrapper.getInstance(), android.R.style.Theme_DeviceDefault_Dialog))
+                        new ContextThemeWrapper(App.get(), android.R.style.Theme_DeviceDefault_Dialog))
                         .setTitle("Edit Note Title")
                         .setView(input)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -99,13 +99,13 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                                 noteTitles.set(position, newTitle);
                                 NotepadUtils.editNoteTitle(originalTitle, newTitle);
                                 notifyDataSetChanged();
-                                ApplicationWrapper.track("notes", "edit");
+                                App.track("notes", "edit");
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ApplicationWrapper.track("notes", "edit_cancel");
+                                App.track("notes", "edit_cancel");
                             }
                         });
                 AlertDialog alert = builder.create();
@@ -123,7 +123,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
         convertView.findViewById(R.id.spinner_item_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApplicationWrapper.track("notes", "delete");
+                App.track("notes", "delete");
                 String toRemove = getItem(position);
                 if (getCount() > 1)
                     noteTitles.remove(position);

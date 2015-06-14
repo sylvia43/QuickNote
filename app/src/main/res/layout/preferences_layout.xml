@@ -21,7 +21,7 @@
 
             <ImageButton
                 android:id="@+id/closePreferencesButton"
-                android:background="@drawable/ic_action_remove"
+                android:background="@drawable/ic_close_white_48dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"
@@ -30,7 +30,7 @@
 
             <ImageButton
                 android:id="@+id/savePreferencesButton"
-                android:background="@drawable/ic_action_save"
+                android:background="@drawable/ic_save_white_48dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"

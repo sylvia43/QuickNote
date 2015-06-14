@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 
-import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
@@ -28,12 +28,12 @@ public class PreferencesWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
-        return ApplicationWrapper.getInstance().getAppName();
+        return App.get().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return ApplicationWrapper.getInstance().getAppIcon();
+        return App.get().getAppIcon();
     }
 
     @Override
@@ -41,11 +41,11 @@ public class PreferencesWindow extends StandOutWindow {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.preferences_layout, frame, true);
 
-        final Point size = ApplicationWrapper.getInstance().getScreenSize();
+        final Point size = App.get().getScreenSize();
         final int minWidth = WindowUtils.getMinWidthPx();
         final int minHeight = WindowUtils.getMinHeightPx();
 
-        final SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+        final SharedPreferences prefs = App.get().getSharedPrefs();
         final SharedPreferences.Editor edit = prefs.edit();
 
         SeekBar seekBarWidth = (SeekBar)frame.findViewById(R.id.widthSeekBar);
@@ -120,8 +120,8 @@ public class PreferencesWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 edit.apply();
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.close(App.get(), PreferencesWindow.class, 1);
+                StandOutWindow.show(App.get(), NotepadWindow.class, 0);
             }
         });
 
@@ -129,8 +129,8 @@ public class PreferencesWindow extends StandOutWindow {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.close(App.get(), PreferencesWindow.class, 1);
+                StandOutWindow.show(App.get(), NotepadWindow.class, 0);
             }
         });
 
@@ -140,8 +140,8 @@ public class PreferencesWindow extends StandOutWindow {
             public void onClick(View v) {
                 prefs.edit().putInt(Constants.OPACITY, Constants.DEFAULT_OPACITY).putBoolean(Constants.LOCK, false).apply();
                 WindowUtils.reset();
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.close(App.get(), PreferencesWindow.class, 1);
+                StandOutWindow.show(App.get(), NotepadWindow.class, 0);
             }
         });
 
@@ -150,15 +150,15 @@ public class PreferencesWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 NotepadUtils.addIntroNote();
-                StandOutWindow.close(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
+                StandOutWindow.close(App.get(), PreferencesWindow.class, 1);
+                StandOutWindow.show(App.get(), NotepadWindow.class, 0);
             }
         });
     }
 
     @Override
     public StandOutLayoutParams getParams(int id, Window window) {
-        WindowManager wm = (WindowManager) ApplicationWrapper.getInstance().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) App.get().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -194,6 +194,6 @@ public class PreferencesWindow extends StandOutWindow {
 
     @Override
     public Notification getPersistentNotification(int id) {
-        return ApplicationWrapper.getInstance().getPersistentNotification();
+        return App.get().getPersistentNotification();
     }
 }

@@ -9,17 +9,17 @@
 
     <ImageButton
         android:id="@+id/spinner_item_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_cancel"
+        android:layout_width="@dimen/spinner_size"
+        android:layout_height="@dimen/spinner_size"
+        android:background="@drawable/ic_close_white_48dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:id="@+id/spinner_item_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_edit"
+        android:layout_width="@dimen/spinner_size"
+        android:layout_height="@dimen/spinner_size"
+        android:background="@drawable/ic_create_white_48dp"
         android:layout_toLeftOf="@id/spinner_item_delete"
         android:layout_toStartOf="@id/spinner_item_delete" />
 

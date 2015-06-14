@@ -27,7 +27,7 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
@@ -111,12 +111,12 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public String getAppName() {
-        return ApplicationWrapper.getInstance().getAppName();
+        return App.get().getAppName();
     }
 
     @Override
     public int getAppIcon() {
-        return ApplicationWrapper.getInstance().getAppIcon();
+        return App.get().getAppIcon();
     }
 
     public void collapse(View notepadFrame, final int id) {
@@ -155,10 +155,10 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
-        ApplicationWrapper.track("window", "open");
+        App.track("window", "open");
         notepadView = frame;
         instance = this;
-        prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+        prefs = App.get().getSharedPrefs();
 
         prefs.edit().putBoolean(Constants.COLLAPSED, false).apply();
 
@@ -187,7 +187,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 collapse(frame, id);
-                ApplicationWrapper.track("window", "dock");
+                App.track("window", "dock");
             }
         });
         dock.setOnTouchListener(new DragMoveTouchListener(id));
@@ -199,7 +199,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 undock(frame, id);
-                ApplicationWrapper.track("window", "undock");
+                App.track("window", "undock");
             }
         });
         undock.setOnTouchListener(new DragMoveTouchListener(id));
@@ -212,7 +212,7 @@ public class NotepadWindow extends StandOutWindow {
             public void onClick(View v) {
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 getDropDown(id).showAsDropDown(v, 0, -2);
-                ApplicationWrapper.track("window", "menu open");
+                App.track("window", "menu open");
             }
         });
         menu.setOnTouchListener(new DragMoveTouchListener(id));
@@ -245,14 +245,14 @@ public class NotepadWindow extends StandOutWindow {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText input = new EditText(ApplicationWrapper.getInstance());
+                final EditText input = new EditText(App.get());
                 input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
                         input.post(new Runnable() {
                             @Override
                             public void run() {
-                                InputMethodManager inputMethodManager = (InputMethodManager) ApplicationWrapper.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                InputMethodManager inputMethodManager = (InputMethodManager) App.get().getSystemService(Context.INPUT_METHOD_SERVICE);
                                 inputMethodManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
                             }
                         });
@@ -260,7 +260,7 @@ public class NotepadWindow extends StandOutWindow {
                 });
                 input.requestFocus();
                 AlertDialog.Builder builder = new AlertDialog.Builder(
-                        new ContextThemeWrapper(ApplicationWrapper.getInstance(), android.R.style.Theme_DeviceDefault_Dialog))
+                        new ContextThemeWrapper(App.get(), android.R.style.Theme_DeviceDefault_Dialog))
                         .setTitle("New Note Title")
                         .setView(input)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -271,13 +271,13 @@ public class NotepadWindow extends StandOutWindow {
                                     adapter.append(newNote);
                                 NotepadUtils.setCurrentNote(newNote);
                                 NotepadUtils.updateNotepad();
-                                ApplicationWrapper.track("notes", "add");
+                                App.track("notes", "add");
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ApplicationWrapper.track("notes", "cancel");
+                                App.track("notes", "cancel");
                             }
                         });
                 AlertDialog alert = builder.create();
@@ -330,22 +330,22 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public Notification getPersistentNotification(int id) {
-        return ApplicationWrapper.getInstance().getPersistentNotification();
+        return App.get().getPersistentNotification();
     }
 
     @Override
     public String getPersistentNotificationTitle(int id) {
-        return ApplicationWrapper.getInstance().getPersistentNotificationTitle();
+        return App.get().getPersistentNotificationTitle();
     }
 
     @Override
     public String getPersistentNotificationMessage(int id) {
-        return ApplicationWrapper.getInstance().getPersistentNotificationMessage();
+        return App.get().getPersistentNotificationMessage();
     }
 
     @Override
     public Intent getPersistentNotificationIntent(int id) {
-        return ApplicationWrapper.getInstance().getPersistentNotificationIntent();
+        return App.get().getPersistentNotificationIntent();
     }
 
     void save(View editText, int id) {
@@ -355,31 +355,31 @@ public class NotepadWindow extends StandOutWindow {
             WindowUtils.setXPx(getWindow(id).getLayoutParams().x);
             WindowUtils.setYPx(getWindow(id).getLayoutParams().y);
         }
-        ApplicationWrapper.getInstance().getBackupManager().dataChanged();
+        App.get().getBackupManager().dataChanged();
     }
 
     public List<DropDownListItem> getDropDownItems(final int id) {
         List<DropDownListItem> items = new ArrayList<DropDownListItem>();
-        items.add(new DropDownListItem(R.drawable.ic_action_delete, getString(R.string.menu_clear), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_delete_white_48dp, getString(R.string.menu_clear), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "clear");
+                App.track("menu", "clear");
                 EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.notepadContent);
                 et.setText("");
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_copy, getString(R.string.menu_copy), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_content_copy_white_48dp, getString(R.string.menu_copy), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "copy");
+                App.track("menu", "copy");
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboard.setPrimaryClip(ClipData.newPlainText("Note", NotepadUtils.getCurrentNoteContent()));
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_paste, getString(R.string.menu_paste), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_content_paste_white_48dp, getString(R.string.menu_paste), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "paste");
+                App.track("menu", "paste");
                 try {
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.notepadContent);
@@ -387,10 +387,10 @@ public class NotepadWindow extends StandOutWindow {
                 } catch (Exception ignored) { }
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_share, getString(R.string.menu_share), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_share_white_48dp, getString(R.string.menu_share), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "share");
+                App.track("menu", "share");
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quick Note");
@@ -399,26 +399,26 @@ public class NotepadWindow extends StandOutWindow {
                 startActivity(Intent.createChooser(sharingIntent, "Share Note").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_settings, getString(R.string.menu_preferences), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_settings_white_48dp, getString(R.string.menu_preferences), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "prefs");
-                StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), PreferencesWindow.class, 1);
+                App.track("menu", "prefs");
+                StandOutWindow.hide(App.get(), NotepadWindow.class, 0);
+                StandOutWindow.show(App.get(), PreferencesWindow.class, 1);
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_about, getString(R.string.menu_about), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_info_outline_white_48dp, getString(R.string.menu_about), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "about");
-                StandOutWindow.hide(ApplicationWrapper.getInstance(), NotepadWindow.class, 0);
-                StandOutWindow.show(ApplicationWrapper.getInstance(), InfoWindow.class, 1);
+                App.track("menu", "about");
+                StandOutWindow.hide(App.get(), NotepadWindow.class, 0);
+                StandOutWindow.show(App.get(), InfoWindow.class, 1);
             }
         }));
-        items.add(new DropDownListItem(R.drawable.ic_action_cancel, getString(R.string.menu_save_quit), new Runnable() {
+        items.add(new DropDownListItem(R.drawable.ic_close_white_48dp, getString(R.string.menu_save_quit), new Runnable() {
             @Override
             public void run() {
-                ApplicationWrapper.track("menu", "quit");
+                App.track("menu", "quit");
                 closeAll();
             }
         }));
@@ -451,7 +451,7 @@ public class NotepadWindow extends StandOutWindow {
 
     @Override
     public boolean onClose(int id, Window window) {
-        ApplicationWrapper.track("window", "close");
+        App.track("window", "close");
         if (collapsed)
             undock(notepadView, 0);
         return false;

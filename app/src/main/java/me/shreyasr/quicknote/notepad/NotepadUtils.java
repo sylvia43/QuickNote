@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import me.shreyasr.quicknote.ApplicationWrapper;
+import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.window.NotepadWindow;
@@ -17,7 +17,7 @@ import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinnerAdapter;
 
 public class NotepadUtils {
 
-    private final static SharedPreferences prefs = ApplicationWrapper.getInstance().getSharedPrefs();
+    private final static SharedPreferences prefs = App.get().getSharedPrefs();
 
     public static boolean hasCurrentNote() {
         return prefs.contains(Constants.CURRENT_NOTE);
@@ -34,7 +34,7 @@ public class NotepadUtils {
 
     public static String[] getNoteTitles() {
         if (prefs.getString(Constants.NOTE_TITLES, "").isEmpty()) {
-//            String defaultNoteTitle = ApplicationWrapper.getInstance().getString(R.string.default_note_name);
+//            String defaultNoteTitle = ApplicationWrapper.get().getString(R.string.default_note_name);
 //            prefs.edit()
 //            prefs.edit().putString(Constants.CURRENT_NOTE, defaultNoteTitle).apply();
             return new String[0];
@@ -110,7 +110,7 @@ public class NotepadUtils {
             return;
         if (getNoteTitles().length <= 1) {
             if (cannotDeleteLastToast == null)
-                cannotDeleteLastToast = Toast.makeText(ApplicationWrapper.getInstance(), "Cannot delete last note", Toast.LENGTH_SHORT);
+                cannotDeleteLastToast = Toast.makeText(App.get(), "Cannot delete last note", Toast.LENGTH_SHORT);
             cannotDeleteLastToast.show();
             return;
         }
@@ -138,7 +138,7 @@ public class NotepadUtils {
     }
 
     public static void addIntroNote() {
-        String intro = ApplicationWrapper.getInstance().getString(R.string.intro_note_title);
+        String intro = App.get().getString(R.string.intro_note_title);
         addNote(intro);
         setCurrentNote(intro);
         saveContent("Welcome to QuickNote!\n\n" +
