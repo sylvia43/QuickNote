@@ -34,9 +34,10 @@ public class NotepadUtils {
 
     public static String[] getNoteTitles() {
         if (prefs.getString(Constants.NOTE_TITLES, "").isEmpty()) {
-            String defaultNoteTitle = ApplicationWrapper.getInstance().getString(R.string.default_note_name);
-            addNote(defaultNoteTitle);
-            prefs.edit().putString(Constants.CURRENT_NOTE, defaultNoteTitle).apply();
+//            String defaultNoteTitle = ApplicationWrapper.getInstance().getString(R.string.default_note_name);
+//            prefs.edit()
+//            prefs.edit().putString(Constants.CURRENT_NOTE, defaultNoteTitle).apply();
+            return new String[0];
         }
         return prefs.getString(Constants.NOTE_TITLES, "").split(",");
     }
@@ -148,6 +149,7 @@ public class NotepadUtils {
                 "Dropdown in the center edits titles, and switches or deletes notes.\n\n" +
                 "Enjoy!");
         prefs.edit().putBoolean(Constants.FIRST_RUN, false).apply();
+        ((NoteSwitchSpinnerAdapter)NotepadWindow.instance.spinner.getAdapter()).append(intro);
         updateNotepad();
     }
 }
