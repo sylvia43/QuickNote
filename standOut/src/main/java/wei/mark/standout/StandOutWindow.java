@@ -1,12 +1,5 @@
 package wei.mark.standout;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import wei.mark.standout.constants.StandOutFlags;
-import wei.mark.standout.ui.Window;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -36,6 +29,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import wei.mark.standout.constants.StandOutFlags;
+import wei.mark.standout.ui.Window;
 
 /**
  * Extend this class to easily create and manage floating StandOut windows.
@@ -785,8 +786,7 @@ public abstract class StandOutWindow extends Service {
 				StandOutLayoutParams.WRAP_CONTENT, true);
 
 		for (final DropDownListItem item : items) {
-			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(
-					R.layout.drop_down_list_item, null);
+			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(R.layout.drop_down_list_item, null);
 			list.addView(listItem);
 
 			ImageView icon = (ImageView) listItem.findViewById(R.id.icon);

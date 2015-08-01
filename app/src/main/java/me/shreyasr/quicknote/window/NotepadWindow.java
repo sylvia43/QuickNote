@@ -211,7 +211,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                getDropDown(id).showAsDropDown(v, 0, -2);
+                getDropDown(id).showAsDropDown(v, 0, -2); // Alignment
                 App.track("window", "menu open");
             }
         });
@@ -225,8 +225,8 @@ public class NotepadWindow extends StandOutWindow {
         spinner.setAdapter(adapter);
         spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));
 
-        spinner.setPopupBackgroundDrawable(null);
-        spinner.setPopupBackgroundResource(R.drawable.spinner_dropdown_background);
+//        spinner.setPopupBackgroundDrawable(null);
+//        spinner.setPopupBackgroundResource(R.drawable.spinner_dropdown_background);
         spinner.setCustomOnClickListener(new NoteSwitchSpinner.NoteTitleClickListener() {
             @Override
             public void onNoteTitleClick(NoteSwitchSpinner.DropdownPopup dialog, int position) {

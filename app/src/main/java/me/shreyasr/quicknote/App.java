@@ -30,6 +30,7 @@ public class App extends Application {
         instance = this;
         backupManager = new BackupManager(this);
         analytics = GoogleAnalytics.getInstance(this);
+        analytics.setDryRun(BuildConfig.DEBUG);
         analytics.setLocalDispatchPeriod(1800);
         tracker = analytics.newTracker(getResources().getString(R.string.tracker_id));
         tracker.setScreenName("QuickNote Tracker");

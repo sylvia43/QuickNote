@@ -52,22 +52,23 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(App.get()).inflate(android.R.layout.simple_spinner_item, parent, false);
-            ((TextView) convertView).setText(noteTitles.get(position));
+    public View getView(final int position, View view, ViewGroup parent) {
+        if (view == null) {
+            view = LayoutInflater.from(App.get()).inflate(R.layout.notepad_spinner_item, parent, false);
         }
-        return convertView;
+        ((TextView) view.findViewById(R.id.notepad_spinner_item_text)).setText(noteTitles.get(position));
+        return view;
     }
 
     @Override
-    public View getDropDownView(final int position, View convertView, ViewGroup parent) {
-        if (convertView == null)
-            convertView = LayoutInflater.from(App.get()).inflate(R.layout.spinner_item, parent, false);
+    public View getDropDownView(final int position, View view, ViewGroup parent) {
+        if (view == null) {
+            view = LayoutInflater.from(App.get()).inflate(R.layout.drop_down_spinner_item, parent, false);
+        }
 
-        ((TextView) convertView.findViewById(R.id.spinner_item_content)).setText(noteTitles.get(position));
+        ((TextView) view.findViewById(R.id.spinner_item_content)).setText(noteTitles.get(position));
 
-        convertView.findViewById(R.id.spinner_item_edit).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.spinner_item_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final EditText input = new EditText(App.get());
@@ -120,7 +121,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
             }
         });
 
-        convertView.findViewById(R.id.spinner_item_delete).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.spinner_item_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 App.track("notes", "delete");
@@ -133,7 +134,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
             }
         });
 
-        return convertView;
+        return view;
     }
 
     public void append(String newNote) {
