@@ -21,4 +21,6 @@
     <string name="default_note_name">Default</string>
     <string name="show_intro_button">Show Intro</string>
     <string name="intro_note_title">Intro</string>
+    <string name="dialog_positive">OK</string>
+    <string name="dialog_negative">CANCEL</string>
 </resources>

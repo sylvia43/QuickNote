@@ -1,9 +1,6 @@
 package me.shreyasr.quicknote.window.spinner;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +9,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +25,7 @@ import me.shreyasr.quicknote.window.NotepadWindow;
 public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 
     private final List<String> noteTitles;
-    public NoteSwitchSpinner.DropdownPopup dialog = null;
+    public NoteSwitchSpinner.DropdownPopup dropdownPopup = null;
 
     public NoteSwitchSpinnerAdapter() {
         noteTitles = Collections.synchronizedList(new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
@@ -86,13 +85,14 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                 });
                 input.requestFocus();
                 input.append(NotepadUtils.getNoteTitle(position));
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        new ContextThemeWrapper(App.get(), android.R.style.Theme_DeviceDefault_Dialog))
-                        .setTitle("Edit Note Title")
-                        .setView(input)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                MaterialDialog dialog = new MaterialDialog.Builder(App.get())
+                        .title("Edit Note Title")
+                        .customView(input, false)
+                        .positiveText(R.string.dialog_positive)
+                        .negativeText(R.string.dialog_negative)
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onPositive(MaterialDialog dialog) {
                                 String newTitle = input.getText().toString();
                                 if (NotepadUtils.hasNoteTitle(newTitle))
                                     return;
@@ -102,22 +102,21 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                                 notifyDataSetChanged();
                                 App.track("notes", "edit");
                             }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onNegative(MaterialDialog dialog) {
                                 App.track("notes", "edit_cancel");
                             }
-                        });
-                AlertDialog alert = builder.create();
-                android.view.Window window = alert.getWindow();
+                        })
+                        .build();
+                android.view.Window window = dialog.getWindow();
                 WindowManager.LayoutParams params = window.getAttributes();
                 params.token = NotepadWindow.instance.notepadView.getWindowToken();
                 params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
                 window.setAttributes(params);
-                alert.show();
+                dialog.show();
 
-                if (dialog != null) dialog.dismiss();
+                if (dropdownPopup != null) dropdownPopup.dismiss();
             }
         });
 
@@ -130,7 +129,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                     noteTitles.remove(position);
                 NotepadUtils.removeNoteTitle(toRemove);
                 notifyDataSetChanged();
-                if (dialog != null) dialog.dismiss();
+                if (dropdownPopup != null) dropdownPopup.dismiss();
             }
         });
 

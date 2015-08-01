@@ -1,11 +1,9 @@
 package me.shreyasr.quicknote.window;
 
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -23,6 +21,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -259,13 +259,14 @@ public class NotepadWindow extends StandOutWindow {
                     }
                 });
                 input.requestFocus();
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        new ContextThemeWrapper(App.get(), android.R.style.Theme_DeviceDefault_Dialog))
-                        .setTitle("New Note Title")
-                        .setView(input)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                MaterialDialog dialog = new MaterialDialog.Builder(App.get())
+                        .title("New Note Title")
+                        .customView(input, false)
+                        .positiveText(R.string.dialog_positive)
+                        .negativeText(R.string.dialog_negative)
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onPositive(MaterialDialog dialog) {
                                 String newNote = input.getText().toString();
                                 if (!NotepadUtils.hasNoteTitle(newNote))
                                     adapter.append(newNote);
@@ -273,20 +274,19 @@ public class NotepadWindow extends StandOutWindow {
                                 NotepadUtils.updateNotepad();
                                 App.track("notes", "add");
                             }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onNegative(MaterialDialog dialog) {
                                 App.track("notes", "cancel");
                             }
-                        });
-                AlertDialog alert = builder.create();
-                android.view.Window window = alert.getWindow();
+                        })
+                        .build();
+                android.view.Window window = dialog.getWindow();
                 WindowManager.LayoutParams params = window.getAttributes();
                 params.token = NotepadWindow.this.notepadView.getWindowToken();
                 params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
                 window.setAttributes(params);
-                alert.show();
+                dialog.show();
             }
         });
         add.setOnTouchListener(new DragMoveTouchListener(id));

@@ -51,7 +51,7 @@ public class NoteSwitchSpinner extends Spinner {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         dropdownPopup.setAdapter(new DropDownAdapter(getAdapter()));
-        if (!isInEditMode()) ((NoteSwitchSpinnerAdapter)getAdapter()).dialog = dropdownPopup;
+        if (!isInEditMode()) ((NoteSwitchSpinnerAdapter)getAdapter()).dropdownPopup = dropdownPopup;
     }
 
     @Override
