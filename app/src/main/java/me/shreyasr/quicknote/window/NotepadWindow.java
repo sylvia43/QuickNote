@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +30,8 @@ import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
+import me.shreyasr.quicknote.window.spinner.BaseSpinner;
+import me.shreyasr.quicknote.window.spinner.DropdownSpinner;
 import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner;
 import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinnerAdapter;
 import wei.mark.standout.StandOutWindow;
@@ -128,7 +129,7 @@ public class NotepadWindow extends StandOutWindow {
 
         notepadFrame.findViewById(R.id.notepadContent).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.GONE);
-        notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.GONE);
+        notepadFrame.findViewById(R.id.settingsSpinner).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.addButton).setVisibility(View.GONE);
         notepadFrame.findViewById(R.id.undockButton).setVisibility(View.VISIBLE);
@@ -145,7 +146,7 @@ public class NotepadWindow extends StandOutWindow {
 
         notepadFrame.findViewById(R.id.notepadContent).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.dockButton).setVisibility(View.VISIBLE);
-        notepadFrame.findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
+        notepadFrame.findViewById(R.id.settingsSpinner).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.noteSelectionSpinner).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.addButton).setVisibility(View.VISIBLE);
         notepadFrame.findViewById(R.id.undockButton).setVisibility(View.GONE);
@@ -206,13 +207,17 @@ public class NotepadWindow extends StandOutWindow {
         //endregion
 
         //region Menu Button
-        ImageButton menu = (ImageButton) frame.findViewById(R.id.settingsButton);
-        menu.setOnClickListener(new View.OnClickListener() {
+        DropdownSpinner menu = (DropdownSpinner) frame.findViewById(R.id.settingsSpinner);
+        final DropDownListAdapter menuAdapter = new DropDownListAdapter(getDropDownItems(id));
+
+        menu.setAdapter(menuAdapter);
+        menu.setCustomOnClickListener(new BaseSpinner.CustomItemClickListener() {
             @Override
-            public void onClick(View v) {
-                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                getDropDown(id).showAsDropDown(v, 0, -2); // Alignment
-                App.track("window", "menu open");
+            public void onItemClick(BaseSpinner.DropdownPopup popup, int position) {
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                menuAdapter.getItem(position).action.run();
+                popup.dismiss();
             }
         });
         menu.setOnTouchListener(new DragMoveTouchListener(id));
@@ -225,15 +230,13 @@ public class NotepadWindow extends StandOutWindow {
         spinner.setAdapter(adapter);
         spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));
 
-//        spinner.setPopupBackgroundDrawable(null);
-//        spinner.setPopupBackgroundResource(R.drawable.spinner_dropdown_background);
-        spinner.setCustomOnClickListener(new NoteSwitchSpinner.NoteTitleClickListener() {
+        spinner.setCustomOnClickListener(new BaseSpinner.CustomItemClickListener() {
             @Override
-            public void onNoteTitleClick(NoteSwitchSpinner.DropdownPopup dialog, int position) {
+            public void onItemClick(BaseSpinner.DropdownPopup popup, int position) {
                 spinner.setSelection(position);
                 String item = adapter.getItem(position);
                 NotepadUtils.setCurrentNote(item);
-                dialog.dismiss();
+                popup.dismiss();
             }
         });
         spinner.setSelection(adapter.getPosition(NotepadUtils.getCurrentNoteTitle()));
@@ -425,7 +428,7 @@ public class NotepadWindow extends StandOutWindow {
         return items;
     }
 
-    int[] elementIds = new int[] { R.id.notepadContent, R.id.titlebar, R.id.undockButton, R.id.settingsButton, R.id.dockButton };
+    int[] elementIds = new int[] { R.id.notepadContent, R.id.titlebar, R.id.undockButton, R.id.settingsSpinner, R.id.dockButton };
 
     @Override
     public boolean onFocusChange(int id, Window window, boolean focus) {

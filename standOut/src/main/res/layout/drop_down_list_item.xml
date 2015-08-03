@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--style="R.style.Base_Widget_AppCompat_Light_PopupMenu_Overflow"-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:drawable/list_selector_background"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    style="@android:style/Widget.Material.PopupMenu"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/icon"
@@ -20,8 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:text="Description"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:ignore="HardcodedText" />
+        tools:text="Description" />
 
 </LinearLayout>

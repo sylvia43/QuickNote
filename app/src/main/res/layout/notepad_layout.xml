@@ -39,11 +39,13 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true" />
 
-                <ImageButton
+                <me.shreyasr.quicknote.window.spinner.DropdownSpinner
+                    style="@style/NoteSwitchSpinner"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:id="@+id/settingsButton"
                     android:background="@drawable/ic_more_vert_white_48dp"
+                    android:id="@+id/settingsSpinner"
+                    android:dropDownVerticalOffset="24dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
@@ -60,14 +62,14 @@
                     android:layout_toStartOf="@id/dockButton" />
 
                 <me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner
-                    style="NoteSwitchSpinner"
-                    android:layout_width="fill_parent"
+                    style="@style/NoteSwitchSpinner"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/noteSelectionSpinner"
                     android:layout_toLeftOf="@id/addButton"
-                    android:layout_toRightOf="@id/settingsButton"
+                    android:layout_toRightOf="@id/settingsSpinner"
                     android:layout_toStartOf="@id/addButton"
-                    android:layout_toEndOf="@id/settingsButton" />
+                    android:layout_toEndOf="@id/settingsSpinner" />
 
                 <ImageButton
                     android:layout_width="48dp"

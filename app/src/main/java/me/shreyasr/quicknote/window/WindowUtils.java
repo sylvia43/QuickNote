@@ -1,6 +1,7 @@
 package me.shreyasr.quicknote.window;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.Constants;
@@ -8,7 +9,19 @@ import me.shreyasr.quicknote.R;
 
 public class WindowUtils {
 
-    private final static SharedPreferences prefs = App.get().getSharedPrefs();
+    private static final String TAG = WindowUtils.class.getSimpleName();
+
+    private final static SharedPreferences prefs;
+
+    static { // Allows the Android Studio preview to function
+        SharedPreferences temp = null;
+        try {
+            temp = App.get().getSharedPrefs();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        prefs = temp;
+    }
 
     public static int getXPx() {
         return prefs.getInt(Constants.POS_X, 0);
@@ -27,6 +40,7 @@ public class WindowUtils {
     }
 
     public static int getWidthPx() {
+        if (prefs == null) return (int) Constants.DEFAULT_WIDTH_DP;
         return prefs.getInt(Constants.WIDTH_PREF,
                 (int) (Constants.DEFAULT_WIDTH_DP * getDensity()));
     }
@@ -45,6 +59,7 @@ public class WindowUtils {
     }
 
     public static int getSizePx() {
+        if (prefs == null) return 48;
         return (int) (prefs.getInt(Constants.SIZE_PREF, App.get().getResources().getInteger(R.integer.size))*getDensity());
     }
 

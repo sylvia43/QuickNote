@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -786,14 +785,13 @@ public abstract class StandOutWindow extends Service {
 				StandOutLayoutParams.WRAP_CONTENT, true);
 
 		for (final DropDownListItem item : items) {
-			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(R.layout.drop_down_list_item, null);
+			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(R.layout.drop_down_list_item, list, false);
 			list.addView(listItem);
 
 			ImageView icon = (ImageView) listItem.findViewById(R.id.icon);
 			icon.setImageResource(item.icon);
 
-			TextView description = (TextView) listItem
-					.findViewById(R.id.description);
+			TextView description = (TextView) listItem.findViewById(R.id.description);
 			description.setText(item.description);
 
 			listItem.setOnClickListener(new OnClickListener() {
@@ -806,9 +804,8 @@ public abstract class StandOutWindow extends Service {
 			});
 		}
 
-		Drawable background = getResources().getDrawable(
-				android.R.drawable.editbox_dropdown_dark_frame);
-		dropDown.setBackgroundDrawable(background);
+//		Drawable background = getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame);
+//		dropDown.setBackgroundDrawable(background);
 		return dropDown;
 	}
 
@@ -1965,13 +1962,13 @@ public abstract class StandOutWindow extends Service {
 		}
 	}
 
-	protected class DropDownListItem {
+	public class DropDownListItem {
+
 		public int icon;
 		public String description;
 		public Runnable action;
 
 		public DropDownListItem(int icon, String description, Runnable action) {
-			super();
 			this.icon = icon;
 			this.description = description;
 			this.action = action;
