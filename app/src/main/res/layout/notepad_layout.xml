@@ -18,8 +18,8 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/titlebar"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical"
             android:background="@color/titlebar"
@@ -27,11 +27,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="@dimen/size">
 
                 <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/size"
+                    android:layout_height="@dimen/size"
                     android:id="@+id/dockButton"
                     android:background="@drawable/ic_keyboard_arrow_up_white_48dp"
                     android:layout_alignParentTop="true"
@@ -42,8 +42,8 @@
                 <me.shreyasr.quicknote.window.spinner.MenuSpinner
                     style="@style/NoteSwitchSpinner"
                     android:id="@+id/settingsSpinner"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/size"
+                    android:layout_height="@dimen/size"
                     android:background="@drawable/ic_more_vert_white_48dp"
                     android:dropDownVerticalOffset="24dp"
                     android:layout_alignParentTop="true"
@@ -52,8 +52,8 @@
                     android:layout_alignParentStart="true" />
 
                 <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/size"
+                    android:layout_height="@dimen/size"
                     android:id="@+id/addButton"
                     android:background="@drawable/ic_add_white_48dp"
                     android:layout_alignParentTop="true"
@@ -65,15 +65,15 @@
                     style="@style/NoteSwitchSpinner"
                     android:id="@+id/noteSelectionSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/size"
                     android:layout_toLeftOf="@id/addButton"
                     android:layout_toRightOf="@id/settingsSpinner"
                     android:layout_toStartOf="@id/addButton"
                     android:layout_toEndOf="@id/settingsSpinner" />
 
                 <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/size"
+                    android:layout_height="@dimen/size"
                     android:id="@+id/undockButton"
                     android:background="@drawable/ic_keyboard_arrow_down_white_48dp"
                     android:layout_alignParentTop="true"

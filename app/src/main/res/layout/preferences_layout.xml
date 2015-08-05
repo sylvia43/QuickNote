@@ -1,159 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/window"
+        android:id="@+id/body"
+        android:paddingTop="25dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/window">
+        android:layout_height="fill_parent">
 
-        <RelativeLayout
-            android:id="@+id/titlebar"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/width"
+            android:id="@+id/widthSeekBarText"
+            android:layout_gravity="start|top"
             android:layout_alignParentTop="true"
-            android:gravity="center_vertical"
-            android:background="@color/titlebar"
-            android:orientation="horizontal" >
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-            <ImageButton
-                android:id="@+id/closePreferencesButton"
-                android:background="@drawable/ic_close_white_48dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <ImageButton
-                android:id="@+id/savePreferencesButton"
-                android:background="@drawable/ic_save_white_48dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/body"
-            android:paddingTop="25dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+        <SeekBar
+            android:id="@+id/widthSeekBar"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/titlebar"
-            android:background="@drawable/window">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_below="@+id/widthSeekBarText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/height"
+            android:id="@+id/heightSeekBarText"
+            android:layout_gravity="start|top"
+            android:layout_below="@+id/widthSeekBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <SeekBar
+            android:id="@+id/heightSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_below="@+id/heightSeekBarText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/opacity"
+            android:id="@+id/opactiySeekBarText"
+            android:layout_gravity="start|top"
+            android:layout_below="@+id/heightSeekBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <SeekBar
+            android:id="@+id/opacitySeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_below="@+id/opactiySeekBarText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <LinearLayout
+            android:id="@+id/position_lock_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/opacitySeekBar">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/width"
-                android:id="@+id/widthSeekBarText"
-                android:textColor="@color/text"
-                android:layout_gravity="start|top"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:text="@string/lock_position"
+                android:layout_gravity="start|top"  />
 
-            <SeekBar
-                android:id="@+id/widthSeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_below="@+id/widthSeekBarText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                style="@android:style/Widget.Holo.SeekBar" />
-
-            <TextView
+            <CheckBox
+                android:id="@+id/lockPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/height"
-                android:id="@+id/heightSeekBarText"
-                android:textColor="@color/text"
-                android:layout_gravity="start|top"
-                android:layout_below="@+id/widthSeekBar"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <SeekBar
-                android:id="@+id/heightSeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_below="@+id/heightSeekBarText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                style="@android:style/Widget.Holo.SeekBar"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/opacity"
-                android:id="@+id/opactiySeekBarText"
-                android:textColor="@color/text"
-                android:layout_gravity="start|top"
-                android:layout_below="@+id/heightSeekBar"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <SeekBar
-                android:id="@+id/opacitySeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_below="@+id/opactiySeekBarText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                style="@android:style/Widget.Holo.SeekBar"/>
-            <LinearLayout
-                android:id="@+id/position_lock_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/opacitySeekBar">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/lock_position"
-                    android:textColor="@color/text"
-                    android:layout_gravity="start|top"  />
-
-                <CheckBox
-                    android:id="@+id/lockPosition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|top" />
-            </LinearLayout>
+                android:layout_gravity="center_horizontal|top" />
+        </LinearLayout>
 
 
-            <Button
-                android:id="@+id/show_intro_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                style="?android:attr/buttonBarButtonStyle"
-                android:text="@string/show_intro_button"
-                android:gravity="center"
-                android:textColor="@color/text"
-                android:layout_below="@id/position_lock_group" />
+        <Button
+            android:id="@+id/show_intro_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:layout_below="@id/position_lock_group" />
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                style="?android:attr/buttonBarButtonStyle"
-                android:text="@string/reset"
-                android:textColor="@color/text"
-                android:id="@+id/resetPreferencesButton"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

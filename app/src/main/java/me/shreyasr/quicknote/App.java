@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -91,5 +93,13 @@ public class App extends Application {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    public static void enableDialog(MaterialDialog dialog, IBinder windowToken) {
+        android.view.Window window = dialog.getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.token = windowToken;
+        params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+        window.setAttributes(params);
     }
 }

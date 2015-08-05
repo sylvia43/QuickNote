@@ -1,71 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/body"
+    android:paddingTop="25dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_below="@+id/titlebar"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/window"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/window">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/madeByString"
+        android:gravity="center" />
 
-        <RelativeLayout
-            android:id="@+id/titlebar"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:gravity="center_vertical"
-            android:background="@color/titlebar"
-            android:orientation="horizontal" >
+    <TextView
+        android:id="@+id/github_link"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:text="@string/github_link" />
 
-            <ImageButton
-                android:id="@+id/closeInfoButton"
-                android:background="@drawable/ic_close_white_48dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/feedback"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:text="@string/sendFeedback" />
 
-        <LinearLayout
-            android:id="@+id/body"
-            android:paddingTop="25dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/titlebar"
-            android:background="@drawable/window"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/madeByString"
-                android:gravity="center"
-                android:textColor="@color/text" />
-
-            <TextView
-                android:id="@+id/github_link"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:gravity="center"
-                android:text="@string/github_link"
-                android:textColor="@color/text" />
-
-            <TextView
-                android:id="@+id/feedback"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:gravity="center"
-                android:text="@string/sendFeedback"
-                android:textColor="@color/text" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

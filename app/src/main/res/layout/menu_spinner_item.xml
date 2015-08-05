@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!--style="R.style.Base_Widget_AppCompat_Light_PopupMenu_Overflow"-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,22 +7,24 @@
     android:layout_width="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:paddingTop="@dimen/menu_vertical_padding"
+    android:paddingBottom="@dimen/menu_vertical_padding"
     android:descendantFocusability="blocksDescendants">
-    <!--android:background="@android:drawable/list_selector_background"-->
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_margin="4dp"
+        android:layout_width="@dimen/menu_size"
+        android:layout_height="@dimen/menu_size"
+        android:layout_marginEnd="@dimen/menu_image_padding"
+        android:layout_marginRight="@dimen/menu_image_padding"
         android:contentDescription="Icon"
         tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Description" />
 

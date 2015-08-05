@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/settingsIcon"
         android:src="@drawable/ic_more_vert_white_48dp"
-        android:layout_width="48dp"
-        android:layout_height="48dp"/>
+        android:layout_width="@dimen/size"
+        android:layout_height="@dimen/size"/>
 
 </LinearLayout>

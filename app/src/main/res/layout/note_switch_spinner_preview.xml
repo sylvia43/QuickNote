@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/notepad_spinner_item_text"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/note_switch_spinner_size"
         android:drawablePadding="8dp"
         android:gravity="center_vertical|start"
         android:textSize="16sp"

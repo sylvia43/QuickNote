@@ -42,10 +42,6 @@
 
         <service android:name=".window.NotepadWindow" >
         </service>
-        <service android:name=".window.PreferencesWindow" >
-        </service>
-        <service android:name=".window.InfoWindow" >
-        </service>
     </application>
 
 </manifest>

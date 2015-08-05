@@ -1,13 +1,5 @@
 package wei.mark.standout.ui;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import wei.mark.standout.R;
-import wei.mark.standout.StandOutWindow;
-import wei.mark.standout.StandOutWindow.StandOutLayoutParams;
-import wei.mark.standout.Utils;
-import wei.mark.standout.constants.StandOutFlags;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -19,9 +11,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+import wei.mark.standout.R;
+import wei.mark.standout.StandOutWindow;
+import wei.mark.standout.StandOutWindow.StandOutLayoutParams;
+import wei.mark.standout.Utils;
+import wei.mark.standout.constants.StandOutFlags;
 
 /**
  * Special view that represents a floating window.
@@ -113,16 +111,9 @@ public class Window extends FrameLayout {
 		View content;
 		FrameLayout body;
 
-		if (Utils.isSet(flags, StandOutFlags.FLAG_DECORATION_SYSTEM)) {
-			// requested system window decorations
-			content = getSystemDecorations();
-			body = (FrameLayout) content.findViewById(R.id.body);
-		} else {
-			// did not request decorations. will provide own implementation
-			content = new FrameLayout(context);
-			content.setId(R.id.content);
-			body = (FrameLayout) content;
-		}
+		content = new FrameLayout(context);
+		content.setId(R.id.content);
+		body = (FrameLayout) content;
 
 		addView(content);
 
@@ -365,143 +356,6 @@ public class Window extends FrameLayout {
 	}
 
 	/**
-	 * Returns the system window decorations if the implementation sets
-	 * {@link #FLAG_DECORATION_SYSTEM}.
-	 * 
-	 * <p>
-	 * The system window decorations support hiding, closing, moving, and
-	 * resizing.
-	 * 
-	 * @return The frame view containing the system window decorations.
-	 */
-	private View getSystemDecorations() {
-		final View decorations = mLayoutInflater.inflate(
-				R.layout.system_window_decorators, null);
-
-		// icon
-		final ImageView icon = (ImageView) decorations
-				.findViewById(R.id.window_icon);
-		icon.setImageResource(mContext.getAppIcon());
-		icon.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				PopupWindow dropDown = mContext.getDropDown(id);
-				if (dropDown != null) {
-					dropDown.showAsDropDown(icon);
-				}
-			}
-		});
-
-		// title
-		TextView title = (TextView) decorations.findViewById(R.id.title);
-		title.setText(mContext.getTitle(id));
-
-		// hide
-		View hide = decorations.findViewById(R.id.hide);
-		hide.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				mContext.hide(id);
-			}
-		});
-		hide.setVisibility(View.GONE);
-
-		// maximize
-		View maximize = decorations.findViewById(R.id.maximize);
-		maximize.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				StandOutLayoutParams params = getLayoutParams();
-				boolean isMaximized = data
-						.getBoolean(WindowDataKeys.IS_MAXIMIZED);
-				if (isMaximized && params.width == displayWidth
-						&& params.height == displayHeight && params.x == 0
-						&& params.y == 0) {
-					data.putBoolean(WindowDataKeys.IS_MAXIMIZED, false);
-					int oldWidth = data.getInt(
-							WindowDataKeys.WIDTH_BEFORE_MAXIMIZE, -1);
-					int oldHeight = data.getInt(
-							WindowDataKeys.HEIGHT_BEFORE_MAXIMIZE, -1);
-					int oldX = data
-							.getInt(WindowDataKeys.X_BEFORE_MAXIMIZE, -1);
-					int oldY = data
-							.getInt(WindowDataKeys.Y_BEFORE_MAXIMIZE, -1);
-					edit().setSize(oldWidth, oldHeight).setPosition(oldX, oldY)
-							.commit();
-				} else {
-					data.putBoolean(WindowDataKeys.IS_MAXIMIZED, true);
-					data.putInt(WindowDataKeys.WIDTH_BEFORE_MAXIMIZE,
-							params.width);
-					data.putInt(WindowDataKeys.HEIGHT_BEFORE_MAXIMIZE,
-							params.height);
-					data.putInt(WindowDataKeys.X_BEFORE_MAXIMIZE, params.x);
-					data.putInt(WindowDataKeys.Y_BEFORE_MAXIMIZE, params.y);
-					edit().setSize(1f, 1f).setPosition(0, 0).commit();
-				}
-			}
-		});
-
-		// close
-		View close = decorations.findViewById(R.id.close);
-		close.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				mContext.close(id);
-			}
-		});
-
-		// move
-		View titlebar = decorations.findViewById(R.id.titlebar);
-		titlebar.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// handle dragging to move
-				boolean consumed = mContext.onTouchHandleMove(id, Window.this,
-						v, event);
-				return consumed;
-			}
-		});
-
-		// resize
-		View corner = decorations.findViewById(R.id.corner);
-		corner.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// handle dragging to move
-				boolean consumed = mContext.onTouchHandleResize(id,
-						Window.this, v, event);
-
-				return consumed;
-			}
-		});
-
-		// set window appearance and behavior based on flags
-		if (Utils.isSet(flags, StandOutFlags.FLAG_WINDOW_HIDE_ENABLE)) {
-			hide.setVisibility(View.VISIBLE);
-		}
-		if (Utils.isSet(flags, StandOutFlags.FLAG_DECORATION_MAXIMIZE_DISABLE)) {
-			maximize.setVisibility(View.GONE);
-		}
-		if (Utils.isSet(flags, StandOutFlags.FLAG_DECORATION_CLOSE_DISABLE)) {
-			close.setVisibility(View.GONE);
-		}
-		if (Utils.isSet(flags, StandOutFlags.FLAG_DECORATION_MOVE_DISABLE)) {
-			titlebar.setOnTouchListener(null);
-		}
-		if (Utils.isSet(flags, StandOutFlags.FLAG_DECORATION_RESIZE_DISABLE)) {
-			corner.setVisibility(View.GONE);
-		}
-
-		return decorations;
-	}
-
-	/**
 	 * Implement StandOut specific additional functionalities.
 	 * 
 	 * <p>
@@ -529,24 +383,6 @@ public class Window extends FrameLayout {
 								Window.this, v, event);
 
 						return consumed;
-					}
-				});
-			}
-		}
-
-		// window_icon for drop down
-		if (!Utils.isSet(flags,
-				StandOutFlags.FLAG_ADD_FUNCTIONALITY_DROP_DOWN_DISABLE)) {
-			final View icon = root.findViewById(R.id.window_icon);
-			if (icon != null) {
-				icon.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						PopupWindow dropDown = mContext.getDropDown(id);
-						if (dropDown != null) {
-							dropDown.showAsDropDown(icon);
-						}
 					}
 				});
 			}

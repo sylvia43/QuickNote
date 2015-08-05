@@ -17,7 +17,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -25,11 +24,8 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -749,64 +745,6 @@ public abstract class StandOutWindow extends Service {
 	 */
 	public int getThemeStyle() {
 		return 0;
-	}
-
-	/**
-	 * You probably want to leave this method alone and implement
-	 * {@link #getDropDownItems(int)} instead. Only implement this method if you
-	 * want more control over the drop down menu.
-	 * 
-	 * <p>
-	 * Implement this method to set a custom drop down menu when the user clicks
-	 * on the icon of the window corresponding to the id. The icon is only shown
-	 * when {@link StandOutFlags#FLAG_DECORATION_SYSTEM} is set.
-	 * 
-	 * @param id
-	 *            The id of the window.
-	 * @return The drop down menu to be anchored to the icon, or null to have no
-	 *         dropdown menu.
-	 */
-	public PopupWindow getDropDown(final int id) {
-		final List<DropDownListItem> items;
-
-		List<DropDownListItem> dropDownListItems = getDropDownItems(id);
-		if (dropDownListItems != null) {
-			items = dropDownListItems;
-		} else {
-			items = new ArrayList<StandOutWindow.DropDownListItem>();
-		}
-
-		// turn item list into views in PopupWindow
-		LinearLayout list = new LinearLayout(this);
-		list.setOrientation(LinearLayout.VERTICAL);
-
-		final PopupWindow dropDown = new PopupWindow(list,
-				StandOutLayoutParams.WRAP_CONTENT,
-				StandOutLayoutParams.WRAP_CONTENT, true);
-
-		for (final DropDownListItem item : items) {
-			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(0/*R.layout.drop_down_list_item*/, list, false);
-			list.addView(listItem);
-
-			ImageView icon = (ImageView) listItem.findViewById(R.id.icon);
-			icon.setImageResource(item.icon);
-
-			TextView description = (TextView) listItem.findViewById(R.id.description);
-			description.setText(item.description);
-
-			listItem.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					item.action.run();
-					dropDown.dismiss();
-				}
-			});
-		}
-
-//		Drawable background = getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame);
-//		dropDown.setBackgroundDrawable(background);
-		return dropDown;
 	}
 
 	/**

@@ -60,7 +60,7 @@ public class WindowUtils {
 
     public static int getSizePx() {
         if (prefs == null) return 48;
-        return (int) (prefs.getInt(Constants.SIZE_PREF, App.get().getResources().getInteger(R.integer.size))*getDensity());
+        return prefs.getInt(Constants.SIZE_PREF, App.get().getResources().getDimensionPixelSize(R.dimen.size));
     }
 
     public static int getDefaultWidthPx() {

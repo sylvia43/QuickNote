@@ -6,12 +6,12 @@
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
-    android:layout_height="48dp">
+    android:layout_height="@dimen/note_switch_spinner_size">
 
     <ImageButton
         android:id="@+id/spinner_item_delete"
-        android:layout_width="@dimen/spinner_size"
-        android:layout_height="@dimen/spinner_size"
+        android:layout_width="@dimen/note_switch_spinner_size"
+        android:layout_height="@dimen/note_switch_spinner_size"
         android:layout_centerVertical="true"
         android:background="@drawable/ic_close_white_48dp"
         android:layout_alignParentRight="true"
@@ -19,8 +19,8 @@
 
     <ImageButton
         android:id="@+id/spinner_item_edit"
-        android:layout_width="@dimen/spinner_size"
-        android:layout_height="@dimen/spinner_size"
+        android:layout_width="@dimen/note_switch_spinner_size"
+        android:layout_height="@dimen/note_switch_spinner_size"
         android:layout_centerVertical="true"
         android:background="@drawable/ic_create_white_48dp"
         android:layout_toLeftOf="@id/spinner_item_delete"

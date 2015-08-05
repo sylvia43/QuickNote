@@ -17,6 +17,7 @@ import me.shreyasr.quicknote.App;
 
 public abstract class BaseSpinner extends Spinner {
 
+    private boolean wrap;
     private int width;
     private final int xOff;
     private final String logName;
@@ -26,6 +27,7 @@ public abstract class BaseSpinner extends Spinner {
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int mode,
                        int width, int xOff, String logName) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        this.wrap = width == -1;
         this.width = width;
         this.xOff = xOff;
         this.logName = logName;
@@ -36,7 +38,7 @@ public abstract class BaseSpinner extends Spinner {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         dropdownPopup.setAdapter(new DropDownAdapter(getAdapter()));
-        dropdownPopup.show(true);
+        if (!isInEditMode()) dropdownPopup.show(true);
     }
 
     @Override
@@ -60,7 +62,12 @@ public abstract class BaseSpinner extends Spinner {
         dialog.dismiss();
     }
 
-    /** Redirectes getView to getDropDownView, since both SpinnerAdapter and ListAdapter use getView. */
+    public void setDropdownWidth(int width) {
+        this.width = width;
+        dropdownPopup.show(true);
+    }
+
+    /** Redirects getView to getDropDownView, since both SpinnerAdapter and ListAdapter use getView. */
     private static class DropDownAdapter extends BaseAdapter {
 
         @NonNull private final SpinnerAdapter adapter;
@@ -97,7 +104,8 @@ public abstract class BaseSpinner extends Spinner {
         }
 
         public void show(boolean firstRun) {
-            App.track(logName, "spinner open");
+            if (!firstRun) App.track(logName, "spinner open");
+
             setHorizontalOffset(xOff);
 
             setInputMethodMode(ListPopupWindow.INPUT_METHOD_NOT_NEEDED);
@@ -108,7 +116,7 @@ public abstract class BaseSpinner extends Spinner {
             listView.setDivider(null);
             setSelection(BaseSpinner.this.getSelectedItemPosition());
 
-            if (width == -1 && firstRun) {
+            if (wrap && firstRun) {
                 for (int i = 0; i < listView.getAdapter().getCount(); i++) {
                     View view = getViewByPosition(listView, i);
                     view.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
