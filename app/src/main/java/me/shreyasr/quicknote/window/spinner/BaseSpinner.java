@@ -15,9 +15,9 @@ import android.widget.SpinnerAdapter;
 
 import me.shreyasr.quicknote.App;
 
-public class BaseSpinner extends Spinner {
+public abstract class BaseSpinner extends Spinner {
 
-    private final int width;
+    private int width;
     private final int xOff;
     private final String logName;
     CustomItemClickListener onClickListener;
@@ -36,6 +36,7 @@ public class BaseSpinner extends Spinner {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         dropdownPopup.setAdapter(new DropDownAdapter(getAdapter()));
+        dropdownPopup.show(true);
     }
 
     @Override
@@ -84,6 +85,7 @@ public class BaseSpinner extends Spinner {
 
             setAnchorView(BaseSpinner.this);
             setModal(true);
+            setFocusable(true);
             setPromptPosition(POSITION_PROMPT_ABOVE);
             setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -94,22 +96,39 @@ public class BaseSpinner extends Spinner {
             });
         }
 
-        void computeContentWidth() {
-            setContentWidth(width);
-            setHorizontalOffset(xOff);
-        }
-
         public void show(boolean firstRun) {
-            if (!firstRun)
-                computeContentWidth();
-
             App.track(logName, "spinner open");
+            setHorizontalOffset(xOff);
 
             setInputMethodMode(ListPopupWindow.INPUT_METHOD_NOT_NEEDED);
+
             super.show();
             ListView listView = getListView();
             listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            listView.setDivider(null);
             setSelection(BaseSpinner.this.getSelectedItemPosition());
+
+            if (width == -1 && firstRun) {
+                for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+                    View view = getViewByPosition(listView, i);
+                    view.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+                    width = Math.max(width, view.getMeasuredWidth());
+                }
+            }
+            setContentWidth(width);
+            if (firstRun) dismiss();
+        }
+
+        public View getViewByPosition(ListView listView, int pos) {
+            final int firstListItemPosition = listView.getFirstVisiblePosition();
+            final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+            if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+                return listView.getAdapter().getView(pos, null, listView);
+            } else {
+                final int childIndex = pos - firstListItemPosition;
+                return listView.getChildAt(childIndex);
+            }
         }
     }
 

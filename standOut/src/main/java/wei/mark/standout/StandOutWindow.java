@@ -785,7 +785,7 @@ public abstract class StandOutWindow extends Service {
 				StandOutLayoutParams.WRAP_CONTENT, true);
 
 		for (final DropDownListItem item : items) {
-			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(R.layout.drop_down_list_item, list, false);
+			ViewGroup listItem = (ViewGroup) mLayoutInflater.inflate(0/*R.layout.drop_down_list_item*/, list, false);
 			list.addView(listItem);
 
 			ImageView icon = (ImageView) listItem.findViewById(R.id.icon);

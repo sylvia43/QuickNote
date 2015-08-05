@@ -31,7 +31,7 @@ import me.shreyasr.quicknote.Constants;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
 import me.shreyasr.quicknote.window.spinner.BaseSpinner;
-import me.shreyasr.quicknote.window.spinner.DropdownSpinner;
+import me.shreyasr.quicknote.window.spinner.MenuSpinner;
 import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner;
 import me.shreyasr.quicknote.window.spinner.NoteSwitchSpinnerAdapter;
 import wei.mark.standout.StandOutWindow;
@@ -207,8 +207,8 @@ public class NotepadWindow extends StandOutWindow {
         //endregion
 
         //region Menu Button
-        DropdownSpinner menu = (DropdownSpinner) frame.findViewById(R.id.settingsSpinner);
-        final DropDownListAdapter menuAdapter = new DropDownListAdapter(getDropDownItems(id));
+        MenuSpinner menu = (MenuSpinner) frame.findViewById(R.id.settingsSpinner);
+        final MenuAdapter menuAdapter = new MenuAdapter(getDropDownItems(id));
 
         menu.setAdapter(menuAdapter);
         menu.setCustomOnClickListener(new BaseSpinner.CustomItemClickListener() {

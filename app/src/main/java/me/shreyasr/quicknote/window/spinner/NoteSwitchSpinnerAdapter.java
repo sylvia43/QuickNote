@@ -53,7 +53,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(App.get()).inflate(R.layout.notepad_spinner_item, parent, false);
+            view = LayoutInflater.from(App.get()).inflate(R.layout.note_switch_spinner_preview, parent, false);
         }
         ((TextView) view.findViewById(R.id.notepad_spinner_item_text)).setText(noteTitles.get(position));
         return view;
@@ -62,7 +62,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     @Override
     public View getDropDownView(final int position, View view, ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(App.get()).inflate(R.layout.drop_down_spinner_item, parent, false);
+            view = LayoutInflater.from(App.get()).inflate(R.layout.note_switch_spinner_item, parent, false);
         }
 
         ((TextView) view.findViewById(R.id.spinner_item_content)).setText(noteTitles.get(position));
@@ -101,11 +101,13 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                                 NotepadUtils.editNoteTitle(originalTitle, newTitle);
                                 notifyDataSetChanged();
                                 App.track("notes", "edit");
+                                closeDropdown();
                             }
 
                             @Override
                             public void onNegative(MaterialDialog dialog) {
                                 App.track("notes", "edit_cancel");
+                                closeDropdown();
                             }
                         })
                         .build();
@@ -116,7 +118,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                 window.setAttributes(params);
                 dialog.show();
 
-                if (dropdownPopup != null) dropdownPopup.dismiss();
+                closeDropdown();
             }
         });
 
@@ -129,7 +131,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                     noteTitles.remove(position);
                 NotepadUtils.removeNoteTitle(toRemove);
                 notifyDataSetChanged();
-                if (dropdownPopup != null) dropdownPopup.dismiss();
+                closeDropdown();
             }
         });
 
@@ -139,5 +141,9 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     public void append(String newNote) {
         noteTitles.add(newNote);
         notifyDataSetChanged();
+    }
+
+    public void closeDropdown() {
+        if (dropdownPopup != null) dropdownPopup.dismiss();
     }
 }

@@ -72,11 +72,11 @@ public class WindowUtils {
     }
 
     public static int getMinWidthPx() {
-        return (int) (Constants.MIN_WIDTH_DP * getDensity());
+        return getSizePx()*4;
     }
 
     public static int getMinHeightPx() {
-        return (int) (Constants.MIN_HEIGHT_DP * getDensity());
+        return getSizePx()*2;
     }
 
     public static float getDensity() {

@@ -1,11 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:fastScrollThumbDrawable">@drawable/scroller_style</item>
     </style>
 
-    <style name="NoteSwitchSpinner" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
+    <style name="NoteSwitchSpinner" parent="Widget.AppCompat.Spinner.DropDown">
+        <item name="android:popupBackground">#303030</item>
         <item name="android:divider">@null</item>
-        <item name="android:overlapAnchor" tools:targetApi="lollipop">true</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

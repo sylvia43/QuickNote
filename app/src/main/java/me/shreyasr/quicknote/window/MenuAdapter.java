@@ -13,11 +13,11 @@ import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.R;
 import wei.mark.standout.StandOutWindow;
 
-public class DropDownListAdapter extends BaseAdapter {
+public class MenuAdapter extends BaseAdapter {
 
     private List<StandOutWindow.DropDownListItem> items;
 
-    public DropDownListAdapter(List<StandOutWindow.DropDownListItem> items) {
+    public MenuAdapter(List<StandOutWindow.DropDownListItem> items) {
         this.items = items;
     }
 
@@ -39,7 +39,7 @@ public class DropDownListAdapter extends BaseAdapter {
     @Override
     public View getView(int pos, View view, ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(App.get()).inflate(R.layout.drop_down_icon, parent, false);
+            view = LayoutInflater.from(App.get()).inflate(R.layout.menu_spinner_icon, parent, false);
         }
         return view;
     }
@@ -47,7 +47,7 @@ public class DropDownListAdapter extends BaseAdapter {
     @Override
     public View getDropDownView(int pos, View view, ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(App.get()).inflate(R.layout.drop_down_list_item, parent, false);
+            view = LayoutInflater.from(App.get()).inflate(R.layout.menu_spinner_item, parent, false);
         }
 
         final StandOutWindow.DropDownListItem item = getItem(pos);

@@ -32,6 +32,7 @@
         tools:text="Item Name"
         android:textSize="16sp"
         android:gravity="center_vertical"
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"

@@ -3,12 +3,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    style="?android:attr/spinnerItemStyle"
     android:layout_height="wrap_content"
-    android:background="@android:drawable/list_selector_background"
+    android:layout_width="match_parent"
     android:gravity="center_vertical"
-    style="@android:style/Widget.Material.PopupMenu"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants">
+    <!--android:background="@android:drawable/list_selector_background"-->
 
     <ImageView
         android:id="@+id/icon"

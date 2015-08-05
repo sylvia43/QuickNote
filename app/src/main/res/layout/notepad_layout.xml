@@ -39,12 +39,12 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true" />
 
-                <me.shreyasr.quicknote.window.spinner.DropdownSpinner
+                <me.shreyasr.quicknote.window.spinner.MenuSpinner
                     style="@style/NoteSwitchSpinner"
+                    android:id="@+id/settingsSpinner"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/ic_more_vert_white_48dp"
-                    android:id="@+id/settingsSpinner"
                     android:dropDownVerticalOffset="24dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
@@ -63,9 +63,9 @@
 
                 <me.shreyasr.quicknote.window.spinner.NoteSwitchSpinner
                     style="@style/NoteSwitchSpinner"
+                    android:id="@+id/noteSelectionSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/noteSelectionSpinner"
                     android:layout_toLeftOf="@id/addButton"
                     android:layout_toRightOf="@id/settingsSpinner"
                     android:layout_toStartOf="@id/addButton"
@@ -108,7 +108,8 @@
                 android:scrollbars="vertical"
                 android:fadeScrollbars="false"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarSize="0dip"
+                android:scrollbarSize="10dp"
+                android:scrollbarThumbVertical="@drawable/note_scroll_bar"
                 android:scrollbarStyle="outsideInset"
                 android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="false"
