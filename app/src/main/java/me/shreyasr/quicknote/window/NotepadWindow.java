@@ -157,11 +157,13 @@ public class NotepadWindow extends StandOutWindow {
         notepadFrame.findViewById(R.id.undockButton).setVisibility(View.GONE);
         unfocus(id);
         updateViewLayout(id, getParams(id, null));
+        App.screen("notepad");
     }
 
     @Override
     public void createAndAttachView(final int id, final FrameLayout frame) {
         App.track("window", "open");
+        App.screen("notepad");
         notepadView = frame;
         instance = this;
         prefs = App.get().getSharedPrefs();
@@ -447,6 +449,7 @@ public class NotepadWindow extends StandOutWindow {
                 initPrefsWindow(dialog, edit);
                 App.enableDialog(dialog, notepadView.getWindowToken());
                 dialog.show();
+                App.screen("preferences");
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_info_outline_white_48dp, getString(R.string.menu_about), new Runnable() {
@@ -466,6 +469,7 @@ public class NotepadWindow extends StandOutWindow {
                 initInfoWindow(dialog);
                 App.enableDialog(dialog, notepadView.getWindowToken());
                 dialog.show();
+                App.screen("info");
             }
         }));
         items.add(new DropDownListItem(R.drawable.ic_close_white_48dp, getString(R.string.menu_save_quit), new Runnable() {

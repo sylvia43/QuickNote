@@ -42,13 +42,17 @@ public class App extends Application {
 
     Tracker tracker = null;
     GoogleAnalytics analytics = null;
-    public Tracker getTracker() { return tracker; }
 
     public static void track(String category, String action) {
         instance.tracker.send(new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)
                 .build());
+    }
+
+    public static void screen(String name) {
+        instance.tracker.setScreenName(name);
+        instance.tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     BackupManager backupManager = null;
