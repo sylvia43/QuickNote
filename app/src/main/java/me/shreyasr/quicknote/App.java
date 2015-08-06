@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -96,7 +97,7 @@ public class App extends Application {
     }
 
     public static void enableDialog(MaterialDialog dialog, IBinder windowToken) {
-        android.view.Window window = dialog.getWindow();
+        Window window = dialog.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.token = windowToken;
         params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;

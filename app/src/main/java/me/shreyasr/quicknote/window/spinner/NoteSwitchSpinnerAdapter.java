@@ -1,10 +1,11 @@
 package me.shreyasr.quicknote.window.spinner;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -20,15 +21,16 @@ import java.util.List;
 import me.shreyasr.quicknote.App;
 import me.shreyasr.quicknote.R;
 import me.shreyasr.quicknote.notepad.NotepadUtils;
-import me.shreyasr.quicknote.window.NotepadWindow;
 
 public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 
     private final List<String> noteTitles;
     private NoteSwitchSpinner spinner;
+    private Handler handler;
 
     public NoteSwitchSpinnerAdapter(NoteSwitchSpinner spinner) {
         this.spinner = spinner;
+        handler = new Handler(Looper.getMainLooper());
         noteTitles = Collections.synchronizedList(new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
     }
 
@@ -94,13 +96,18 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                         .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
-                                String newTitle = input.getText().toString();
+                                final String newTitle = input.getText().toString();
                                 if (NotepadUtils.hasNoteTitle(newTitle))
                                     return;
                                 String originalTitle = getItem(position);
-                                noteTitles.set(position, newTitle);
                                 NotepadUtils.editNoteTitle(originalTitle, newTitle);
-                                notifyDataSetChanged();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        noteTitles.set(position, newTitle);
+                                        notifyDataSetChanged();
+                                    }
+                                });
                                 App.track("notes", "edit");
                                 closeDropdown();
                             }
@@ -112,11 +119,7 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                             }
                         })
                         .build();
-                android.view.Window window = dialog.getWindow();
-                WindowManager.LayoutParams params = window.getAttributes();
-                params.token = NotepadWindow.instance.notepadView.getWindowToken();
-                params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
-                window.setAttributes(params);
+                App.enableDialog(dialog, spinner.getWindowToken());
                 dialog.show();
             }
         });
@@ -125,11 +128,16 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 App.track("notes", "delete");
-                String toRemove = getItem(position);
+                final String toRemove = getItem(position);
                 if (getCount() > 1)
                     noteTitles.remove(position);
-                NotepadUtils.removeNoteTitle(toRemove);
-                notifyDataSetChanged();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        NotepadUtils.removeNoteTitle(toRemove);
+                        notifyDataSetChanged();
+                    }
+                });
                 closeDropdown();
             }
         });

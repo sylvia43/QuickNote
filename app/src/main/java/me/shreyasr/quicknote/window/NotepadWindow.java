@@ -1,8 +1,6 @@
 package me.shreyasr.quicknote.window;
 
 import android.app.Notification;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -400,33 +398,6 @@ public class NotepadWindow extends StandOutWindow {
 
     public List<DropDownListItem> getDropDownItems(final int id) {
         List<DropDownListItem> items = new ArrayList<DropDownListItem>();
-        items.add(new DropDownListItem(R.drawable.ic_delete_white_48dp, getString(R.string.menu_clear), new Runnable() {
-            @Override
-            public void run() {
-                App.track("menu", "clear");
-                EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.notepadContent);
-                et.setText("");
-            }
-        }));
-        items.add(new DropDownListItem(R.drawable.ic_content_copy_white_48dp, getString(R.string.menu_copy), new Runnable() {
-            @Override
-            public void run() {
-                App.track("menu", "copy");
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setPrimaryClip(ClipData.newPlainText("Note", NotepadUtils.getCurrentNoteContent()));
-            }
-        }));
-        items.add(new DropDownListItem(R.drawable.ic_content_paste_white_48dp, getString(R.string.menu_paste), new Runnable() {
-            @Override
-            public void run() {
-                App.track("menu", "paste");
-                try {
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                    EditText et = (EditText) NotepadWindow.this.getWindow(id).findViewById(R.id.notepadContent);
-                    et.setText(NotepadUtils.getCurrentNoteContent() + clipboard.getPrimaryClip().getItemAt(0).getText());
-                } catch (Exception ignored) { }
-            }
-        }));
         items.add(new DropDownListItem(R.drawable.ic_share_white_48dp, getString(R.string.menu_share), new Runnable() {
             @Override
             public void run() {
