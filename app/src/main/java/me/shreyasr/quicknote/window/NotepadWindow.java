@@ -226,7 +226,7 @@ public class NotepadWindow extends StandOutWindow {
 
         //region Note Selection Spinner
         spinner = (NoteSwitchSpinner) frame.findViewById(R.id.noteSelectionSpinner);
-        final NoteSwitchSpinnerAdapter adapter = new NoteSwitchSpinnerAdapter();
+        final NoteSwitchSpinnerAdapter adapter = new NoteSwitchSpinnerAdapter(spinner);
 
         spinner.setAdapter(adapter);
         spinner.setOnTouchListener(new DragMoveTouchListener(id, spinner));

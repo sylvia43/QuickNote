@@ -25,9 +25,10 @@ import me.shreyasr.quicknote.window.NotepadWindow;
 public class NoteSwitchSpinnerAdapter extends BaseAdapter {
 
     private final List<String> noteTitles;
-    public NoteSwitchSpinner.DropdownPopup dropdownPopup = null;
+    private NoteSwitchSpinner spinner;
 
-    public NoteSwitchSpinnerAdapter() {
+    public NoteSwitchSpinnerAdapter(NoteSwitchSpinner spinner) {
+        this.spinner = spinner;
         noteTitles = Collections.synchronizedList(new ArrayList<>(Arrays.asList(NotepadUtils.getNoteTitles())));
     }
 
@@ -117,8 +118,6 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
                 params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
                 window.setAttributes(params);
                 dialog.show();
-
-                closeDropdown();
             }
         });
 
@@ -144,6 +143,6 @@ public class NoteSwitchSpinnerAdapter extends BaseAdapter {
     }
 
     public void closeDropdown() {
-        if (dropdownPopup != null) dropdownPopup.dismiss();
+        if (spinner.dropdownPopup != null) spinner.dropdownPopup.dismiss();
     }
 }
