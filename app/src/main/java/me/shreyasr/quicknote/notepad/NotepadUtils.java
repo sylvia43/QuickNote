@@ -34,9 +34,6 @@ public class NotepadUtils {
 
     public static String[] getNoteTitles() {
         if (prefs.getString(Constants.NOTE_TITLES, "").isEmpty()) {
-//            String defaultNoteTitle = ApplicationWrapper.get().getString(R.string.default_note_name);
-//            prefs.edit()
-//            prefs.edit().putString(Constants.CURRENT_NOTE, defaultNoteTitle).apply();
             return new String[0];
         }
         return prefs.getString(Constants.NOTE_TITLES, "").split(",");
@@ -81,6 +78,10 @@ public class NotepadUtils {
         return new ArrayList<>(Arrays.asList(getNoteTitles()));
     }
 
+    public static void removeEntry(String title) {
+        prefs.edit().remove(title).apply();
+    }
+
     public static void setNoteTitlesList(List<String> list) {
         boolean first = true;
         String titles = "";
@@ -99,6 +100,7 @@ public class NotepadUtils {
         String content = prefs.getString(oldTitle, "");
         if (index > -1)
             titles.set(index, newTitle);
+        removeEntry(oldTitle);
         setNoteTitlesList(titles);
         prefs.edit().putString(newTitle, content).remove(oldTitle).apply();
         setCurrentNote(newTitle);
@@ -116,6 +118,7 @@ public class NotepadUtils {
         }
         List<String> titles = getNoteTitlesList();
         titles.remove(titleToRemove);
+        removeEntry(titleToRemove);
         setNoteTitlesList(titles);
         if (titleToRemove.equals(getCurrentNoteTitle()))
             setCurrentNote(titles.get(0));
