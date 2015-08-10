@@ -29,7 +29,7 @@
         This content can be shown again from Preferences.\n\n
         Top right button docks/undocks.\n\nLeft button opens the menu, with settings and info.\n\n
         \'+\' button creates new note.\n\n
-        Dropdown in the center edits titles, and switches or deletes notes.\n\n
+        Dropdown in the center switches between and deletes notes.\n\n
         Enjoy!
     </string>
 </resources>
