@@ -152,8 +152,10 @@ public class NotepadUtils {
 
     public static void addIntroNote() {
         String introTitle = App.get().getString(R.string.intro_note_title);
+        addNote(introTitle);
         setCurrentNote(introTitle);
         saveContent(App.get().getString(R.string.intro_content));
+        ((NoteSwitchSpinnerAdapter)NotepadWindow.instance.spinner.getAdapter()).append(introTitle);
         updateNotepad();
     }
 }
