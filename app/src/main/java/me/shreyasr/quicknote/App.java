@@ -38,6 +38,7 @@ public class App extends Application {
         tracker = analytics.newTracker(getResources().getString(R.string.tracker_id));
         tracker.setScreenName("QuickNote Tracker");
         tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
     }
 
     Tracker tracker = null;

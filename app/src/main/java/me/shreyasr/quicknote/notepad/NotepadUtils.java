@@ -140,19 +140,20 @@ public class NotepadUtils {
         return prefs.getBoolean(Constants.FIRST_RUN, true);
     }
 
-    public static void addIntroNote() {
+    public static void addIntroNoteFirstTime() {
         String intro = App.get().getString(R.string.intro_note_title);
         addNote(intro);
         setCurrentNote(intro);
-        saveContent("Welcome to QuickNote!\n\n" +
-                "This content can be shown again from Preferences.\n\n" +
-                "Top right button docks/undocks.\n\n" +
-                "Left button opens the menu, with settings and info.\n\n" +
-                "'+' button creates new note.\n\n" +
-                "Dropdown in the center edits titles, and switches or deletes notes.\n\n" +
-                "Enjoy!");
+        saveContent(App.get().getString(R.string.intro_content));
         prefs.edit().putBoolean(Constants.FIRST_RUN, false).apply();
         ((NoteSwitchSpinnerAdapter)NotepadWindow.instance.spinner.getAdapter()).append(intro);
+        updateNotepad();
+    }
+
+    public static void addIntroNote() {
+        String introTitle = App.get().getString(R.string.intro_note_title);
+        setCurrentNote(introTitle);
+        saveContent(App.get().getString(R.string.intro_content));
         updateNotepad();
     }
 }

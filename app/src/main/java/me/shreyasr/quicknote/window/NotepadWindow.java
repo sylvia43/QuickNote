@@ -293,7 +293,7 @@ public class NotepadWindow extends StandOutWindow {
         //endregion
 
         if (NotepadUtils.isFirstRun())
-            NotepadUtils.addIntroNote();
+            NotepadUtils.addIntroNoteFirstTime();
         NotepadUtils.updateNotepad();
         adapter.notifyDataSetChanged();
 
@@ -525,7 +525,7 @@ public class NotepadWindow extends StandOutWindow {
     }
 
 
-    private void initPrefsWindow(MaterialDialog dialog, final SharedPreferences.Editor edit) {
+    private void initPrefsWindow(final MaterialDialog dialog, final SharedPreferences.Editor edit) {
         View view = dialog.getView();
 
         final Point size = App.get().getScreenSize();
@@ -582,6 +582,7 @@ public class NotepadWindow extends StandOutWindow {
             @Override
             public void onClick(View v) {
                 NotepadUtils.addIntroNote();
+                dialog.dismiss();
             }
         });
     }

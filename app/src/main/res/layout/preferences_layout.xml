@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             style="?android:attr/buttonBarButtonStyle"
             android:gravity="center"
-            android:textColor="@color/text"
+            android:text="@string/show_intro_button"
             android:layout_below="@id/position_lock_group" />
 
     </RelativeLayout>
