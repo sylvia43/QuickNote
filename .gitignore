@@ -31,6 +31,8 @@ Thumbs.db
 .gradle
 build/
 
-screenshots/
 app/manifest-merger-release-report.txt
 /app/src/main/res/values/secrets.xml
+
+/screenshots/evolution/
+/screenshots/*.psd
