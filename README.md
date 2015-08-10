@@ -18,4 +18,4 @@ Features:
 
 Great for todo lists, reminders, and to jot down thoughts or ideas.
 
-Some icons made with [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/index.html), licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/).
+![Screenshot](https://github.com/anubiann00b/QuickNote/blob/master/screenshots/screen_small.png)
